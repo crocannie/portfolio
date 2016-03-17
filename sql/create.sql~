@@ -1,0 +1,164 @@
+create database portfolio character set utf8;
+
+--Города
+create table cities (
+	id integer primary key not null auto_increment,
+	name char(64) not null
+);
+
+--Учебные заведения
+create table universities(
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	idCity integer not null,
+	foreign key(idCity) references cities(id)
+);
+
+--Студенты
+create table students (
+	id integer primary key not null auto_increment,
+	secondName char(64) not null,
+	firstName char(64) not null,
+	midleName char(64) not null,
+	idCity integer,
+	idUniversity integer,
+	idFacultet integer,
+	idNapravlenie integer,
+	idGroup integer,
+	login char(64) not null,
+	email char(64) not null,
+	password char(64) not null,
+	registrationCode char(64),
+	foreign key(idCity) references cities(id),
+	foreign key(idUniversity) references universities(id),
+	foreign key(idFacultet) references facultet(id),
+	foreign key(idNapravlenie) references napravlenie(id),	
+	foreign key(idGroup) references sgroup(id)
+);
+
+--Факультеты
+create table facultet(
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	idUniversity integer not null,
+	foreign key(idUniversity) references universities(id)
+);
+
+--Направления обучения
+create table napravlenie(
+	id integer primary key not null auto_increment,
+	shifr char(128) not null,
+	name char(128) not null,
+	idFacultet integer not null,
+	foreign key(idFacultet) references facultet(id)
+);
+
+--Группа студента
+create table sgroup(
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	idNapravlenie integer not null,
+	foreign key(idNapravlenie) references napravlenie(id)
+);
+
+------
+
+--Достижения
+create table achievements (
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	dateEvent date not null,
+	idEventType integer not null,
+	idStatus integer not null,	
+	eventTitle varchar(512) not null,
+	idDocumentType integer not null,
+	idDocument integer,
+	idStudent integer not null,
+	foreign key(idStudent) references students(id),
+	foreign key(idEventType) references eventType(id),
+	foreign key(idStatus) references statusEvent(id),
+	foreign key(idDocumentType) references documentType(id),
+	foreign key(idDocument) references documents(id)
+);
+
+-- Вид мероприятия (олимпиада, конкурс)
+create table eventType (
+	id integer primary key not null auto_increment,
+	name char(128) not null
+);
+
+-- Статус мероприятия (международное, региональное)
+create table statusEvent (
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	value integer
+);
+
+-- Вид полученного документа (диплом, сертификат)
+create table documentType (
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	value integer
+);
+
+--Документы
+create table documents (
+	id integer primary key not null auto_increment,
+	idStudent integer not null,
+	userFileName varchar(256) not null,
+	tmpFileName varchar(256) not null,
+	size float not null,
+	location varchar(1024) not null
+);
+
+create table studentDocuments(
+	idStudent integer not null,
+	idDocument integer not null,
+	foreign key(idStudent) references students(id),
+	foreign key(idDocument) references documents(id)
+);
+
+--Статьи
+create table articles(
+	id integer primary key not null auto_increment,
+	idType integer not null,
+	name char(128) not null,
+	year date not null,
+	idLanguage integer not null,
+	idStatus integer not null,	
+	idAuthorship integer not null,
+	idDocument integer not null,
+	idStudent integer not null,
+	foreign key(idType) references articleType(id),	
+	foreign key(idLanguage) references languages(id),
+	foreign key(idStatus) references statusEvent(id),
+	foreign key(idAuthorship) references authorship(id),
+	foreign key(idDocument) references documents(id),
+	foreign key(idStudent) references students(id)
+);
+
+--Тип статьи
+create table articleType(
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	value integer
+);
+
+--Языки
+create table languages(
+	id integer primary key not null auto_increment,
+	name char(128) not null
+);
+
+--Соавторство
+create table authorship(
+	id integer primary key not null auto_increment,
+	name char(128) not null,
+	value integer
+);
+
+--
+
+
+alter table articles add CONSTRAINT foreign key(idLanguage) references languages(id);
+alter table articles drop column idLanguage;
