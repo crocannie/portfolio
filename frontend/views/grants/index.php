@@ -6,7 +6,12 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$all = urldecode('index.php?r=site/activities'); 
+
 $this->title = 'Научно-исследовательская деятельность';
+
+$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="grants-index">

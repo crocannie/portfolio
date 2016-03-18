@@ -5,6 +5,8 @@ use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$all = urldecode('index.php?r=site/activities'); 
+$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 
 $this->title = 'Патенты';
 $this->params['breadcrumbs'][] = $this->title;
