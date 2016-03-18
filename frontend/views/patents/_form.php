@@ -8,7 +8,6 @@ use dosamigos\datepicker\DatePicker;
 use common\models\TypePatent;
 use common\models\StatusPatent;
 
-
 /* @var $this yii\web\View */
 /* @var $model common\models\Patents */
 /* @var $form yii\widgets\ActiveForm */
@@ -23,22 +22,22 @@ use common\models\StatusPatent;
     <?= $form->field($model, 'idTypePatent')->dropDownList(
         ArrayHelper::map(TypePatent::find()->all(), 'id', 'name'), 
             [                        
-                'prompt'=>'Выберите тип',
+                'prompt'=>'Выберите тип статьи',
                 'style'=>'width:500px',
             ]); 
     ?>
+    
+    <?= $form->field($model, 'copyrightHolder')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+
+    <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'status')->dropDownList(
         ArrayHelper::map(StatusPatent::find()->all(), 'id', 'name'), 
             [                        
-                'prompt'=>'Выберите тип',
+                'prompt'=>'Выберите тип статьи',
                 'style'=>'width:500px',
             ]); 
     ?>
-    <?= $form->field($model, 'copyrightHolder')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
-    
-    <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
-
 
     <?= $form->field($model, 'dateApp')->widget(
         DatePicker::className(), [
@@ -72,9 +71,9 @@ use common\models\StatusPatent;
             ],
     ]);?>
 
-    <?= $form->field($model, 'regNumber')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+    <?= $form->field($model, 'regNumber')->textInput(['style'=>'width:500px']) ?>
 
-    <?= $form->field($model, 'appNumber')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+    <?= $form->field($model, 'appNumber')->textInput(['style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
 
