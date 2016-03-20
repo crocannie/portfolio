@@ -14,6 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 $ur = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
 $nir = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
 $or = urldecode('index.php?r=achievements-social/index&id='.Yii::$app->user->identity->id); 
+$kr = urldecode('index.php?r=achievements-culture/index&id='.Yii::$app->user->identity->id); 
+$sr = urldecode('index.php?r=achievements-sport/index&id='.Yii::$app->user->identity->id);
+
 ?>
 
 <h1><?= Html::encode('Направления деятельности') ?></h1>
@@ -22,6 +25,6 @@ $or = urldecode('index.php?r=achievements-social/index&id='.Yii::$app->user->ide
     <li><a href=<?=$ur?>></i> Учебная деятельность</a></li>
     <li><a href=<?=$nir?>></i> Научно-исследовательская деятельность</a></li>
     <li><a href=<?=$or?>></i> Общественная деятельность</a></li>
-    <li><a href="#"></i> Культурно-творческая деятельность</a></li>
-    <li><a href=<?=$or?>></i> Спортивная деятельность</a></li>
+    <li><a href=<?=$kr?>></i> Культурно-творческая деятельность</a></li>
+    <li><a href=<?=$sr?>></i> Спортивная деятельность</a></li>
 </ul>

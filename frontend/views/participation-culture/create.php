@@ -1,16 +1,19 @@
 <?php
-use yii\helpers\Html;
-/* @var $this yii\web\View */
-/* @var $model common\models\AchievementsSocial */
-$all = urldecode('index.php?r=site/activities'); 
 
-$achievements = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+use yii\helpers\Html;
+
+
+/* @var $this yii\web\View */
+/* @var $model common\models\ParticipationCulture */
+$all = urldecode('index.php?r=site/activities'); 
+$kr = urldecode('index.php?r=participation-culture/index&id='.Yii::$app->user->identity->id); 
+
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 $this->title = 'Добавление достижения';
-$this->params['breadcrumbs'][] = ['label' => 'Общественная деятельность', 'url' => $achievements];
+$this->params['breadcrumbs'][] = ['label' => 'Культурно-творческая деятельность', 'url' => $kr];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="achievements-social-create">
+<div class="participation-culture-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

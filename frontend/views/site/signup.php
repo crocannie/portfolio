@@ -45,7 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'onchange'=>'
                             $.post("index.php?r=universities/lists&id='.'"+$(this).val(), function(data)
                                 {$("select#signupform-iduniversity").html(data);}
-                            );'
+                            );',
+
                     ]); ?>
 
                 <?= $form->field($model, 'idUniversity')->dropDownList(

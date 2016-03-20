@@ -1,16 +1,19 @@
 <?php
+
 use yii\helpers\Html;
+
 /* @var $this yii\web\View */
-/* @var $model common\models\AchievementsSocial */
+/* @var $model common\models\ParticipationCulture */
 $all = urldecode('index.php?r=site/activities'); 
-$achievements = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+$kr = urldecode('index.php?r=participation-culture/index&id='.Yii::$app->user->identity->id); 
+
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 $this->title = 'Редактирование: ' . ' ' . $model->description;
-$this->params['breadcrumbs'][] = ['label' => 'Общественная деятельность', 'url' => $achievements];
+$this->params['breadcrumbs'][] = ['label' => 'Культурно-творческая деятельность', 'url' => $kr];
 $this->params['breadcrumbs'][] = ['label' => $model->description, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактирование';
 ?>
-<div class="achievements-social-update">
+<div class="participation-culture-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

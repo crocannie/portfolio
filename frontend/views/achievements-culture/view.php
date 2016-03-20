@@ -1,16 +1,19 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+
 /* @var $this yii\web\View */
-/* @var $model common\models\AchievementsSocial */
+/* @var $model common\models\AchievementsCulture */
 $all = urldecode('index.php?r=site/activities'); 
-$achievements = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+$kr = urldecode('index.php?r=achievements-culture/index&id='.Yii::$app->user->identity->id); 
+
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
-$this->title = $model->description;
-$this->params['breadcrumbs'][] = ['label' => 'Общественная деятельность', 'url' => $achievements];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Культурно-творческая деятельность', 'url' => $kr];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="achievements-social-view">
+<div class="achievements-culture-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,13 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             // 'id',
-            'idSocialParticipationType'=>[                    
-                    'label'=>'Тип участия',
-                    'value' => $model->idSocialParticipationType0->name,
+            'name',
+            'idStatus'=>[                    
+                    'label'=>'Статус мероприятия',
+                    'value' => $model->idStatus0->name,
             ],
-            'description',
-            'count',
-            'date',
+            'idTypeContest'=>[                    
+                    'label'=>'Вид мероприятия',
+                    'value' => $model->idTypeContest0->name,
+            ],
+            'year',
+            'idDocumentType'=>[                    
+                    'label'=>'Вид полученного документа',
+                    'value' => $model->idDocumentType0->name,
+            ],
             // 'idDocument',
             // 'idStudent',
         ],

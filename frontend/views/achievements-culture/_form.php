@@ -1,32 +1,42 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 use dosamigos\datepicker\DatePicker;
-use common\models\TypeSocialParticipation;
+use yii\helpers\ArrayHelper;
+
+use common\models\StatusEvent;
+use common\models\EventType;
+use common\models\TypeDocument;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\AchievementsSocial */
+/* @var $model common\models\AchievementsCulture */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="achievements-social-form">
+<div class="achievements-culture-form">
 
     <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
-    
-    <?= $form->field($model, 'idSocialParticipationType')->dropDownList(
-        ArrayHelper::map(TypeSocialParticipation::find()->all(), 'id', 'name'), 
+
+    <?= $form->field($model, 'name')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
+
+    <?= $form->field($model, 'idStatus')->dropDownList(
+        ArrayHelper::map(StatusEvent::find()->all(), 'id', 'name'), 
             [                        
-                'prompt'=>'Выберите вид участия',
+                'prompt'=>'Выберите статус',
                 'style'=>'width:500px',
             ]); 
     ?>
 
-    <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
+    <?= $form->field($model, 'idTypeContest')->dropDownList(
+        ArrayHelper::map(EventType::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите статус',
+                'style'=>'width:500px',
+            ]); 
+    ?>
 
-    <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
-
-    <?= $form->field($model, 'date')->widget(
+    <?= $form->field($model, 'year')->widget(
         DatePicker::className(), [
             
             // inline too, not bad
@@ -41,6 +51,15 @@ use common\models\TypeSocialParticipation;
                 'format' => 'yyyy-mm-d'
             ],
     ]);?>
+
+    <?= $form->field($model, 'idDocumentType')->dropDownList(
+        ArrayHelper::map(TypeDocument::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите статус',
+                'style'=>'width:500px',
+            ]); 
+    ?>
+
 
     <?= $form->field($model, 'file')->fileInput() ?>
 

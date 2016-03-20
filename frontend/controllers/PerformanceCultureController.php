@@ -1,16 +1,19 @@
 <?php
+
 namespace frontend\controllers;
+
 use Yii;
-use common\models\AchievementsSocial;
+use common\models\PerformanceCulture;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+
 /**
- * AchievementsSocialController implements the CRUD actions for AchievementsSocial model.
+ * PerformanceCultureController implements the CRUD actions for PerformanceCulture model.
  */
-class AchievementsSocialController extends Controller
+class PerformanceCultureController extends Controller
 {
     public function behaviors()
     {
@@ -23,22 +26,25 @@ class AchievementsSocialController extends Controller
             ],
         ];
     }
+
     /**
-     * Lists all AchievementsSocial models.
+     * Lists all PerformanceCulture models.
      * @return mixed
      */
     public function actionIndex($id)
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => AchievementsSocial::find()
+            'query' => PerformanceCulture::find()
                 ->where(['idStudent'=>$id])
         ]);
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
+
     /**
-     * Displays a single AchievementsSocial model.
+     * Displays a single PerformanceCulture model.
      * @param integer $id
      * @return mixed
      */
@@ -48,14 +54,16 @@ class AchievementsSocialController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
     /**
-     * Creates a new AchievementsSocial model.
+     * Creates a new PerformanceCulture model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new AchievementsSocial();
+        $model = new PerformanceCulture();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->file = UploadedFile::getInstance($model, 'file');
             $model->file->saveAs( 'uploads/'.$model->file->baseName.'.'.$model->file->extension );
@@ -70,8 +78,9 @@ class AchievementsSocialController extends Controller
             ]);
         }
     }
+
     /**
-     * Updates an existing AchievementsSocial model.
+     * Updates an existing PerformanceCulture model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -79,6 +88,7 @@ class AchievementsSocialController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -87,8 +97,9 @@ class AchievementsSocialController extends Controller
             ]);
         }
     }
+
     /**
-     * Deletes an existing AchievementsSocial model.
+     * Deletes an existing PerformanceCulture model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -96,18 +107,20 @@ class AchievementsSocialController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
+
     /**
-     * Finds the AchievementsSocial model based on its primary key value.
+     * Finds the PerformanceCulture model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return AchievementsSocial the loaded model
+     * @return PerformanceCulture the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = AchievementsSocial::findOne($id)) !== null) {
+        if (($model = PerformanceCulture::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

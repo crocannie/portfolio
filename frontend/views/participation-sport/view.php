@@ -1,16 +1,20 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+
 /* @var $this yii\web\View */
-/* @var $model common\models\AchievementsSocial */
+/* @var $model common\models\ParticipationSport */
+
 $all = urldecode('index.php?r=site/activities'); 
-$achievements = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+$sr = urldecode('index.php?r=participation-sport/index&id='.Yii::$app->user->identity->id); 
+
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 $this->title = $model->description;
-$this->params['breadcrumbs'][] = ['label' => 'Общественная деятельность', 'url' => $achievements];
+$this->params['breadcrumbs'][] = ['label' => 'Спортивная деятельность', 'url' => $sr];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="achievements-social-view">
+<div class="participation-sport-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,15 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             // 'id',
-            'idSocialParticipationType'=>[                    
-                    'label'=>'Тип участия',
-                    'value' => $model->idSocialParticipationType0->name,
-            ],
             'description',
             'count',
             'date',
             // 'idDocument',
             // 'idStudent',
+            // 'location',
         ],
     ]) ?>
 

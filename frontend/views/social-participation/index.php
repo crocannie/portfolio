@@ -1,14 +1,20 @@
 <?php
+
 use yii\helpers\Html;
 use yii\grid\GridView;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
 $all = urldecode('index.php?r=site/activities'); 
-$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
+
 $this->title = 'Общественная деятельность';
+
+$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="achievements-social-index">
+<div class="social-participation-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -20,13 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            // 'idSocialParticipationType',
+
+            'id',
+            'idSocialParticipationType',
             'description',
             'count',
-            'date',
-            // 'idDocument',
+            'idDocument',
             // 'idStudent',
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

@@ -1,38 +1,43 @@
 <?php
+
 namespace common\models;
+
 use Yii;
+
 /**
- * This is the model class for table "socialParticipation".
+ * This is the model class for table "ktdParticipation".
  *
  * @property integer $id
- * @property integer $idSocialParticipationType
  * @property string $description
  * @property integer $count
  * @property string $date
+ * @property string $location
  * @property integer $idDocument
  * @property integer $idStudent
- * @property string $location
  *
  * @property Documents $idDocument0
  * @property Students $idStudent0
  */
-class AchievementsSocial extends \yii\db\ActiveRecord
+class ParticipationCulture extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
+
     public $file;
+
     public static function tableName()
     {
-        return 'socialParticipation';
+        return 'ktdParticipation';
     }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['idSocialParticipationType', 'count', 'idDocument', 'idStudent'], 'integer'],
+            [['count', 'idDocument', 'idStudent'], 'integer'],
             [['date', 'idStudent'], 'required'],
             [['date'], 'safe'],
             [['description'], 'string', 'max' => 1024],
@@ -40,6 +45,7 @@ class AchievementsSocial extends \yii\db\ActiveRecord
             [['file'], 'file']
         ];
     }
+
     /**
      * @inheritdoc
      */
@@ -47,16 +53,16 @@ class AchievementsSocial extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'idSocialParticipationType' => 'Вид участия',
             'description' => 'Описание',
-            'count' => 'Количество участий',
+            'count' => 'Количество мероприятий',
             'date' => 'Дата',
+            'location' => 'Location',
             'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
-            'location' => 'Location',
             'file' => 'Документ'
         ];
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -64,15 +70,12 @@ class AchievementsSocial extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Documents::className(), ['id' => 'idDocument']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getIdStudent0()
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
-    }
-    public function getIdSocialParticipationType0()
-    {
-        return $this->hasOne(TypeSocialParticipation::className(), ['id' => 'idSocialParticipationType']);
     }
 }
