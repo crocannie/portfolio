@@ -107,8 +107,12 @@ if (Yii::$app->user->isGuest) {
 <?php
 }else{
 ?> 
+
+<?php
+    $all = urldecode('index.php?r=form/index'); 
+?>
             <div class="btn-group">
-                <a style="width: 305px" class="btn btn-success" href="#">Заявления-анкеты</a>
+                <a style="width: 305px" class="btn btn-success" href=<?=$all?>>Заявления-анкеты</a>
                 <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                   <ul style="width: 330px" class="dropdown-menu">
                     <li><a href="#"><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>
