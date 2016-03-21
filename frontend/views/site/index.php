@@ -109,7 +109,7 @@ if (Yii::$app->user->isGuest) {
 ?> 
 
 <?php
-    $all = urldecode('index.php?r=form/index'); 
+      $all = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
 ?>
             <div class="btn-group">
                 <a style="width: 305px" class="btn btn-success" href=<?=$all?>>Заявления-анкеты</a>

@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-index">
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
-	    $ud = urldecode('index.php?r=form/ud'); 
+      $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
 	    $nid = urldecode('index.php?r=form/ud'); 
 	    $od = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
 	    $ktd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
           foreach ($grants as $row){?> 
              <tr>
-              <td>наличие награды (приза) за результаты НИР, год получения</td>
+              <td><i>наличие награды</i> (приза) за результаты НИР, год получения</td>
                 <td>
                   <?php echo $row->nameProject.", ".$row->dateBegin;?>
                 </td>
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <td colspan="2"><b>Наличие публикаций в научном (учебно-научном, методическом) международном,всероссийском, ведомственном издании (в течение года до назначения стипендии)</td>
       </tr>
       <tr>
-        <td>Вид публикаций и их количество (статьи, тезисы, прочие публикации)</td>
+        <td><i>Вид публикаций</i> и их количество (статьи, тезисы, прочие публикации)</td>
         <td>
           <?php
               $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id group by typeArticleName')
@@ -154,7 +154,7 @@ $this->params['breadcrumbs'][] = $this->title;
           $rowspan = 4 + (3*count($ret));
           echo "<td rowspan={$rowspan}>7</td>";
         ?>
-        <td colspan="2">Публичное представление в течение года, предшествующего назначению повышенной стипендии, результатов научно-исследовательской работы, в том числе путем выступления с докладом (сообщением) на конференции, семинаре и ином международном, всероссийском, ведомственном, региональном мероприятии:</td>
+        <td colspan="2"><b>Публичное представление в течение года, предшествующего назначению повышенной стипендии, результатов научно-исследовательской работы, в том числе путем выступления с докладом (сообщением) на конференции, семинаре и ином международном, всероссийском, ведомственном, региональном мероприятии:</td>
       </tr>
       <?php
         // $ret = $achievement->getAchievement($idStudent);
@@ -162,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
           for ($i = 0; $i < count($ret); $i++){
       ?>
       <tr>
-        <td>вид мероприятия (конференция, семинар, соревнования)</td>
+        <td><i>вид мероприятия</i> (конференция, семинар, соревнования)</td>
         <td>
           <?php
             $name = $ret[$i]['name'];

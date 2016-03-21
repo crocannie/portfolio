@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-index">
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
-	    $ud = urldecode('index.php?r=form/ud'); 
+	    $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
 	    $nid = urldecode('index.php?r=form/nid&id='.Yii::$app->user->identity->id); 
 	    $od = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
 	    $ktd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 

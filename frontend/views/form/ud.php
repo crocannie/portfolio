@@ -1,121 +1,122 @@
 <?php
-	$title = "";
-	
-	session_start();
-	require ("Student.php");
-	require ("Document.php");
-	require ("Achievement.php");
 
-	$email = $_SESSION['email'];
-  	$student = Student::getStudent($email);
-  	$idStudent = $student['id'];
-	$typeEvent = Document::getTypeEvent();
-	$statusEvent = Document::getStatusEvent();
-	$documentType = Document::getDocumentType();
-	$authorship= Document::getAuthorship();
-	$articleType = Document::getArticleType();
-	$article = new Achievement();
-	$grant = new Achievement();
-	$achievement = new Achievement();
-	$patent = new Achievement();
-	if (!isset($_SESSION['email'])) {
-		header("Location: signInView.php", true,303);
-	}	
+use yii\helpers\Html;
+use yii\grid\GridView;
+use yii\widgets\DetailView;
+use yii\db\Command;
+
+use common\models\Students;
+use common\models\Universities;
+use common\models\Grants;
+use common\models\Patents;
+use common\models\Articles;
+use common\models\AchievementsStudy;
+
+
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$all = urldecode('index.php?r=site/activities'); 
+$this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
+
+$this->title = 'Заявления-анкеты';
+
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<html>
-<head>
-	<meta charset="utf-8"> 
-  <title></title>
-</head>
-<body>
-	<h3 style="margin-bottom: 11px"><p align='center'><?php echo $title; ?><p></h3>
-<p align='center'><FONT SIZE=4><b>ЗАЯВЛЕНИЕ-АНКЕТА ПРЕТЕНДЕНТА</b> <br /> 	на получение повышенной стипендии за достижения студента <br />	в <b>учебной</b> деятельности</FONT></p>
-		<table width="1000" border="1">
-		   <col width="30" valign="top">
-			<tr>
-				<td>1</td>
-				<td>ФИО претендента</td>
-				<td><?=$student['secondName']; ?> <?=$student['firstName']; ?> <?=$student['midleName']; ?><br></td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>Факультет</td>
-				<td><?=$student['nameFacultet']; ?><br></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>Код и наименование направления подготовки/специальности</td>
-				<td><?=$student['shifr']; ?> <?=$student['idNapravlenie']; ?> <br></td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td>Доля оценок «отлично» от общего количества оценок</td>
-				<td><input type="text" name="rating" class="rating" value=""><br></td>
-			</tr>
-				<?php
-					$ret = $achievement->getAchievement($idStudent);
-					$rowspan = 4 + (3*count($ret));
-					echo "<td rowspan={$rowspan}>7</td>";
-				?>
-				<td colspan="2">Признание претендента победителем или призером международной, всероссийской олимпиады, конкурса, соревнования, состязания, иного мероприятия, направленного на выявление учебных достижений претендента (в течение 2 лет, предшествующих назначению повышенной стипендии):</td>
-			</tr>
-			<?php
-				$ret = $achievement->getAchievement($idStudent);
-				//foreach ($ret as $row) {
-					for ($i = 0; $i < count($ret); $i++){
-			?>
-			<tr>
-				<td>вид мероприятия (конференция, семинар, соревнования)</td>
-				<td>
-					<?php
-						$name = $ret[$i]['name'];
-							echo "$name";		
-						
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td>статус мероприятия (международное, всероссийское, региональное, ведомственное)</td>
-				<td>
-					<?php
-						$statusEvent = $ret[$i]['statusEvent'];
-							echo "$statusEvent";		
-						
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td>год проведения </td>
-				<td>
-					<?php
-						$dateEvent = $ret[$i]['dateEvent'];
-							echo "$dateEvent";		
-						
-					?>
-				</td>
-			</tr>
-			<?php
+<div class="form-index">
+    <h2><?= Html::encode('Направления деятельности') ?></h2>
+	<?php 
+      $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
+	    $nid = urldecode('index.php?r=form/nid&id='.Yii::$app->user->identity->id); 
+	    $od = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
+	    $ktd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
+	    $sd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
 
-				//	}
-				}
-			?>
+	?>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href=<?=$ud?>>Учебная </a></li>
+      <li><a href=<?=$nid?>>Начуно-исследовательская </a></li>
+      <li><a href=<?=$od?>>Общественная </a></li>
+      <li><a href=<?=$ktd?>>Культурно-творческая </a></li>
+      <li><a href=<?=$sd?>>Спортивная </a></li>
+    </ul><br>
+      
+<p align='center'><FONT SIZE=4><b>ЗАЯВЛЕНИЕ-АНКЕТА ПРЕТЕНДЕНТА</b> <br />   на получение повышенной стипендии за достижения студента <br /> в <b>учебной</b> деятельности</FONT></p>
 
-		</table>
-		<p><select name="select" size="3" multiple>
-		    <option selected value="s1">Чебурашка</option>
-		    <option value="s2">Крокодил Гена</option>
-		    <option value="s3">Шапокляк</option>
-		    <option value="s4">Крыса Лариса</option>
-   		</select><br>
-<?php
-	$ww = Achievement::getGrantsStudent($idStudent);
-	$qq = Achievement::getPatent($idStudent);
-	echo count($ww);
-	echo count ($qq);
-?>
-	<input type="hidden" name="flag" value="1">
-		
-	</form>
-</body>
-</html>
+    <table width="1000" border="1">
+       <col width="30" valign="top">
+       <col width="300" valign="top">
+      <tr>
+        <td>1</td>
+        <td>ФИО претендента</td>
+        <td><?php echo $model->secondName." ".$model->firstName." ".$model->midleName ?></td>
+      </tr>     
+      <tr>
+        <td>2</td>
+        <td>Группа, факультет</td>
+        <td><?php echo $model->idGroup0->name.", ".$model->idFacultet0->name?><br></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Код и наименование направления подготовки/специальности</td>
+        <td><?php echo $model->idNapravlenie0->shifr.", ".$model->idNapravlenie0->name?> <br></td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Доля оценок «отлично» от общего количества оценок</td>
+        <td><input type="text" name="rating" class="rating" value=""><br></td>
+      </tr>
+
+      <tr>
+        <?php
+          // $ret = $achievement->getAchievement($idStudent);
+          $ret = Yii::$app->db->createCommand('SELECT asp.*, asp.dateEvent, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievements asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idEventType = tc.id and asp.idDocumentTYpe = td.id')
+                            ->bindValue(':id', Yii::$app->user->identity->id)
+                            ->queryAll();
+
+          $rowspan = 4 + (3*count($ret));
+          echo "<td rowspan={$rowspan}>7</td>";
+        ?>
+        <td colspan="2"><b>Признание претендента победителем или призером международной, всероссийской олимпиады, конкурса, соревнования, состязания, иного мероприятия, направленного на выявление  учебных  достижений  претендента (в  течение  2  лет,  предшествующих назначению повышенной стипендии):</td>
+      </tr>
+      <?php
+        // $ret = $achievement->getAchievement($idStudent);
+        //foreach ($ret as $row) {
+          for ($i = 0; $i < count($ret); $i++){
+      ?>
+      <tr>
+        <td><i>вид мероприятия</i> (конференция, семинар, соревнования)</td>
+        <td>
+          <?php
+            $name = $ret[$i]['name'];
+              echo "$name";   
+            
+          ?>
+        </td>
+      </tr>
+      <tr>
+        <td>статус мероприятия (международное, всероссийское, региональное, ведомственное)</td>
+        <td>
+          <?php
+            $statusEvent = $ret[$i]['status'];
+              echo "$statusEvent";    
+            
+          ?>
+        </td>
+      </tr>
+      <tr>
+        <td>год проведения </td>
+        <td>
+          <?php
+            $dateEvent = $ret[$i]['dateEvent'];
+              echo "$dateEvent";         
+          ?>
+        </td>
+      </tr>
+      <?php
+
+        //  }
+        }
+      ?>
+    </table>

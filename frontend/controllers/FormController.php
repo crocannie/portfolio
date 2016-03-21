@@ -41,6 +41,20 @@ class FormController extends Controller
         return $this->render('index');
     }
 
+
+    public function actionUd($id)
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Grants::find()
+                ->where(['idStudent'=>$id])
+        ]);
+
+        return $this->render('ud', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+        ]);        
+    }
+
     public function actionNid($id)
     {
         $dataProvider = new ActiveDataProvider([
