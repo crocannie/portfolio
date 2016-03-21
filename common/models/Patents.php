@@ -10,27 +10,28 @@ use Yii;
  * @property integer $id
  * @property string $name
  * @property integer $idTypePatent
- * @property integer $status
  * @property string $copyrightHolder
  * @property string $description
+ * @property integer $status
  * @property string $dateApp
  * @property string $dateReg
  * @property integer $regNumber
  * @property integer $appNumber
  * @property integer $idDocument
  * @property integer $idStudent
+ * @property string $location
  *
  * @property TypePatent $idTypePatent0
  * @property Documents $idDocument0
  * @property Students $idStudent0
+ * @property StatusPatent $status0
  */
 class Patents extends \yii\db\ActiveRecord
 {
+    public $file;
     /**
      * @inheritdoc
      */
-    public $file;
-    
     public static function tableName()
     {
         return 'patents';
@@ -44,10 +45,10 @@ class Patents extends \yii\db\ActiveRecord
         return [
             [['idTypePatent', 'status', 'regNumber', 'appNumber', 'idDocument', 'idStudent'], 'integer'],
             [['dateApp', 'dateReg'], 'safe'],
-            [['idDocument', 'idStudent'], 'required'],
-            [['name', 'copyrightHolder'], 'string', 'max' => 512],
+            [['idStudent'], 'required'],
+            [['name', 'copyrightHolder', 'location'], 'string', 'max' => 512],
             [['description'], 'string', 'max' => 1024],
-            [['file'], 'file']
+            [['file'], 'file'],
         ];
     }
 
@@ -59,16 +60,17 @@ class Patents extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'idTypePatent' => 'Тип',
-            'status' => 'Статус',
+            'idTypePatent' => 'Тип патента',
             'copyrightHolder' => 'Правообладатель',
             'description' => 'Описание',
-            'dateApp' => 'Дата поступления заявки',
+            'status' => 'Статус',
+            'dateApp' => 'Дата подачи заявки',
             'dateReg' => 'Дата регистрации',
             'regNumber' => 'Регистрационный номер',
             'appNumber' => 'Номер заявки',
             'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
+            'location' => 'Location',
             'file' => 'Документ'
         ];
     }
@@ -76,12 +78,6 @@ class Patents extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-
-    public function getStatus0()
-    {
-        return $this->hasOne(StatusPatent::className(), ['id' => 'status']);
-    }
-    
     public function getIdTypePatent0()
     {
         return $this->hasOne(TypePatent::className(), ['id' => 'idTypePatent']);
@@ -101,5 +97,13 @@ class Patents extends \yii\db\ActiveRecord
     public function getIdStudent0()
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus0()
+    {
+        return $this->hasOne(StatusPatent::className(), ['id' => 'status']);
     }
 }

@@ -5,7 +5,9 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Articles */
+$all = urldecode('index.php?r=site/activities'); 
 
+$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Публикации', 'url' => urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id)];
 $this->params['breadcrumbs'][] = $this->title;

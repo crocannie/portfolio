@@ -7,7 +7,9 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Grants */
 
 $grants = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
+$all = urldecode('index.php?r=site/activities'); 
 
+$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 $this->title = $model->nameProject;
 $this->params['breadcrumbs'][] = ['label' => 'Гранты', 'url' => $grants];
 $this->params['breadcrumbs'][] = $this->title;

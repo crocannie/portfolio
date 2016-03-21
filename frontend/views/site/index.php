@@ -44,17 +44,21 @@ if (Yii::$app->user->isGuest) {
 }else{
 ?>        
         <?php   
-            $all = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+            $all = urldecode('index.php?r=site/activities'); 
+            $ur = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
             $nir = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
+            $or = urldecode('index.php?r=achievements-social/index&id='.Yii::$app->user->identity->id);
+            $kr = urldecode('index.php?r=achievements-culture/index&id='.Yii::$app->user->identity->id); 
+
         ?>
             <div class="btn-group">
-              <a style="width: 305px" class="btn btn-success" href="#">Достижения</a>
+              <a style="width: 305px" class="btn btn-success" href=<?=$all?>>Достижения</a>
               <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
               <ul style="width: 330px" class="dropdown-menu">
-                    <li><a href=<?=$all?>><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>
+                    <li><a href=<?=$ur?>><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>
                     <li><a href=<?=$nir?>><i class="fa fa-flask"></i> Научно-исследовательская деятельность</a></li>
-                    <li><a href="#"><i class="fa fa-users"></i> Общественная деятельность</a></li>
-                    <li><a href="#"><i class="fa fa-paint-brush"></i> Культурно-творческая деятельность</a></li>
+                    <li><a href=<?=$or?>><i class="fa fa-users"></i> Общественная деятельность</a></li>
+                    <li><a href=<?=$kr?>><i class="fa fa-paint-brush"></i> Культурно-творческая деятельность</a></li>
                     <li class="dropdown-submenu"><a href="#"><i class="fa fa-futbol-o"></i> Спортивная деятельность</a></li>            
               </ul>
             </div>
@@ -103,8 +107,12 @@ if (Yii::$app->user->isGuest) {
 <?php
 }else{
 ?> 
+
+<?php
+    $all = urldecode('index.php?r=form/index'); 
+?>
             <div class="btn-group">
-                <a style="width: 305px" class="btn btn-success" href="#">Заявления-анкеты</a>
+                <a style="width: 305px" class="btn btn-success" href=<?=$all?>>Заявления-анкеты</a>
                 <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                   <ul style="width: 330px" class="dropdown-menu">
                     <li><a href="#"><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>

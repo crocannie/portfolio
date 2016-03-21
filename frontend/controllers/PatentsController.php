@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * PatentsController implements the CRUD actions for Patents model.
@@ -30,11 +31,10 @@ class PatentsController extends Controller
      * Lists all Patents models.
      * @return mixed
      */
-    public function actionIndex($id)
+    public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Patents::find()
-                ->where(['idStudent'=>$id])
+            'query' => Patents::find(),
         ]);
 
         return $this->render('index', [

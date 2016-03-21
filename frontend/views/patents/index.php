@@ -5,12 +5,13 @@ use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$all = urldecode('index.php?r=site/activities'); 
+$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 
-$this->title = 'Научно-исследовательская деятельность';
+$this->title = 'Патенты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="patents-index">
-
 <?php 
     $grants = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
     $patents = urldecode('index.php?r=patents/index&id='.Yii::$app->user->identity->id); 
@@ -22,8 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <li><a href=<?=$articles?>>Публикации</a></li>
       <li><a href="#">Участия</a></li>
     </ul><br>
-
-    <h1><?= Html::encode('Патенты') ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Добавить патент', ['create'], ['class' => 'btn btn-success']) ?>
@@ -34,18 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'name',
-            'idTypePatent',
-            'status',
+            // 'idTypePatent',
             'copyrightHolder',
-            // 'description',
+            'description',
+            // 'status',
             // 'dateApp',
             // 'dateReg',
             // 'regNumber',
             // 'appNumber',
             // 'idDocument',
             // 'idStudent',
+            // 'location',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

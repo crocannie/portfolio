@@ -4,6 +4,10 @@ namespace common\models;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use yii\base\Security;
+use frontend\models\Universities;
+use frontend\models\Group;
+use frontend\models\Napravlenie;
+use frontend\models\Facultet;
 
 use Yii;
 
@@ -237,7 +241,7 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getIdGroup0()
     {
-        return $this->hasOne(Sgroup::className(), ['id' => 'idGroup']);
+        return $this->hasOne(Group::className(), ['id' => 'idGroup']);
     }
 
 /*    public function signup()

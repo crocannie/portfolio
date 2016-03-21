@@ -3,19 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\AchievementsStudy;
+use common\models\AchievementsCulture;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use common\models\Grants;
-
 
 /**
- * AchievementsStudyController implements the CRUD actions for AchievementsStudy model.
+ * AchievementsCultureController implements the CRUD actions for AchievementsCulture model.
  */
-class AchievementsScienceController extends Controller
+class AchievementsCultureController extends Controller
 {
     public function behaviors()
     {
@@ -30,13 +28,13 @@ class AchievementsScienceController extends Controller
     }
 
     /**
-     * Lists all AchievementsStudy models.
+     * Lists all AchievementsCulture models.
      * @return mixed
      */
     public function actionIndex($id)
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => AchievementsStudy::find()
+            'query' => AchievementsCulture::find()
                 ->where(['idStudent'=>$id])
         ]);
 
@@ -44,9 +42,8 @@ class AchievementsScienceController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
     /**
-     * Displays a single AchievementsStudy model.
+     * Displays a single AchievementsCulture model.
      * @param integer $id
      * @return mixed
      */
@@ -58,13 +55,13 @@ class AchievementsScienceController extends Controller
     }
 
     /**
-     * Creates a new AchievementsStudy model.
+     * Creates a new AchievementsCulture model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new AchievementsStudy();
+        $model = new AchievementsCulture();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->file = UploadedFile::getInstance($model, 'file');
@@ -82,7 +79,7 @@ class AchievementsScienceController extends Controller
     }
 
     /**
-     * Updates an existing AchievementsStudy model.
+     * Updates an existing AchievementsCulture model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -101,7 +98,7 @@ class AchievementsScienceController extends Controller
     }
 
     /**
-     * Deletes an existing AchievementsStudy model.
+     * Deletes an existing AchievementsCulture model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -109,20 +106,20 @@ class AchievementsScienceController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        $user = Yii::$app->user->identity->id;
-        return $this->redirect(['index', 'id' => $user]);
+
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the AchievementsStudy model based on its primary key value.
+     * Finds the AchievementsCulture model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return AchievementsStudy the loaded model
+     * @return AchievementsCulture the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = AchievementsStudy::findOne($id)) !== null) {
+        if (($model = AchievementsCulture::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
