@@ -67,6 +67,47 @@ class FormController extends Controller
             'dataProvider' => $dataProvider,
         ]);        
     }
+
+    public function actionOd($id)
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Grants::find()
+                ->where(['idStudent'=>$id])
+        ]);
+
+        return $this->render('od', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+        ]);        
+    }
+
+
+    public function actionSd($id)
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Grants::find()
+                ->where(['idStudent'=>$id])
+        ]);
+
+        return $this->render('sd', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+        ]);        
+    }
+
+
+    public function actionKtd($id)
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Grants::find()
+                ->where(['idStudent'=>$id])
+        ]);
+
+        return $this->render('ktd', [
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+        ]);        
+    }
 /*
 
     public function actionIndex($id)

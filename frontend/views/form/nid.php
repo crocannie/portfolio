@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php 
       $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
 	    $nid = urldecode('index.php?r=form/ud'); 
-	    $od = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
-	    $ktd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
-	    $sd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
+      $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id);       
+      $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
+      $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 
 
 	?>
     <ul class="nav nav-tabs">
@@ -78,45 +78,45 @@ $this->params['breadcrumbs'][] = $this->title;
       </tr>
         <?php
           foreach ($grants as $row){?> 
-             <tr>
+            <tr>
               <td><i>наличие награды</i> (приза) за результаты НИР, год получения</td>
                 <td>
                   <?php echo $row->nameProject.", ".$row->dateBegin;?>
                 </td>
-          </tr>
+            </tr>
             <?php
           }
         ?>
-      <tr>
-      </tr>
+
         <?php
           foreach ($patents as $row){?> 
-             <tr>
+            <tr>
               <td>наличие гранта, патента, свидетельства, год получения</td>
                 <td>
                   <?php echo $row->name.", ".$row->dateApp;?>
                 </td>
-          </tr>
+            </tr>
             <?php
           }
         ?>
       <tr>
-      <tr>
-        <td rowspan="4" >6</td>
-        <td colspan="2"><b>Наличие публикаций в научном (учебно-научном, методическом) международном,всероссийском, ведомственном издании (в течение года до назначения стипендии)</td>
-      </tr>
-      <tr>
-        <td><i>Вид публикаций</i> и их количество (статьи, тезисы, прочие публикации)</td>
-        <td>
-          <?php
-              $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id group by typeArticleName')
-                            ->bindValue(':id', Yii::$app->user->identity->id)
-                            ->queryAll();
-              foreach ($articles as $row) {      
-                 echo "{$row['typeArticleName']}: {$row['count']}<br>";
-              }
-          ?>
-        </td>
+        <tr>
+          <td rowspan="4" >6</td>
+          <td colspan="2"><b>Наличие публикаций в научном (учебно-научном, методическом) международном,всероссийском, ведомственном издании (в течение года до назначения стипендии)</td>
+        </tr>
+        <tr>
+            <td><i>Вид публикаций</i> и их количество (статьи, тезисы, прочие публикации)</td>
+            <td>
+              <?php
+                  $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id group by typeArticleName')
+                                ->bindValue(':id', Yii::$app->user->identity->id)
+                                ->queryAll();
+                  foreach ($articles as $row) {      
+                     echo "{$row['typeArticleName']}: {$row['count']}<br>";
+                  }
+              ?>
+            </td>
+        </tr>
       </tr>
       <tr>
         <td>Статус издания (международное, всероссийское, региональное, ведомственное)</td>
@@ -191,8 +191,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </td>
       </tr>
       <?php
-
-        //  }
         }
       ?>
     </table>

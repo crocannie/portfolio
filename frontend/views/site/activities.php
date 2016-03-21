@@ -6,10 +6,13 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $all = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
+$form = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
 
-$this->title = 'Все направления деятельности';
+$this->title = 'Достижения';
 
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['breadcrumbs'][] = ['label' => 'Заявления-анкеты', 'url' => $form];
 
 $ur = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
 $nir = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 

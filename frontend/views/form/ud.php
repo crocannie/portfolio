@@ -29,9 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?php 
       $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
 	    $nid = urldecode('index.php?r=form/nid&id='.Yii::$app->user->identity->id); 
-	    $od = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
-	    $ktd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
-	    $sd = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
+	    $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id); 
+	    $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
+	    $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 
 
 	?>
     <ul class="nav nav-tabs">
