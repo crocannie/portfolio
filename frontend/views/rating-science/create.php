@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\DetailView;
 use yii\db\Command;
+use yii\widgets\ActiveForm;
+use yii\widgets\Alert;
 
 use common\models\Students;
 use common\models\Universities;
@@ -11,6 +13,7 @@ use common\models\Grants;
 use common\models\Patents;
 use common\models\Articles;
 use common\models\AchievementsStudy;
+use common\models\rating\Science;
 
 
 /* @var $this yii\web\View */
@@ -19,6 +22,7 @@ use common\models\AchievementsStudy;
 $all = urldecode('index.php?r=site/activities'); 
 $this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
 
+$idStudent = Yii::$app->user->identity->id;
 $this->title = 'Заявления-анкеты';
 
 $this->params['breadcrumbs'][] = $this->title;
@@ -44,7 +48,22 @@ $this->params['breadcrumbs'][] = $this->title;
     
 <p align='center'><FONT SIZE=4><b>ЗАЯВЛЕНИЕ-АНКЕТА ПРЕТЕНДЕНТА</b> <br />   на получение повышенной стипендии за достижения студента <br /> в <b>научно-исследовательской</b> деятельности</FONT></p>
 
-    <table width="1000" border="1">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/w3.css">
+
+<style type="text/css">
+table {
+  border-collapse: collapse; /*убираем пустые промежутки между ячейками*/
+  border: 2px solid #dddddd; /*устанавливаем для таблицы внешнюю границу серого цвета толщиной 1px*/
+}
+
+td {
+  border: 2px solid #dddddd;
+  padding: 3px;
+
+}
+</style>
+    <table  width="1000" border="1">
        <col width="30" valign="top">
        <col width="300" valign="top">
       <tr>
@@ -68,7 +87,10 @@ $this->params['breadcrumbs'][] = $this->title;
       <tr>
         <td>4</td>
         <td>Доля оценок «отлично» от общего количества оценок</td>
-        <td><input type="text" name="rating" class="rating" value=""><br></td>
+        <td>    
+          <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
+             <?= $form->field($model, 'mark')->textInput(['style'=>'width:500px'])->label(false)  ?>
+    	 </td>
       </tr>
       <tr>
         <?php 
@@ -111,9 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <td><i>Вид публикаций</i> и их количество (статьи, тезисы, прочие публикации)</td>
             <td>
               <?php
-                  $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id group by typeArticleName')
-                                ->bindValue(':id', Yii::$app->user->identity->id)
-                                ->queryAll();
+                  $articles = Articles::getType($idStudent);
                   foreach ($articles as $row) {      
                      echo "{$row['typeArticleName']}: {$row['count']}<br>";
                   }
@@ -125,9 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <td>Статус издания (международное, всероссийское, региональное, ведомственное)</td>
         <td>          
           <?php
-              $articles = Yii::$app->db->createCommand('SELECT se.name as statusEvent, count(*) as count, se.value as value FROM articles a, statusEvent se WHERE a.idStudent = :id and a.idStatus = se.id group by statusEvent')
-                            ->bindValue(':id', Yii::$app->user->identity->id)
-                            ->queryAll();
+			$articles = Articles::getStatus($idStudent);
               foreach ($articles as $row) {      
                 echo "{$row['statusEvent']}: {$row['count']}<br>";
               }
@@ -138,9 +156,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <td>Объем публикаций в печатных листах</td>
         <td>
           <?php
-              $articles = Yii::$app->db->createCommand('select se.name as statusEvent, round((sum(a.volumePublication)/8)*0.93, 2) as volumePublication from articles a, statusEvent se where idStudent = :id and a.idStatus = se.id group by statusEvent')
-                            ->bindValue(':id', Yii::$app->user->identity->id)
-                            ->queryAll();
+			$articles = Articles::getVolume($idStudent);
               foreach ($articles as $row) {      
                 echo "{$row['statusEvent']}: {$row['volumePublication']} п.л.<br>";
               }
@@ -149,11 +165,10 @@ $this->params['breadcrumbs'][] = $this->title;
       </tr>
       <tr>
         <?php
-          // $ret = $achievement->getAchievement($idStudent);
-          $ret = Yii::$app->db->createCommand('SELECT asp.*, asp.dateEvent, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievements asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idEventType = tc.id and asp.idDocumentTYpe = td.id')
-                            ->bindValue(':id', Yii::$app->user->identity->id)
-                            ->queryAll();
-
+          $ret = AchievementsStudy::getAll($idStudent);
+          // $ret = Yii::$app->db->createCommand('SELECT asp.*, asp.dateEvent, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievements asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idEventType = tc.id and asp.idDocumentTYpe = td.id')
+          //                   ->bindValue(':id', Yii::$app->user->identity->id)
+          //                   ->queryAll();
           $rowspan = 4 + (3*count($ret));
           echo "<td rowspan={$rowspan}>7</td>";
         ?>
@@ -197,4 +212,29 @@ $this->params['breadcrumbs'][] = $this->title;
         }
       ?>
     </table>
+</div>
+<div class="science-create">
+
+    <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>$idStudent])->label(false) ?>
+
+    <?= $form->field($model, 'r1')->hiddenInput(['value'=>Science::getR1($idStudent)])->label(false) ?>
+
+    <?= $form->field($model, 'r2')->hiddenInput(['value'=>Science::getR2($idStudent)])->label(false) ?>
+
+    <?= $form->field($model, 'r3')->hiddenInput(['value'=>Science::getR3($idStudent)])->label(false) ?>
+    
+    <div class="alert alert-success" style="width: 200px; text-align: center">
+      <h4>Ваш рейтинг: <?php 
+          echo Science::getR1($idStudent) + Science::getR2($idStudent) + Science::getR3($idStudent);
+        ?>
+      </h4>
+
+    </div>
+    
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
 </div>
