@@ -71,7 +71,7 @@ class RatingScienceController extends Controller
         $model = new Science();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['create', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -126,20 +126,4 @@ class RatingScienceController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
-    //Рейтинги
-    /*
-    $email = $_SESSION['email'];
-    $student = Student::getStudent($email);
-    $idStudent = $student['id'];
-
-    $studentGrant = Achievement::getGrantsStudent($idStudent);
-    $studentPatent = Achievement::getPatent($idStudent);
-
-    $R1 = (count($studentGrant)*90) + (count ($studentPatent)*80);
-    echo "гранты: ".count($studentGrant)."<br>";
-    echo "патенты: ".count ($studentPatent)."<br>";
-    echo "R1 = ".$R1."<br>"."<br>";
-    */
-
 }

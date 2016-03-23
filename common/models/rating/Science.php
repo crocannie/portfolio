@@ -1,5 +1,6 @@
 <?php
 
+
 namespace common\models\rating;
 
 use Yii;
@@ -10,6 +11,9 @@ use common\models\Grants;
 use common\models\Patents;
 use common\models\Articles;
 use common\models\AchievementsStudy;
+
+error_reporting(E_ALL ^ E_STRICT);
+error_reporting(E_ERROR);
 /**
  * This is the model class for table "ratingScience".
  *
@@ -18,6 +22,7 @@ use common\models\AchievementsStudy;
  * @property double $r1
  * @property double $r2
  * @property double $r3
+ * @property integer $status
  * @property integer $mark
  *
  * @property Students $idStudent0
@@ -38,8 +43,8 @@ class Science extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idStudent', 'r1', 'r2', 'r3', 'mark'], 'required'],
-            [['idStudent', 'mark'], 'integer'],
+            [['idStudent', 'r1', 'r2', 'r3', 'status', 'mark'], 'required'],
+            [['idStudent', 'status', 'mark'], 'integer'],
             [['r1', 'r2', 'r3'], 'number']
         ];
     }
@@ -55,6 +60,7 @@ class Science extends \yii\db\ActiveRecord
             'r1' => 'R1',
             'r2' => 'R2',
             'r3' => 'R3',
+            'status' => 'Status',
             'mark' => 'Mark',
         ];
     }
@@ -99,5 +105,35 @@ class Science extends \yii\db\ActiveRecord
             $R3 += $count * $value;
         }
         return $R3;
+    }
+
+    //Получить статус заявки
+    public function getStatus($id){
+          $count = Science::getCount($idStudent);
+
+          for ($i = 0; $i < count($count); $i++){
+            $test = $count['0']['countS'];
+          }
+        // Если записи в таблице есть
+        if ($test == 0){
+            $status = 0;
+            // $status = Science::findOne($id);
+        }
+        // Если записи в таблице отсутствуют
+        else{
+            $status = Science::find()->where(['idStudent'=>$id])->all();
+        }
+        // return $status;
+        return $test;
+    }
+
+    public function getCount($id){
+        $sql = Yii::$app->db->createCommand('SELECT count(*) as countS from ratingScience where idStudent = :id')
+                            ->bindValue(':id', $id)
+                            ->queryAll();
+        foreach ($sql as $row){
+            $status = $row->count;
+        }
+        return $sql;
     }
 }

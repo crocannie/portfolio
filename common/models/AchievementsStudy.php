@@ -112,7 +112,7 @@ class AchievementsStudy extends \yii\db\ActiveRecord
 
     //Все достижения
     public function getAll($id){
-        $ret = Yii::$app->db->createCommand('SELECT asp.*, asp.dateEvent, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievements asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idEventType = tc.id and asp.idDocumentTYpe = td.id')
+        $ret = Yii::$app->db->createCommand('SELECT asp.*, asp.dateEvent, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievements asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idEventType = tc.id and asp.idDocumentTYpe = td.id and asp.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':id', Yii::$app->user->identity->id)
                             ->queryAll();
         return $ret;
@@ -120,7 +120,7 @@ class AchievementsStudy extends \yii\db\ActiveRecord
 
     //Для расчета рейтинга R3 в НИД
     public function getValue($id){
-        $ret = Yii::$app->db->createCommand('select a.*, d.*, s.name as statusEvent, s.value as value from achievements a, documents d, statusEvent s where a.idStudent = :id and a.idDocument = d.id and a.idStatus = s.id ')
+        $ret = Yii::$app->db->createCommand('select a.*, a.dateEvent,  d.*, s.name as statusEvent, s.value as value from achievements a, documents d, statusEvent s where a.idStudent = :id and a.idDocument = d.id and a.idStatus = s.id and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':id', Yii::$app->user->identity->id)
                             ->queryAll();
         return $ret;

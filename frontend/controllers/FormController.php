@@ -21,6 +21,10 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use frontend\models\Universities;
 use frontend\controller\UniversitiesController;
+use common\models\Patents;
+use common\models\Articles;
+use common\models\AchievementsStudy;
+use common\models\rating\Science;
 
 class FormController extends Controller
 {
@@ -65,7 +69,10 @@ class FormController extends Controller
         return $this->render('nid', [
             'model' => $this->findModel($id),
             'dataProvider' => $dataProvider,
-        ]);        
+        ]);  
+        // return $this->render('view', [
+        //     'model' => $this->findScience($id),
+        // ]);
     }
 
     public function actionOd($id)
@@ -122,9 +129,20 @@ class FormController extends Controller
         ]);
     }
 */
+
+    //Find models
     protected function findModel($id)
     {
         if (($model = Students::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    protected function findScience($id)
+    {
+        if (($model = Science::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

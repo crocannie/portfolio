@@ -63,6 +63,29 @@ td {
 
 }
 </style>
+
+<?php
+  $status = Science::getStatus($idStudent);
+  $count = Science::getCount($idStudent);
+
+  echo 'getStatus: '.Science::getStatus($idStudent).'<br>';
+  echo 'getCount: '.Science::getCount($idStudent).'<br>';
+
+foreach ($count as $count) {
+  echo $count['countS'];
+}
+  if ($status != 0){
+    echo "Записе   есть";
+      foreach ($status as $row){
+        echo 'Есть записи';?>
+        <div class="alert alert-success" style="width: 200px; text-align: center; height: 50px">
+          <h4>Заявка отправлена</h4>
+        </div>
+  <?php }
+  }{
+    echo "Записей нет";
+  }
+?>
     <table  width="1000" border="1">
        <col width="30" valign="top">
        <col width="300" valign="top">
@@ -94,8 +117,15 @@ td {
       </tr>
       <tr>
         <?php 
-          $grants = Grants::find()->where(['idStudent'=>Yii::$app->user->identity->id])->all();
-          $patents = Patents::find()->where(['idStudent'=>Yii::$app->user->identity->id])->all();
+          $date = strtotime('-2 years');
+          $grants = Grants::find()
+                            ->where(['idStudent'=>Yii::$app->user->identity->id])
+                            ->andWhere(['between', 'dateBegin',  date('Y-m-d', $date), date('Y-m-d')])
+                            ->all();
+          $patents = Patents::find()
+                            ->where(['idStudent'=>Yii::$app->user->identity->id])
+                            ->andWhere(['between', 'dateApp',  date('Y-m-d', $date), date('Y-m-d')])
+                            ->all();
           $rowspan = 2 + (count($grants)+count($patents));
           echo "<td rowspan={$rowspan}>5</td>";
         ?>
@@ -145,7 +175,7 @@ td {
         <td>Статус издания (международное, всероссийское, региональное, ведомственное)</td>
         <td>          
           <?php
-			$articles = Articles::getStatus($idStudent);
+			       $articles = Articles::getStatus($idStudent);
               foreach ($articles as $row) {      
                 echo "{$row['statusEvent']}: {$row['count']}<br>";
               }
@@ -223,18 +253,26 @@ td {
 
     <?= $form->field($model, 'r3')->hiddenInput(['value'=>Science::getR3($idStudent)])->label(false) ?>
     
-    <div class="alert alert-success" style="width: 200px; text-align: center">
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
+
+    <div class="alert alert-success" style="width: 200px; text-align: center; height: 50px">
       <h4>Ваш рейтинг: <?php 
           echo Science::getR1($idStudent) + Science::getR2($idStudent) + Science::getR3($idStudent);
         ?>
       </h4>
-
     </div>
-    
+<?php
+if ($status != 0){ 
+  echo "Записи есть";
+} 
+else { 
+  echo 'Записи нет';?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-
+  <?php 
+}
+?>
     <?php ActiveForm::end(); ?>
 
 </div>
