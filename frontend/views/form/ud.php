@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
       $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
-	    $nid = urldecode('index.php?r=form/nid&id='.Yii::$app->user->identity->id); 
+	    $nid = urldecode('index.php?r=rating-science/create'); 
 	    $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id); 
 	    $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
 	    $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 

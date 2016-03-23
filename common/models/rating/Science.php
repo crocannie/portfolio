@@ -109,31 +109,16 @@ class Science extends \yii\db\ActiveRecord
 
     //Получить статус заявки
     public function getStatus($id){
-          $count = Science::getCount($idStudent);
-
-          for ($i = 0; $i < count($count); $i++){
-            $test = $count['0']['countS'];
-          }
-        // Если записи в таблице есть
-        if ($test == 0){
-            $status = 0;
-            // $status = Science::findOne($id);
-        }
-        // Если записи в таблице отсутствуют
-        else{
-            $status = Science::find()->where(['idStudent'=>$id])->all();
-        }
-        // return $status;
-        return $test;
+        $sql = Yii::$app->db->createCommand('SELECT status as status from ratingScience where idStudent = :id')
+                            ->bindValue(':id', $id)
+                            ->queryAll();
+        return $sql;
     }
 
     public function getCount($id){
         $sql = Yii::$app->db->createCommand('SELECT count(*) as countS from ratingScience where idStudent = :id')
                             ->bindValue(':id', $id)
                             ->queryAll();
-        foreach ($sql as $row){
-            $status = $row->count;
-        }
         return $sql;
     }
 }

@@ -68,22 +68,25 @@ td {
   $status = Science::getStatus($idStudent);
   $count = Science::getCount($idStudent);
 
-  echo 'getStatus: '.Science::getStatus($idStudent).'<br>';
-  echo 'getCount: '.Science::getCount($idStudent).'<br>';
+  foreach ($status as $row) {
+    // echo $row['status'];
+    // echo $count->countS;
+    $value = $row['status'];
+  }
 
-foreach ($count as $count) {
-  echo $count['countS'];
-}
-  if ($status != 0){
-    echo "Записе   есть";
-      foreach ($status as $row){
-        echo 'Есть записи';?>
-        <div class="alert alert-success" style="width: 200px; text-align: center; height: 50px">
-          <h4>Заявка отправлена</h4>
-        </div>
-  <?php }
-  }{
+  foreach ($count as $row) {
+    $test = $row['countS'];
+    // echo $count->countS;
+  }
+
+  // echo "Количество заявко в таблице НИР:  ".$test.'<br>';
+  if ($test != 0){?>
+<?php
+  }else{
     echo "Записей нет";
+      foreach ($status as $row){
+        echo ' записи'.$row['countS'];
+      }
   }
 ?>
     <table  width="1000" border="1">
@@ -262,11 +265,15 @@ foreach ($count as $count) {
       </h4>
     </div>
 <?php
-if ($status != 0){ 
-  echo "Записи есть";
+if ($test != 0){ ;?>
+        <div class="alert alert-info" style="width: 200px; text-align: center; height: 50px">
+          <h4>
+            Заявка <?php if($value == 1){ echo "отправлена"; }?>
+          </h4>
+        </div>
+<?php
 } 
-else { 
-  echo 'Записи нет';?>
+else {?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
