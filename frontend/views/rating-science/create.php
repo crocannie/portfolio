@@ -83,9 +83,9 @@ td {
   if ($test != 0){?>
 <?php
   }else{
-    echo "Записей нет";
+   // echo "Записей нет";
       foreach ($status as $row){
-        echo ' записи'.$row['countS'];
+     //   echo ' записи'.$row['countS'];
       }
   }
 ?>

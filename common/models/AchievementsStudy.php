@@ -120,7 +120,7 @@ class AchievementsStudy extends \yii\db\ActiveRecord
 
     //Для расчета рейтинга R3 в НИД
     public function getValue($id){
-        $ret = Yii::$app->db->createCommand('select a.*, a.dateEvent,  d.*, s.name as statusEvent, s.value as value from achievements a, documents d, statusEvent s where a.idStudent = :id and a.idDocument = d.id and a.idStatus = s.id and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+        $ret = Yii::$app->db->createCommand('select a.dateEvent, s.name as statusEvent, s.value as valueEvent, e.name as eventType, e.value as valueType from achievements a, statusEvent s, eventType e where idStudent = :id and a.idStatus = s.id and a.idEventType = e.id and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':id', Yii::$app->user->identity->id)
                             ->queryAll();
         return $ret;

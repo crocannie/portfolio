@@ -3,23 +3,18 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\rating\Science;
+use common\models\rating\Social;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use common\models\Students;
-use common\models\Universities;
-use common\models\Grants;
-use common\models\Patents;
-use common\models\Articles;
-use common\models\AchievementsStudy;
-
+error_reporting(E_ALL ^ E_STRICT);
+error_reporting(E_ERROR);
 /**
- * RatingScienceController implements the CRUD actions for Science model.
+ * RatingSocialController implements the CRUD actions for Social model.
  */
-class RatingScienceController extends Controller
+class RatingSocialController extends Controller
 {
     public function behaviors()
     {
@@ -34,13 +29,13 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Lists all Science models.
+     * Lists all Social models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Science::find(),
+            'query' => Social::find(),
         ]);
 
         return $this->render('index', [
@@ -49,7 +44,7 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Displays a single Science model.
+     * Displays a single Social model.
      * @param integer $id
      * @return mixed
      */
@@ -61,13 +56,13 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Creates a new Science model.
+     * Creates a new Social model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Science();
+        $model = new Social();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['create', 'id' => $model->id]);
@@ -79,7 +74,7 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Updates an existing Science model.
+     * Updates an existing Social model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +93,7 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Deletes an existing Science model.
+     * Deletes an existing Social model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -111,15 +106,15 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Finds the Science model based on its primary key value.
+     * Finds the Social model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Science the loaded model
+     * @return Social the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Science::findOne($id)) !== null) {
+        if (($model = Social::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

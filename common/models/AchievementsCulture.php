@@ -107,4 +107,13 @@ class AchievementsCulture extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
     }
+
+    //Все достижения
+    public function getAll($id){
+        $sql = 'SELECT * FROM `ktdParticipation` WHERE idStudent = :id and ktdParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())';
+        $ret = Yii::$app->db->createCommand($sql)
+                            ->bindValue(':id', $id)
+                            ->queryAll();
+        return $ret;
+    } 
 }

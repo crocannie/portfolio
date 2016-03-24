@@ -3,23 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\rating\Science;
+use common\models\rating\Culture;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use common\models\Students;
-use common\models\Universities;
-use common\models\Grants;
-use common\models\Patents;
-use common\models\Articles;
-use common\models\AchievementsStudy;
-
 /**
- * RatingScienceController implements the CRUD actions for Science model.
+ * RatingCultureController implements the CRUD actions for Culture model.
  */
-class RatingScienceController extends Controller
+class RatingCultureController extends Controller
 {
     public function behaviors()
     {
@@ -34,13 +27,13 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Lists all Science models.
+     * Lists all Culture models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Science::find(),
+            'query' => Culture::find(),
         ]);
 
         return $this->render('index', [
@@ -49,7 +42,7 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Displays a single Science model.
+     * Displays a single Culture model.
      * @param integer $id
      * @return mixed
      */
@@ -61,16 +54,16 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Creates a new Science model.
+     * Creates a new Culture model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Science();
+        $model = new Culture();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['create', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -79,7 +72,7 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Updates an existing Science model.
+     * Updates an existing Culture model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +91,7 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Deletes an existing Science model.
+     * Deletes an existing Culture model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -111,15 +104,15 @@ class RatingScienceController extends Controller
     }
 
     /**
-     * Finds the Science model based on its primary key value.
+     * Finds the Culture model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Science the loaded model
+     * @return Culture the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Science::findOne($id)) !== null) {
+        if (($model = Culture::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
