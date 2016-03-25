@@ -108,4 +108,36 @@ class PerformanceCulture extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
     }
+
+    public function getAll($id){
+        $sql = 'select pp.*, st.name as status, tpp.name as type, td.name as documentType from publicPerformance pp, statusEvent st, typePublicPerformance tpp, typeDocument td where idStudent = :id and pp.idStatus = st.id and pp.idTypePublicPerformance = tpp.id and pp.idDocumentType = td.id AND pp.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';        
+        $ret = Yii::$app->db->createCommand($sql)
+                            ->bindValue(':id', $id)
+                            ->queryAll();
+        return $ret;
+    } 
+
+    public function getType($id){
+        // $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year = between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
+        $articles = Yii::$app->db->createCommand('select count(*) as count, t.value as value from publicPerformance p, typePublicPerformance t where p.idStudent = :id and p.idTypePublicPerformance = t.id AND p.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( )) GROUP BY `idTypePublicPerformance` ')
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $articles;
+    }
+
+    public function getStatus($id){
+        $articles = Yii::$app->db->createCommand('select count(*) as count, e.value as value, e.name as name from publicPerformance p, statusEvent e where p.idStudent = :id and p.idStatus = e.id AND p.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( )) GROUP BY `idStatus` ')
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $articles;
+    }
+
+    public function getDoc($id){
+        $articles = Yii::$app->db->createCommand('select count(*) as count, t.value as value from publicPerformance p, typeDocument t where p.idStudent = :id and p.idDocumentType = t.id AND p.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( )) GROUP BY `idDocumentType` ')
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $articles;
+    }
+
+
 }

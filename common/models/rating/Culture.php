@@ -7,7 +7,8 @@ use Yii;
 use common\models\Students;
 use common\models\Universities;
 use common\models\AchievementsCulture;
-
+use common\models\PerformanceCulture;
+use common\models\ParticipationCulture;
 error_reporting(E_ALL ^ E_STRICT);
 error_reporting(E_ERROR);
 /**
@@ -82,5 +83,71 @@ class Culture extends \yii\db\ActiveRecord
                             ->bindValue(':id', $id)
                             ->queryAll();
         return $sql;
+    }
+                                    /***Рейтинг расчет***/
+    //Первый критерий
+    public function getR1($id){
+        // $grants = Grants::find()->where(['idStudent'=>$id])->all();
+        // // $patents = Achievement::getPatent($idStudent);
+        // $patents = Patents::find()->where(['idStudent'=>$id])->all();
+        // $R1 = (count($grants)*90) + (count($patents)*80);
+        // return $R1;
+
+        $R1 = null;
+        $achievement = AchievementsCulture::getType($id);
+        for ($i = 0; $i < count($achievement); $i++){
+            $count = $achievement[$i]['count'];
+            $value = $achievement[$i]['value'];
+            $R1 += $count * $value;
+        }
+        return $R1;
+    }
+
+    //Второй критерий
+    public function getR2($id){
+        $R2 = null;
+        $type = PerformanceCulture::getType($id);
+        $status = PerformanceCulture::getStatus($id);
+        $doc = PerformanceCulture::getDoc($id);
+        
+        for ($i = 0; $i < count($type); $i++) { 
+            $countType = $type[$i]['count'];
+            $valueType = $type[$i]['value'];
+            $sumType = $countType * $valueType;
+            // echo "Type: ".$countType." : ".$valueType."<br>";
+        }
+        // echo $sumType."<br>";
+
+        for ($i = 0; $i < count($status); $i++) { 
+            $countStatus = $status[$i]['count'];
+            $valueStatus = $status[$i]['value'];
+            $sumStatus = $countStatus * $valueStatus;
+            // echo "Status: ".$name." : ".$countStatus." : ".$valueStatus."<br>";
+        }
+        // echo $sumStatus."<br>";
+
+        for ($i = 0; $i < count($doc); $i++) { 
+            $countDoc = $doc[$i]['count'];
+            $valueDoc = $doc[$i]['value'];
+            $sumDoc = $countDoc * $valueDoc;
+            // echo "Doc: ".$countDoc." : ".$valueDoc."<br>";
+        }
+        // echo $sumDoc."<br>";
+
+        $R2 += $sumStatus + $sumType + $sumDoc;
+        // echo $R2;
+        return $R2;
+    }
+
+    //Третий критерий
+    public function getR3($id){
+        $R3 = null;
+        $achievement = ParticipationCulture::getAll($id);
+        for ($i = 0; $i < count($achievement); $i++){
+            $count = $achievement[$i]['count'];
+            $value =10;
+            $R3 += $count * $value;
+        }
+        return $R3;
     }
 }

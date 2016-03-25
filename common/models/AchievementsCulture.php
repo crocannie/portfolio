@@ -110,10 +110,24 @@ class AchievementsCulture extends \yii\db\ActiveRecord
 
     //Все достижения
     public function getAll($id){
-        $sql = 'SELECT * FROM `ktdParticipation` WHERE idStudent = :id and ktdParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())';
+        $sql = 'SELECT a.*,  s.name as status, t.name as type, s.value as valueStatus, t.value as valueType FROM achievementsKTD a, statusEvent s, eventType t WHERE idStudent = :id and `idStatus` = s.id and `idTypeContest` = t.id and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())';
         $ret = Yii::$app->db->createCommand($sql)
                             ->bindValue(':id', $id)
                             ->queryAll();
         return $ret;
     } 
+    public function getType($id){
+        // $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year = between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
+        $articles = Yii::$app->db->createCommand('SELECT count( * ) AS count, t.value AS value FROM achievementsKTD a, eventType t WHERE a.idStudent =:id AND a.idTypeContest = t.id AND a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))GROUP BY `idTypeContest` ')
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $articles;
+    }
+
+    public function getStatus($id){
+        $articles = Yii::$app->db->createCommand('SELECT se.name as statusEvent, count(*) as count, se.value as value FROM articles a, statusEvent se WHERE a.idStudent = :id and a.idStatus = se.id and a.year between (year(curdate())-2) and (year(curdate())) group by statusEvent')
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $articles;
+    }
 }

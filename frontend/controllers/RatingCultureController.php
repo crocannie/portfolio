@@ -63,7 +63,7 @@ class RatingCultureController extends Controller
         $model = new Culture();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['create', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
