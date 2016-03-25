@@ -109,4 +109,12 @@ class AchievementsSport extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
     }
+
+    public function getAll($id){
+        $sql = 'SELECT asp.*, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievementsSport asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idTypeContest = tc.id and asp.idDocumentTYpe = td.id AND asp.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
+        $ret = Yii::$app->db->createCommand($sql)
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $ret;
+    }
 }

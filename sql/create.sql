@@ -410,3 +410,14 @@ CREATE TABLE IF NOT EXISTS `ratingCulture` (
   PRIMARY KEY (`id`),
 	foreign key(idStudent) references students(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `ratingSport` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idStudent` int(11) NOT NULL,
+  `r1` double NOT NULL,
+  `r2` double NOT NULL,
+  `status` int(11) NOT NULL,
+  `mark` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+	foreign key(idStudent) references students(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
