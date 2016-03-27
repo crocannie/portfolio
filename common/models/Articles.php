@@ -134,7 +134,7 @@ class Articles extends \yii\db\ActiveRecord
 
     public function getType($id){
         // $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year = between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
-        $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
+        $articles = Yii::$app->db->createCommand('SELECT a.name, a.location, tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
                                 ->bindValue(':id', $id)
                                 ->queryAll();
         return $articles;

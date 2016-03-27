@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use frontend\models\Upload;
 
 /**
  * ParticipationCultureController implements the CRUD actions for ParticipationCulture model.
@@ -65,12 +66,8 @@ class ParticipationCultureController extends Controller
         $model = new ParticipationCulture();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->file = UploadedFile::getInstance($model, 'file');
-            $model->file->saveAs( 'uploads/'.$model->file->baseName.'.'.$model->file->extension );
-            $model->location = 'uploads/'.$model->file->baseName.'.'.$model->file->extension;
-            $model->idStudent = Yii::$app->user->identity->id;
-            $model->save();
             $user = Yii::$app->user->identity->id;
+            $path = Upload::upload($model, $user);
             return $this->redirect(['index', 'id' => $user]);
         }  else {
             return $this->render('create', [

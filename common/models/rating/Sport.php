@@ -3,6 +3,8 @@
 namespace common\models\rating;
 
 use Yii;
+use common\models\AchievementsSport;
+use common\models\ParticipationSport;
 
 /**
  * This is the model class for table "ratingSport".
@@ -79,19 +81,38 @@ class Sport extends \yii\db\ActiveRecord
                                         /***Рейтинг расчет***/
     //Первый критерий
     public function getR1($id){
-        // $grants = Grants::find()->where(['idStudent'=>$id])->all();
-        // // $patents = Achievement::getPatent($idStudent);
-        // $patents = Patents::find()->where(['idStudent'=>$id])->all();
-        // $R1 = (count($grants)*90) + (count($patents)*80);
-        // return $R1;
-
         $R1 = null;
-        $achievement = AchievementsCulture::getType($id);
-        for ($i = 0; $i < count($achievement); $i++){
-            $count = $achievement[$i]['count'];
-            $value = $achievement[$i]['value'];
+        $type = AchievementsSport::getType($id);
+        for ($i = 0; $i < count($type); $i++){
+            $count = $type[$i]['count'];
+            $value = $type[$i]['value'];
+            $R1 += $count * $value;
+        }
+
+        $status = AchievementsSport::getStatus($id);
+        for ($i = 0; $i < count($status); $i++){
+            $count = $status[$i]['count'];
+            $value = $status[$i]['value'];
+            $R1 += $count * $value;
+        }
+
+        $doc = AchievementsSport::getDoc($id);
+        for ($i = 0; $i < count($doc); $i++){
+            $count = $doc[$i]['count'];
+            $value = $doc[$i]['value'];
             $R1 += $count * $value;
         }
         return $R1;
+    }
+
+    public function getR2($id){
+        $R2 = null;
+        $achievement = ParticipationSport::getAll($id);
+        for ($i = 0; $i < count($achievement); $i++){
+            $count = $achievement[$i]['count'];
+            $value =10;
+            $R2 += $count * $value;
+        }
+        return $R2;
     }
 }

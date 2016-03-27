@@ -48,9 +48,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'idDocumentType',
             // 'idDocument',
             // 'idStudent',
+            // 'location',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+<?php
+    $user = Yii::$app->user->identity->id;
+    $path = 'uploads/'.$user;
+echo $path;
+?>
 </div>

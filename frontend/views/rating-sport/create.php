@@ -15,7 +15,7 @@ use common\models\Articles;
 use common\models\AchievementsSport;
 use common\models\PerformanceCulture;
 use common\models\ParticipationSport;
-use common\models\rating\Culture;
+use common\models\rating\Sport;
 
 
 /* @var $this yii\web\View */
@@ -33,11 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-index">
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
-      $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
-	  $nid = urldecode('index.php?r=form/ud'); 
-      $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id);       
-      $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
-      $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 
+      $ud = urldecode('index.php?r=rating-study/create'); 
+    $nid = urldecode('index.php?r=rating-science/create'); 
+      $od = urldecode('index.php?r=rating-social/create');    
+      $ktd = urldecode('index.php?r=rating-culture/create'); 
+      $sd = urldecode('index.php?r=rating-sport/create');  
 
 	?>
     <ul class="nav nav-tabs">
@@ -66,12 +66,12 @@ td {
 }
 </style>
 <?php
-  $status = Culture::getStatus($idStudent);
-  $count = Culture::getCount($idStudent);
+  // $status = Culture::getStatus($idStudent);
+  // $count = Culture::getCount($idStudent);
 
-  foreach ($status as $row) {$value = $row['status'];}
+  // foreach ($status as $row) {$value = $row['status'];}
 
-  foreach ($count as $row) {$test = $row['countS']; }
+  // foreach ($count as $row) {$test = $row['countS']; }
 ?>
 
 
@@ -139,6 +139,7 @@ td {
             $typeDocument = $ret[$i]['typeDocument'];
             $year = $ret[$i]['year'];
               echo "$name, $typeDocument, $year"; 
+              echo "<br><a href={$ret[$i]['location']}>Просмотр</a><br>";
             } 
           ?>
         </td>
@@ -158,8 +159,57 @@ td {
                 $description = $row['description'];
                 $count = $row['count'];
                 echo "Количество мероприятий: $count, $description <br>";
+                echo "<br><a href={$row['location']}>Просмотр</a><br>";
               }         
           ?>
         </td>     
       </tr>
     </table>
+    </div>
+
+<?php
+echo "R1: ".Sport::getR1($idStudent)."<br>";
+echo "R2: ".Sport::getR2($idStudent)."<br>";?>
+<div class="sport-create">
+
+    <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>$idStudent])->label(false) ?>
+
+    <?= $form->field($model, 'r1')->hiddenInput(['value'=>Sport::getR1($idStudent)])->label(false) ?>
+
+    <?= $form->field($model, 'r2')->hiddenInput(['value'=>Sport::getR2($idStudent)])->label(false) ?>
+    
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
+
+    <div class="alert alert-success" style="width: 200px; text-align: center; height: 50px">
+      <h4>Ваш рейтинг: <?php 
+          echo Sport::getR1($idStudent) + Sport::getR2($idStudent);
+        ?>
+      </h4>
+    </div>
+
+<?php
+  $status = Sport::getStatus($idStudent);
+  $count = Sport::getCount($idStudent);
+
+  foreach ($status as $row) {$value = $row['status'];}
+
+  foreach ($count as $row) {$test = $row['countS']; }
+
+if ($test != 0){ ;?>
+        <div class="alert alert-info" style="width: 200px; text-align: center; height: 50px">
+          <h4>
+            Заявка <?php if($value == 1){ echo "отправлена"; }?>
+          </h4>
+        </div>
+<?php
+} 
+else {?>
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
+  <?php 
+}
+?>
+    <?php ActiveForm::end(); ?>
+
+</div>

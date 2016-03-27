@@ -33,12 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-index">
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
-      $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
-	    $nid = urldecode('index.php?r=form/ud'); 
-      $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id);       
-      $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
-      $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 
-
+      $ud = urldecode('index.php?r=rating-study/create'); 
+      $nid = urldecode('index.php?r=rating-science/create'); 
+      $od = urldecode('index.php?r=rating-social/create');    
+      $ktd = urldecode('index.php?r=rating-culture/create'); 
+      $sd = urldecode('index.php?r=rating-sport/create'); 
 	?>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
@@ -134,9 +133,10 @@ td {
         <td>
           <?php
             $name = $ret[$i]['name'];
-            $typeDocument = $ret[$i]['typeDocument'];
+            $typeDocument = $ret[$i]['nameDoc'];
             $year = $ret[$i]['year'];
               echo "$name, $typeDocument, $year"; 
+              echo "<br><a href={$ret[$i]['location']}>Просмотр</a><br>";
             } 
           ?>
         </td>
@@ -177,6 +177,7 @@ td {
             $year = $ret[$i]['year'];
             $typeDocument = $ret[$i]['documentType'];
             echo "$name, $typeDocument, $year";
+            echo "<br><a href={$ret[$i]['location']}>Просмотр</a><br>";
             }
           ?>
         </td>
@@ -196,6 +197,7 @@ td {
                 $description = $row['description'];
                 $count = $row['count'];
                 echo "Количество мероприятий: $count, $description <br>";
+                echo "<br><a href={$row[$i]['location']}>Просмотр</a><br>";
               }         
           ?>
         </td>     

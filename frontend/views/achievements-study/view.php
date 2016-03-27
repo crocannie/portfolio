@@ -54,5 +54,10 @@ $this->params['breadcrumbs'][] = $this->title;
             //'idStudent',
         ],
     ]) ?>
+    <label>Файл: </label>
+    <?php 
+    $path = $model->location;
+        echo "<a href={$path}>{$model->name}</a><br>";
+    ?>
 
 </div>

@@ -8,7 +8,7 @@ use yii\grid\GridView;
 $all = urldecode('index.php?r=site/activities'); 
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 
-$this->title = 'Патенты';
+$this->title = 'Научно-исследовательская деятельность';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="patents-index">
@@ -16,12 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     $grants = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
     $patents = urldecode('index.php?r=patents/index&id='.Yii::$app->user->identity->id); 
     $articles = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
+    $participation = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id); 
 ?>
     <ul class="nav nav-tabs">
       <li><a href=<?=$grants?>>Гранты</a></li>
       <li class="active"><a href=<?=$patents?>>Патенты</a></li>
       <li><a href=<?=$articles?>>Публикации</a></li>
-      <li><a href="#">Участия</a></li>
+      <li><a href=<?=$participation?>>Участия</a></li>
     </ul><br>
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -109,17 +109,22 @@ if (Yii::$app->user->isGuest) {
 ?> 
 
 <?php
-      $all = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
+      $all = urldecode('index.php?r=rating-study/create'); 
+      $ud = urldecode('index.php?r=rating-study/create'); 
+      $nid = urldecode('index.php?r=rating-science/create'); 
+      $od = urldecode('index.php?r=rating-social/create');    
+      $ktd = urldecode('index.php?r=rating-culture/create'); 
+      $sd = urldecode('index.php?r=rating-sport/create'); 
 ?>
             <div class="btn-group">
                 <a style="width: 305px" class="btn btn-success" href=<?=$all?>>Заявления-анкеты</a>
                 <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                   <ul style="width: 330px" class="dropdown-menu">
-                    <li><a href="#"><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>
-                    <li><a href="#"><i class="fa fa-flask"></i> Научно-исследовательская деятельность</a></li>
-                    <li><a href="#"><i class="fa fa-users"></i> Общественная деятельность</a></li>
-                    <li><a href="#"><i class="fa fa-paint-brush"></i> Культурно-творческая деятельность</a></li>
-                    <li><a href="#"><i class="fa fa-futbol-o"></i> Спортивная деятельность</a></li>
+                    <li><a href=<?=$ud?>><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>
+                    <li><a href=<?=$nid?>><i class="fa fa-flask"></i> Научно-исследовательская деятельность</a></li>
+                    <li><a href=<?=$od?>><i class="fa fa-users"></i> Общественная деятельность</a></li>
+                    <li><a href=<?=$ktd?>><i class="fa fa-paint-brush"></i> Культурно-творческая деятельность</a></li>
+                    <li><a href=<?=$sd?>><i class="fa fa-futbol-o"></i> Спортивная деятельность</a></li>
                   </ul>
             </div>
 <?php

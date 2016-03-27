@@ -63,11 +63,11 @@ use common\models\TypeDocument;
                 'style'=>'width:500px',
             ]); 
     ?>
-
-    <?= $form->field($model, 'file')->fileInput() ?>
+    
+    <?= $form->field($model, 'file')->fileInput()->label('Выбрать новый документ') ?>
 
     <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
-
+    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -65,4 +65,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]) ?>
+    <label>Файл: </label>
+<?php 
+    echo "<a href={$model->location}>{$model->name}</a><br>";
+?>
 </div>

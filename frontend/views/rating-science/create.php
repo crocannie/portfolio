@@ -31,11 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="form-index">
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
-      $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
-	    $nid = urldecode('index.php?r=form/ud'); 
-      $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id);       
-      $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
-      $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 
+      $ud = urldecode('index.php?r=rating-study/create'); 
+    $nid = urldecode('index.php?r=rating-science/create'); 
+      $od = urldecode('index.php?r=rating-social/create');    
+      $ktd = urldecode('index.php?r=rating-culture/create'); 
+      $sd = urldecode('index.php?r=rating-sport/create'); 
 
 	?>
     <ul class="nav nav-tabs">
@@ -139,7 +139,11 @@ td {
             <tr>
               <td><i>наличие награды</i> (приза) за результаты НИР, год получения</td>
                 <td>
-                  <?php echo $row->nameProject.", ".$row->dateBegin;?>
+                  <?php 
+                    echo $row->nameProject.", ".$row->dateBegin.'<br>';
+                    echo "<a href={$row->location}>Просмотр</a><br>";
+                  ?>
+
                 </td>
             </tr>
             <?php
@@ -151,7 +155,10 @@ td {
             <tr>
               <td>наличие гранта, патента, свидетельства, год получения</td>
                 <td>
-                  <?php echo $row->name.", ".$row->dateApp;?>
+                  <?php 
+                    echo $row->name.", ".$row->dateApp.'<br>';
+                    echo "<a href={$row->location}>Просмотр</a><br>";
+                  ?>
                 </td>
             </tr>
             <?php
@@ -169,6 +176,7 @@ td {
                   $articles = Articles::getType($idStudent);
                   foreach ($articles as $row) {      
                      echo "{$row['typeArticleName']}: {$row['count']}<br>";
+                    echo "<a href={$row['location']}>{$row['name']}</a><br>";
                   }
               ?>
             </td>
@@ -217,8 +225,8 @@ td {
         <td>
           <?php
             $name = $ret[$i]['name'];
-              echo "$name";   
-            
+              echo "$name".'<br>';   
+              echo "<a href={$ret[$i]['location']}>Просмотр</a><br>";
           ?>
         </td>
       </tr>

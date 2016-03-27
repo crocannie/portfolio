@@ -29,11 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?><div class="form-index">
     <h2><?= Html::encode('Направления деятельности') ?></h2>
 	<?php 
-      $ud = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
-	   $nid = urldecode('index.php?r=form/ud'); 
-      $od = urldecode('index.php?r=form/od&id='.Yii::$app->user->identity->id);       
-      $ktd = urldecode('index.php?r=form/ktd&id='.Yii::$app->user->identity->id); 
-      $sd = urldecode('index.php?r=form/sd&id='.Yii::$app->user->identity->id); 
+      $ud = urldecode('index.php?r=rating-study/create'); 
+    $nid = urldecode('index.php?r=rating-science/create'); 
+      $od = urldecode('index.php?r=rating-social/create');    
+      $ktd = urldecode('index.php?r=rating-culture/create'); 
+      $sd = urldecode('index.php?r=rating-sport/create'); 
 
 	?>
     <ul class="nav nav-tabs">
@@ -114,7 +114,8 @@ td {
                             ->queryAll();
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 1){    
-                  echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "Количество мероприятий: {$row['count']} <br> {$row['description']}"; 
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
                 }
               }
           ?>
@@ -128,6 +129,7 @@ td {
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 2){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
                 }
               }
           ?>
@@ -141,6 +143,7 @@ td {
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 3){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
                 }
               }
           ?>
@@ -154,6 +157,7 @@ td {
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 4){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
                 }
               }
           ?>
@@ -167,6 +171,8 @@ td {
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 5){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+
                 }
               }
           ?>          
@@ -180,6 +186,7 @@ td {
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 6){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
                 }
               }
           ?>  
@@ -193,6 +200,8 @@ td {
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 7){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
+                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+
                 }
               }
           ?>  

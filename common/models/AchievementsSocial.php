@@ -86,7 +86,7 @@ class AchievementsSocial extends \yii\db\ActiveRecord
     //Все достижения
     public function getAll($id){
         $sql = 'SELECT * FROM `ktdParticipation` WHERE idStudent = :id';
-        $ret = Yii::$app->db->createCommand('$sql');
+        $ret = Yii::$app->db->createCommand('$sql')
                             ->bindValue(':id', Yii::$app->user->identity->id)
                             ->queryAll();
         return $ret;
