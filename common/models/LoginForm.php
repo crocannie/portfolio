@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\web\User;
 
 use common\models\Students;
+use common\models\Employee;
 
 /**
  * Login form
@@ -99,6 +100,8 @@ class LoginForm extends Model
 
         if ($this->validate()){
             return Yii::$app->user->login($this->getStudent());
+        } else {
+            return Yii::$app->employee->login($this->getUser());
         }
     }
 
@@ -107,10 +110,19 @@ class LoginForm extends Model
      *
      * @return User|null
      */
+    // protected function getUser()
+    // {
+    //     if ($this->_user === false) {
+    //         $this->_user = Students::findByUsername($this->username);
+    //     }
+
+    //     return $this->_user;
+    // }
+
     protected function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Students::findByUsername($this->username);
+            $this->_user = Employee::findByUsername($this->username);
         }
 
         return $this->_user;

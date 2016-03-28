@@ -17,6 +17,10 @@ return [
             'identityClass' => 'common\models\Students',
             'enableAutoLogin' => true,
         ],
+        'employee' => [
+            'identityClass' => 'common\models\Employee',
+            'enableAutoLogin' => true,
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
