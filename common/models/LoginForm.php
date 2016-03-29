@@ -46,7 +46,7 @@ class LoginForm extends Model
     }
     public function authenticate($attribute, $params)
     {
-        $this->_identity = new UserIdentity($this->email,$this->password);
+        $this->_identity = new UserIdentity($this->email, $this->password);
         if(!$this->_identity->authenticate())
             $this->addError('password','Неправильное имя пользователя или пароль.');
     }
@@ -101,7 +101,6 @@ class LoginForm extends Model
         if ($this->validate()){
             return Yii::$app->user->login($this->getStudent());
         } else {
-            return Yii::$app->employee->login($this->getUser());
         }
     }
 

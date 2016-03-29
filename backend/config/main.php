@@ -21,13 +21,16 @@ return [
                 'admin',
                 'superadmin'
             ],
+        'itemFile' => '@common/components/rbac/items.php',
+        'assignmentFile' => '@common/components/rbac/assignments.php',
+        'ruleFile' => '@common/components/rbac/rules.php'
         ],
         'user' => [
             'identityClass' => 'common\models\Students',
             'enableAutoLogin' => true,
         ],
         'moderator' => [
-            'identityClass' => 'common\models\Students',
+            'identityClass' => 'common\models\Employee',
             'enableAutoLogin' => true,
         ],
 

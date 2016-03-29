@@ -344,4 +344,17 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function afterSave($insert, $changedAttributes)
+     {
+         parent::afterSave($insert, $changedAttributes);
+         // установка роли пользователя
+         $auth = Yii::$app->authManager;
+         $name = $this->role ? $this->role : self::ROLE_USER;
+         $role = $auth->getRole($name);
+         if (!$insert) {
+             $auth->revokeAll($this->id);
+         }
+         $auth->assign($role, $this->id);
+     }
 }

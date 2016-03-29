@@ -13,8 +13,21 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+    'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => [
+                'user',
+                'moderator',
+                'admin',
+                'superadmin'
+            ],
+        ],
         'user' => [
             'identityClass' => 'common\models\Students',
+            'enableAutoLogin' => true,
+        ],
+        'moderator' => [
+            'identityClass' => 'common\models\Employee',
             'enableAutoLogin' => true,
         ],
         'log' => [

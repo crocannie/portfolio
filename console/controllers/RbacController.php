@@ -1,10 +1,10 @@
 <?php
 
-namespace app\commands;
+namespace console\controllers;
  
 use Yii;
 use yii\console\Controller;
-use app\components\rbac\GroupRule;
+use common\components\rbac\GroupRule;
 use yii\rbac\DbManager;
  
 /**
@@ -16,6 +16,7 @@ class RbacController extends Controller
      * Initial RBAC action
      * @param integer $id Superadmin ID
      */
+
     public function actionInit($id = null)
     {
         $auth = new DbManager;
