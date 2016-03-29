@@ -13,14 +13,24 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+    'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => [
+                'user',
+                'moderator',
+                'admin',
+                'superadmin'
+            ],
+        ],
         'user' => [
             'identityClass' => 'common\models\Students',
             'enableAutoLogin' => true,
         ],
-        'employee' => [
-            'identityClass' => 'common\models\Employee',
+        'moderator' => [
+            'identityClass' => 'common\models\Students',
             'enableAutoLogin' => true,
         ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
