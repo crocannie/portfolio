@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php } else{ ?>
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
                 <?php } ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'password_hash')->passwordInput() ?>
 
                 <div style="color:#999;margin:1em 0">
                     Если забыли пароль, можно <?= Html::a('восстановить', ['site/request-password-reset']) ?>.

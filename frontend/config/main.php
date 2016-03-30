@@ -17,19 +17,19 @@ return [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => [
                 'user',
-                'moderator',
-                'admin',
-                'superadmin'
+                // 'moderator',
+                // 'admin',
+                // 'superadmin'
             ],
         ],
         'user' => [
-            'identityClass' => 'common\models\Students',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
-        'moderator' => [
-            'identityClass' => 'common\models\Employee',
-            'enableAutoLogin' => true,
-        ],
+        // 'moderator' => [
+        //     'identityClass' => 'common\models\Employee',
+        //     'enableAutoLogin' => true,
+        // ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

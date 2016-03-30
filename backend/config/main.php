@@ -17,7 +17,7 @@ return [
             'class' => 'yii\rbac\DbManager',
             'defaultRoles' => [
                 'user',
-                'moderator',
+                // 'moderator',
                 'admin',
                 'superadmin'
             ],
@@ -26,7 +26,7 @@ return [
         'ruleFile' => '@common/components/rbac/rules.php'
         ],
         'user' => [
-            'identityClass' => 'common\models\Students',
+            'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],
         'moderator' => [

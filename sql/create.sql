@@ -14,6 +14,12 @@ create table universities(
 	foreign key(idCity) references cities(id)
 );
 
+create table users(
+	id integer primary key not null auto_increment,
+	login char(64) not null,
+	password char(128) not null,
+	role integer not null
+);
 --Студенты
 create table students (
 	id integer primary key not null auto_increment,
@@ -21,7 +27,7 @@ create table students (
 	firstName char(64) not null,
 	midleName char(64) not null,
 	idCity integer,
-	idUniversity integer,
+	idUniversity integer,		
 	idFacultet integer,
 	idNapravlenie integer,
 	idGroup integer,
@@ -31,6 +37,27 @@ create table students (
 	registrationCode char(64),
 	foreign key(idCity) references cities(id),
 	foreign key(idUniversity) references universities(id),
+	foreign key(idFacultet) references facultet(id),
+	foreign key(idNapravlenie) references napravlenie(id),	
+	foreign key(idGroup) references sgroup(id)
+);
+
+create table st(
+	idStudent integer,
+	secondName char(64) not null,
+	firstName char(64) not null,
+	midleName char(64) not null,
+	idCity integer,
+	idUniversity integer,
+	idFacultet integer,
+	idLevel integer,
+	kurs integer,
+	idNapravlenie integer,
+	idGroup integer,
+	foreign key(idStudent) references user(id),
+	foreign key(idCity) references cities(id),
+	foreign key(idLevel) references educationLevel(id),
+	foreign key(idStudent) references user(id),
 	foreign key(idFacultet) references facultet(id),
 	foreign key(idNapravlenie) references napravlenie(id),	
 	foreign key(idGroup) references sgroup(id)
