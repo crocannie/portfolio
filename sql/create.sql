@@ -43,7 +43,7 @@ create table students (
 );
 
 create table st(
-	idStudent integer,
+	idStudent integer primary key,
 	secondName char(64) not null,
 	firstName char(64) not null,
 	midleName char(64) not null,

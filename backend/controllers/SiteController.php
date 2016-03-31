@@ -4,9 +4,11 @@ namespace backend\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use common\models\LoginForm;
-use yii\filters\VerbFilter;
 
+use common\models\LoginForm;
+use common\models\User;
+
+use yii\filters\VerbFilter;
 /**
  * Site controller
  */
@@ -20,6 +22,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
+                'only' => ['logout', 'signup', 'about'],
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
@@ -29,6 +32,14 @@ class SiteController extends Controller
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                       'actions' => ['about'],
+                       'allow' => true,
+                       'roles' => ['@'],
+                       'matchCallback' => function ($rule, $action) {
+                            return User::isUserAdmin(Yii::$app->user->identity->email);
+                            }
                     ],
                 ],
             ],
@@ -60,13 +71,20 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+       if (!Yii::$app->user->isGuest) {
+            return $this->render('index', [
+                    'model' => $model,
+            ]);
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            return $this->goBack();
+        $loginWithEmail = Yii::$app->params['loginWithEmail'];
+        
+        $model = $loginWithEmail ? new LoginForm(['scenario'=>'loginWithEmail']) : new LoginForm();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->loginAdmin()) {
+                    return $this->render('index', [
+                    'model' => $model,
+            ]);
         } else {
             return $this->render('login', [
                 'model' => $model,

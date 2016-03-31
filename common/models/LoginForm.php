@@ -34,7 +34,7 @@ class LoginForm extends Model
         return [
             // username and password are both required
             //[['username', 'password'], 'required'],
-            [['username', 'password_hash'], 'required','on'=>'default'],
+            [['password_hash'], 'required','on'=>'default'],
             [['email', 'password_hash'], 'required','on'=>'loginWithEmail'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
@@ -152,5 +152,31 @@ class LoginForm extends Model
                 }
         }
         return $this->_user;
+    }
+
+    public function loginAdmin()
+    {
+        if ($this->validate() && User::isUserAdmin($this->email)) {
+            return Yii::$app->user->login($this->getUser());
+        } else {
+            return false;
+        }
+    }
+
+    public function loginStudent()
+    {
+        if ($this->validate() && User::isStudent($this->email)) {
+            return Yii::$app->user->login($this->getUser());
+        } else {
+            return false;
+        }
+    }
+    public function loginSotrudnik()
+    {
+        if ($this->validate() && User::isSotrudnik($this->email)) {
+            return Yii::$app->user->login($this->getUser());
+        } else {
+            return false;
+        }
     }
 }

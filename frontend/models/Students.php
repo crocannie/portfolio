@@ -1,53 +1,39 @@
 <?php
 
 namespace frontend\models;
+
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 use yii\base\Security;
-
 use Yii;
 
-/**
+use frontend\models\Universities;
+use frontend\models\Group;
+use frontend\models\Napravlenie;
+use frontend\models\Facultet;/**
  * This is the model class for table "students".
  *
- * @property integer $id
+ * @property integer $idStudent
  * @property string $secondName
  * @property string $firstName
  * @property string $midleName
  * @property integer $idCity
  * @property integer $idUniversity
  * @property integer $idFacultet
+ * @property integer $idLevel
+ * @property integer $kurs
  * @property integer $idNapravlenie
  * @property integer $idGroup
- * @property string $email
- * @property string $password
- * @property string $registrationCode
- * @property integer $login
  *
- * @property Achievements[] $achievements
- * @property AchievementsKTD[] $achievementsKTDs
- * @property AchievementsPresident[] $achievementsPresidents
- * @property AchievementsSport[] $achievementsSports
- * @property Articles[] $articles
- * @property Grants[] $grants
- * @property KtdParticipation[] $ktdParticipations
- * @property Patents[] $patents
- * @property PublicPerformance[] $publicPerformances
- * @property Rni[] $rnis
- * @property SocialParticipation[] $socialParticipations
- * @property SportParticipation[] $sportParticipations
+ * @property User $idStudent0
  * @property Cities $idCity0
- * @property Universities $idUniversity0
+ * @property User $idStudent1
  * @property Facultet $idFacultet0
  * @property Napravlenie $idNapravlenie0
  * @property Sgroup $idGroup0
  */
 class Students extends \yii\db\ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
-
-    //public $password;
     /**
      * @inheritdoc
      */
@@ -56,148 +42,46 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
         return 'students';
     }
 
-/*    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }*/
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['idCity', 'idUniversity', 'idFacultet', 'idNapravlenie', 'idGroup', 'login'], 'integer'],
-            [['email', 'password'], 'required'],
-            //[['email', 'password'], 'filter', 'filter'=>'trim'],
-            [['email'], 'email'],
-            [['email'], 'unique', 'message'=>'Почта уже используется'],
-            [['secondName', 'firstName', 'midleName', 'email', 'password', 'registrationCode'], 'string', 'max' => 64]
-        ];    
+            [['idStudent', 'idCity', 'idUniversity', 'idFacultet', 'idLevel', 'kurs', 'idNapravlenie', 'idGroup'], 'integer'],
+            // [['secondName', 'firstName', 'midleName', 'idLevel'], 'required'],
+            [['secondName', 'firstName', 'midleName'], 'string', 'max' => 64],
+            [['secondName'], 'required'],
+
+        ];
     }
 
     /**
      * @inheritdoc
      */
-
-
-
-
-
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'idStudent' => 'Id Student',
             'secondName' => 'Second Name',
             'firstName' => 'First Name',
             'midleName' => 'Midle Name',
             'idCity' => 'Id City',
             'idUniversity' => 'Id University',
             'idFacultet' => 'Id Facultet',
+            'idLevel' => 'Id Level',
+            'kurs' => 'Kurs',
             'idNapravlenie' => 'Id Napravlenie',
             'idGroup' => 'Id Group',
-            'email' => 'Email',
-            'password' => 'Пароль',
-            'registrationCode' => 'Registration Code',
-            'login' => 'Login',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAchievements()
+    public function getIdStudent0()
     {
-        return $this->hasMany(Achievements::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAchievementsKTDs()
-    {
-        return $this->hasMany(AchievementsKTD::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAchievementsPresidents()
-    {
-        return $this->hasMany(AchievementsPresident::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAchievementsSports()
-    {
-        return $this->hasMany(AchievementsSport::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getArticles()
-    {
-        return $this->hasMany(Articles::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getGrants()
-    {
-        return $this->hasMany(Grants::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getKtdParticipations()
-    {
-        return $this->hasMany(KtdParticipation::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPatents()
-    {
-        return $this->hasMany(Patents::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPublicPerformances()
-    {
-        return $this->hasMany(PublicPerformance::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRnis()
-    {
-        return $this->hasMany(Rni::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSocialParticipations()
-    {
-        return $this->hasMany(SocialParticipation::className(), ['idStudent' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSportParticipations()
-    {
-        return $this->hasMany(SportParticipation::className(), ['idStudent' => 'id']);
+        return $this->hasOne(User::className(), ['id' => 'idStudent']);
     }
 
     /**
@@ -211,9 +95,9 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdUniversity0()
+    public function getIdStudent1()
     {
-        return $this->hasOne(Universities::className(), ['id' => 'idUniversity']);
+        return $this->hasOne(User::className(), ['id' => 'idStudent']);
     }
 
     /**
@@ -240,54 +124,6 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasOne(Sgroup::className(), ['id' => 'idGroup']);
     }
 
-/*    public function signup()
-    {
-        if (!$this->validate()) {
-            return null;
-        }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        
-        return $user->save() ? $user : null;
-        
-
-        $student = new Students();
-        $student->email = $this->email;
-        $student->setPassword($this->password);
-     //   $student->generateAuthKey();
-
-        return $student->save() ? $student : null;
-    }*/
-
-    public static function findByUsername($email)
-    {
-       // return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
-        return static::findOne([
-                'email'=>$email
-            ]);
-    }
-
-    public static function findByEmail($email)
-    {
-        return static::findOne([
-                'email'=>$email
-            ]);
-    }
-
-//Авторизация
-    public function setPassword($password)
-    {
-        $this->password = Yii::$app->getSecurity()->generatePasswordHash($password);
-    }
-
-    public function validatePassword($password)
-    {
-        return Yii::$app->security->validatePassword($password, $this->password);
-    }
 
     public static function findIdentity($id)
     {
@@ -296,12 +132,6 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
         ]);
     }
 
-    /**
-     * Finds an identity by the given token.
-     *
-     * @param string $token the token to be looked for
-     * @return IdentityInterface|null the identity object that matches the given token.
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         return static::findOne(['access_token' => $token]);
@@ -312,7 +142,7 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->idStudent;
     }
 
     /**

@@ -46,6 +46,14 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions'=>['about'],
+                        'allow'=>true,
+                        'roles'=>['@'],
+                        'matchCallback'=>function($rule, $action){
+                            return User::isSotrudnik(Yii::$app->user->identify->email);
+                        }
+                    ],
                 ],
             ],
             'verbs' => [
@@ -101,10 +109,16 @@ class SiteController extends Controller
         
         $model = $loginWithEmail ? new LoginForm(['scenario'=>'loginWithEmail']) : new LoginForm();
         
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+            if ($model->loginStudent()){
                     return $this->render('index', [
                     'model' => $model,
-            ]);
+                    ]);
+            } elseif ($model->loginSotrudnik()) {
+                    return $this->render('index', [
+                    'model' => $model,
+                    ]);            
+                }
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -162,12 +176,59 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+    // public function actionSignup()
+    // {
+    //     $model = new SignupForm();
+    //     if ($model->load(Yii::$app->request->post()) && $model->validate()){
+    //         if($student = $model->signup()){
+    //             if(Yii::$app->getUser()->login($student)){
+    //                 return $this->render('index', [
+    //                 'model' => $model,
+    //         ]);
+    //            // return $this->goHome;  
+    //            /* return $this->render('index',[
+    //                 'model'=>$model,
+    //                 ]);   */  
+    //             }           
+    //         }
+    //         else{
+    //             Yii::$app->session->setFlash('error', 'Ошибка при регистрации');
+    //             return $this->refresh();
+    //         }
+    //     }
+    //     return $this->render('signup',[
+    //         'model'=>$model,
+    //         ]);
+    // }
+
+    // public function actionSignup()
+    // {
+    //     $model = new SignupForm();
+    //     $student = new Students();
+
+    //     if (isset($_POST['User']) && isset($_POST['Students'])){
+
+    //         // $model->atttibutes = $_POST['User'];
+    //         // $student->atttibutes = $_POST['Student'];
+    //         if ($model->validate() && $student->validate()){
+    //             $model->save(false);
+    //             $student->idStudent = $model->id;
+    //             $student->save(false);
+    //             $this->redirect(array('index', 'id'=>$model->id));
+    //         }
+    //     }
+    //     $this->render('signup', array(
+    //         'model'=>$model, 'student'=>$student,
+    //         ));
+    // }
+    
     public function actionSignup()
     {
         $model = new SignupForm();
+        // $student = new Students();
         if ($model->load(Yii::$app->request->post()) && $model->validate()){
-            if($student = $model->signup()){
-                if(Yii::$app->getUser()->login($student)){
+            if($user = $model->signup()){
+                if(Yii::$app->getUser()->login($user)){
                     return $this->render('index', [
                     'model' => $model,
             ]);
@@ -186,7 +247,6 @@ class SiteController extends Controller
             'model'=>$model,
             ]);
     }
-
     /**
      * Requests password reset.
      *

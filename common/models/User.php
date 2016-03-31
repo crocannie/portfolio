@@ -27,6 +27,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    
+    const ROLE_ADMIN = 20;
+    const ROLE_STUDENT = 10;
+    const ROLE_SOTRUDNIK = 15;
+
     public static function tableName()
     {
         return 'user';
@@ -41,10 +46,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             // [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at', 'role'], 'required'],
             [['password_hash', 'email'], 'required'],
             [['status', 'created_at', 'updated_at', 'role'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            ['role', 'in', 'range' => [self::ROLE_STUDENT, self::ROLE_ADMIN, self::ROLE_SOTRUDNIK]],
+            [[ 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
             [['email'], 'unique'],
+            [['email'], 'email'],
             [['password_reset_token'], 'unique']
         ];
     }
@@ -68,6 +74,35 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
+    public static function isUserAdmin($email)
+    {
+        if (static::findOne(['email' => $email, 'role' => self::ROLE_ADMIN]))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function isStudent($email)
+    {
+        if (static::findOne(['email' => $email, 'role' => self::ROLE_STUDENT]))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function isSotrudnik($email)
+    {
+        if (static::findOne(['email' => $email, 'role' => self::ROLE_SOTRUDNIK]))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -76,13 +111,13 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->hasMany(Students::className(), ['idStudent' => 'id']);
     }
 
-    public static function findByUsername($username)
-    {
-       // return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
-        return static::findOne([
-                'username'=>$username
-            ]);
-    }
+    // public static function findByUsername($username)
+    // {
+    //    // return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    //     return static::findOne([
+    //             'username'=>$username
+    //         ]);
+    // }
 
     public static function findByEmail($email)
     {
