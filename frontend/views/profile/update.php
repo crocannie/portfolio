@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Students */
-$name = (Yii::$app->user->identity->firstName.' '.Yii::$app->user->identity->secondName);
+$name = ($model->firstName.' '.$model->secondName);
 $this->title = 'Редактирование профиля';
 //$this->params['breadcrumbs'][] = ['label' => 'Students', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Профиль', 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Профиль', 'url' => ['view', 'id' => $model->idStudent]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="students-update">

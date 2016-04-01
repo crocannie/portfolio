@@ -13,6 +13,7 @@ use common\widgets\PanelMenu;
 use yii\bootstrap\Carousel;
 use yii\helpers\Url;
 use yii\helpers\BaseUrl;
+use common\models\User;
 
 AppAsset::register($this);
 ?>
@@ -55,9 +56,11 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
-        //$menuItems[] = ['label' => 'Личный кабинет', 'url' => ['/site/login']];
     } else {
-        // $menuItems[] = ['label' => 'Личный кабинет', 'url' => urldecode('index.php?r=student/view&id='.Yii::$app->user->identity->id)];
+        if (User::isSotrudnik(Yii::$app->user->identity->email)){
+                    $menuItems[] = ['label' => 'dfdf кабинет', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
+
+        }
         $menuItems[] = ['label' => 'Личный кабинет', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
         $menuItems[] = '<li>'
         // <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Добавить</a></li>

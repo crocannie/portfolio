@@ -10,7 +10,7 @@ use common\models\Students;
 // $model->findModel(Yii::$app->user->identity->id);
 //$model->getId();
 
-$name = (Yii::$app->user->identity->firstName.' '.Yii::$app->user->identity->secondName);
+$name = ($model->firstName.' '.$model->secondName);
 $this->title = $name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2><?= Html::encode($this->title) ?></h2>
 
     <p>
-        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Редактировать', ['update', 'id' => $model->idStudent], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -29,12 +29,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'secondName',
             'firstName',
             'midleName',
-            'idCity',
-            'idUniversity',
-            'idFacultet',
-            'idNapravlenie',
-            'idGroup',
-            'email:email',
+            'idCity'=>[
+                    'label'=>'Город',
+                    'value' => $model->idCity0->name,
+            ],
+            'idUniversity'=>[
+                    'label'=>'Учебное заведение',
+                    'value' => $model->idUniversity0->name,
+            ],
+            'idFacultet'=>[
+                    'label'=>'Факультет',
+                    'value' => $model->idFacultet0->name,
+            ],
+            'idNapravlenie'=>[
+                    'label'=>'Направление',
+                    'value' => $model->idNapravlenie0->shifr.' '.$model->idNapravlenie0->name,
+            ],
+            'idGroup'=>[
+                    'label'=>'Группа',
+                    'value' => $model->idGroup0->name,
+            ],
+            'idLevel'=>[
+                    'label'=>'Степень',
+                    'value' => $model->idLevel0->name.', '.$model->kurs.' курс',
+            ],
 /*          'password',
             'registrationCode',
             'login',

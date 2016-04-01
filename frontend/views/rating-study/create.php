@@ -94,7 +94,8 @@ td {
              <?= $form->field($model, 'mark')->textInput(['style'=>'width:500px'])->label(false)  ?>
     	 </td>
       </tr>
-<tr>
+      
+      <tr>
         <?php
           // $ret = $achievement->getAchievement($idStudent);
                  $ret = AchievementsStudy::getAll($idStudent);
@@ -184,12 +185,6 @@ td {
     
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
 
-    <div class="alert alert-success" style="width: 200px; text-align: center; height: 50px">
-      <h4>Ваш рейтинг: <?php 
-          echo Study::getR1($idStudent);
-        ?>
-      </h4>
-    </div>
 	<?php
 	if ($test != 0){ ;?>
 	        <div class="alert alert-info" style="width: 200px; text-align: center; height: 50px">

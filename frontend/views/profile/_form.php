@@ -9,6 +9,8 @@ use frontend\models\Universities;
 use frontend\models\Facultet;
 use frontend\models\Napravlenie;
 use frontend\models\Group;
+use common\models\User;
+use common\models\EducationLevel;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Students */
@@ -78,9 +80,20 @@ use frontend\models\Group;
             [
                 'style'=>'width:500px',
             ]); ?>
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
 
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+    <?= $form->field($model, 'idLevel')->dropDownList(
+        ArrayHelper::map(EducationLevel::find()->all(), 'id', 'name'), 
+            [
+                'style'=>'width:500px',
+            ]); ?>
+
+    <?= $form->field($model, 'kurs')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+
+
+<?php
+    $student = Yii::$app->user->identity->id;
+?>
+    <?= $form->field(User::findOne($student), 'email')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

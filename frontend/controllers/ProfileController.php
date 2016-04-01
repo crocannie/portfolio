@@ -1,12 +1,13 @@
 <?php 
 namespace frontend\controllers;
  
-use app\modules\user\models\User;
+// use app\modules\user\models\User;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use Yii;
 
 use common\models\Students;
+use common\models\User;
 
  
 class ProfileController extends Controller
@@ -48,7 +49,7 @@ class ProfileController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->idStudent]);
         } else {
             return $this->render('update', [
                 'model' => $model,

@@ -2,11 +2,12 @@
 
 namespace common\models;
 
-use common\models\Universities;
-use common\models\Group;
-use common\models\Napravlenie;
-use common\models\Facultet;
-use common\models\Sgroup;
+use frontend\models\Facultet;
+use frontend\models\Napravlenie;
+use frontend\models\Group;
+use common\models\EducationLevel;
+
+use frontend\models\Universities;
 
 use Yii;
 
@@ -61,16 +62,16 @@ class Students extends \yii\db\ActiveRecord
     {
         return [
             'idStudent' => 'Id Student',
-            'secondName' => 'Second Name',
-            'firstName' => 'First Name',
-            'midleName' => 'Midle Name',
-            'idCity' => 'Id City',
-            'idUniversity' => 'Id University',
-            'idFacultet' => 'Id Facultet',
-            'idLevel' => 'Id Level',
-            'kurs' => 'Kurs',
-            'idNapravlenie' => 'Id Napravlenie',
-            'idGroup' => 'Id Group',
+            'secondName' => 'Фамилия',
+            'firstName' => 'Имя',
+            'midleName' => 'Отчество',
+            'idCity' => 'Город',
+            'idUniversity' => 'Учебное заведение',
+            'idFacultet' => 'Факультет',
+            'idLevel' => 'Степень',
+            'kurs' => 'Курс',
+            'idNapravlenie' => 'Направление',
+            'idGroup' => 'Группа',
         ];
     }
 
@@ -90,6 +91,15 @@ class Students extends \yii\db\ActiveRecord
         return $this->hasOne(Cities::className(), ['id' => 'idCity']);
     }
 
+    public function getIdUniversity0()
+    {
+        return $this->hasOne(Universities::className(), ['id' => 'idCity']);
+    }
+
+    public function getIdFacultet0()
+    {
+        return $this->hasOne(Facultet::className(), ['id' => 'idCity']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -101,10 +111,7 @@ class Students extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdFacultet0()
-    {
-        return $this->hasOne(Facultet::className(), ['id' => 'idFacultet']);
-    }
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -120,5 +127,10 @@ class Students extends \yii\db\ActiveRecord
     public function getIdGroup0()
     {
         return $this->hasOne(Sgroup::className(), ['id' => 'idGroup']);
+    }
+
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EducationLevel::className(), ['id' => 'idLevel']);
     }
 }
