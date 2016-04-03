@@ -45,8 +45,8 @@ class Sgroup extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'idNapravlenie' => 'Id Napravlenie',
+            'name' => 'Название группы',
+            'idNapravlenie' => 'Направление подготовки',
         ];
     }
 

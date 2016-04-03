@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $all = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
-$form = urldecode('index.php?r=form/ud&id='.Yii::$app->user->identity->id); 
+$form = urldecode('index.php?r=rating-study/create'); 
 
 $this->title = 'Достижения';
 

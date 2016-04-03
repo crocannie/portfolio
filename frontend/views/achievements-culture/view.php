@@ -46,8 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label'=>'Вид полученного документа',
                     'value' => $model->idDocumentType0->name,
             ],
-            // 'idDocument',
-            // 'idStudent',
+
         ],
     ]) ?>
     <label>Файл: </label>

@@ -48,22 +48,25 @@ AppAsset::register($this);
     ]);?>
     <?php
     $menuItems = [
-        ['label' => 'Главная', 'url' => ['/site/index']],
-        ['label' => 'О системе', 'url' => ['/site/about']],
-        ['label' => 'Контакты', 'url' => ['/site/contact']],
+        // ['label' => 'Главная', 'url' => ['/site/index']],
+        // ['label' => 'О системе', 'url' => ['/site/about']],
+        // ['label' => 'Контакты', 'url' => ['/site/contact']],
     ];
 
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
     } else {
+        if (User::isStudent(Yii::$app->user->identity->email)){
+            $menuItems[] = ['label' => 'Достижения', 'url' => urldecode('index.php?r=site/activities') ];
+            $menuItems[] = ['label' => 'Заявления', 'url' => urldecode('index.php?r=rating-study/create')];
+        }
         if (User::isSotrudnik(Yii::$app->user->identity->email)){
-                    $menuItems[] = ['label' => 'dfdf кабинет', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
-
+            $menuItems[] = ['label' => 'Хз', 'url' => urldecode('index.php?r=site/activities') ];
+            $menuItems[] = ['label' => 'Хз', 'url' => urldecode('index.php?r=rating-study/create')];
         }
         $menuItems[] = ['label' => 'Личный кабинет', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
         $menuItems[] = '<li>'
-        // <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Добавить</a></li>
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
                 'Выход '.Yii::$app->user->identity->id,

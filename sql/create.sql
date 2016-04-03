@@ -42,6 +42,15 @@ create table students (
 	foreign key(idGroup) references sgroup(id)
 );
 
+create table valuesRating (
+	id integer primary key not null auto_increment,
+	idFacultet integer not null,
+	idTable integer not null,
+	idItem integer not null,
+	value integer,
+	foreign key(idFacultet) references facultet(id),
+);
+
 create table st(
 	idStudent integer primary key,
 	secondName char(64) not null,
@@ -63,6 +72,20 @@ create table st(
 	foreign key(idGroup) references sgroup(id)
 );
 
+create table sotrudnik(
+	idSotrudnik integer primary key,
+	secondName char(64) not null,
+	firstName char(64) not null,
+	midleName char(64) not null,
+	idCity integer,
+	idUniversity integer,
+	idFacultet integer,
+	dolzn char(64) not null,
+	foreign key(idSotrudnik) references user(id),
+	foreign key(idCity) references cities(id),
+	foreign key(idUniversity) references universities(id),
+	foreign key(idFacultet) references facultet(id)
+);
 --Факультеты
 create table facultet(
 	id integer primary key not null auto_increment,

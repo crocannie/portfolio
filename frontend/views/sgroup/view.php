@@ -5,16 +5,16 @@ use yii\widgets\DetailView;
 use common\models\Sotrudnik;
 
 /* @var $this yii\web\View */
-/* @var $model frontend\models\Napravlenie */
+/* @var $model common\models\Sgroup */
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Направления подготовки', 'url' => urldecode('index.php?r=napravlenie/index&id='.$idFacultet)];
+$this->params['breadcrumbs'][] = ['label' => 'Группы', 'url' => urldecode('index.php?r=sgroup/index&id='.$idFacultet)];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="napravlenie-view">
+<div class="sgroup-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -33,11 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             // 'id',
-            'shifr',
             'name',
-            'idFacultet'=>[                    
-                    'label'=>'Факультет',
-                    'value' => $model->idFacultet0->name,
+            'idNapravlenie'=>[                    
+                    'label'=>'Направление подготовки',
+                    'value' => $model->idNapravlenie0->name.' '.$model->idNapravlenie0->name,
             ],
         ],
     ]) ?>

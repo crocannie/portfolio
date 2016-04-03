@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Napravlenies';
+$this->title = 'Направления подготовки';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="napravlenie-index">
@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Napravlenie', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить направление', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -22,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'shifr',
             'name',
-            'idFacultet',
+            // 'idFacultet',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

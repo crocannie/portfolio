@@ -1,19 +1,19 @@
 <?php
 
 namespace frontend\controllers;
+use common\models\StatusEvent;
 
 use Yii;
-use frontend\models\Napravlenie;
+use common\models\rating\Rating;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\Sotrudnik;
 
 /**
- * NapravlenieController implements the CRUD actions for Napravlenie model.
+ * RatingController implements the CRUD actions for Rating model.
  */
-class NapravlenieController extends Controller
+class RatingController extends Controller
 {
     public function behaviors()
     {
@@ -28,23 +28,27 @@ class NapravlenieController extends Controller
     }
 
     /**
-     * Lists all Napravlenie models.
+     * Lists all Rating models.
      * @return mixed
      */
     public function actionIndex($id)
     {
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => Rating::find(),
+        // ]);
         $dataProvider = new ActiveDataProvider([
-            'query' => Napravlenie::find()
-                ->where(['idFacultet'=>$id])
+            'query' => Rating::find()
+                        ->select('statusEvent.name, statusEvent.id, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('statusEvent, valuesRating')
+                        ->where(array('and', 'valuesRating.idFaculte'=>$id, 'statusEvent.id = valuesRating.idItem'))
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single Napravlenie model.
+     * Displays a single Rating model.
      * @param integer $id
      * @return mixed
      */
@@ -53,19 +57,20 @@ class NapravlenieController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+
     }
 
     /**
-     * Creates a new Napravlenie model.
+     * Creates a new Rating model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Napravlenie();
+        $model = new Rating();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'id' => $model->idFacultet]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -74,7 +79,7 @@ class NapravlenieController extends Controller
     }
 
     /**
-     * Updates an existing Napravlenie model.
+     * Updates an existing Rating model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -93,55 +98,31 @@ class NapravlenieController extends Controller
     }
 
     /**
-     * Deletes an existing Napravlenie model.
+     * Deletes an existing Rating model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $ids = Yii::$app->user->identity->id;
-        $sotrudnik = Sotrudnik::findOne($ids);
-        $idFacultet = $sotrudnik->idFacultet0->id;
-
         $this->findModel($id)->delete();
-        return $this->redirect(['index', 'id' => $idFacultet]);
+
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Napravlenie model based on its primary key value.
+     * Finds the Rating model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Napravlenie the loaded model
+     * @return Rating the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Napravlenie::findOne($id)) !== null) {
+        if (($model = Rating::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    public function actionLists($id)
-    {
-        $countNapravlenie = Napravlenie::find()
-            ->where(['idFacultet'=>$id])
-            ->count();
-
-        $napravlenie = Napravlenie::find()
-            ->where(['idFacultet'=>$id])
-            ->all();
-
-        if($countNapravlenie > 0)
-        {
-            foreach ($napravlenie as $row){
-                echo "<option value='".$row->id."'>".$row->shifr." ".$row->name."</option>";
-            }
-        }
-        else {
-            echo "<option>-</option>";
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\Students;
 use Yii;
 
 /**
@@ -105,7 +106,7 @@ class AchievementsCulture extends \yii\db\ActiveRecord
      */
     public function getIdStudent0()
     {
-        return $this->hasOne(Students::className(), ['id' => 'idStudent']);
+        return $this->hasOne(Students::className(), ['idStudent' => 'idStudent']);
     }
 
     //Все достижения

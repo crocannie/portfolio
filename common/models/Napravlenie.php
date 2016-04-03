@@ -47,8 +47,8 @@ class Napravlenie extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'shifr' => 'Shifr',
-            'name' => 'Name',
+            'shifr' => 'Шифр',
+            'name' => 'Название',
             'idFacultet' => 'Id Facultet',
         ];
     }
