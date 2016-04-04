@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\Sotrudnik;
+use common\models\Students;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,7 +12,9 @@ $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
 $this->title = 'Группы';
+$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="sgroup-index">
 
@@ -34,6 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label'=>'Направление подготовки',
                     'value' => function ($model, $index, $widget) {
                         return $model->idNapravlenie0->shifr.' '.$model->idNapravlenie0->name ;},
+            ],
+            'count'=>[
+                    'class' => \yii\grid\DataColumn::className(),
+                    'format' => 'html',
+                    'label'=>'Количество студентов',
+                    'value' => function ($model, $index, $widget) {
+                        return count(Students::find()->where(['idGroup'=>$model->id])->all());},
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

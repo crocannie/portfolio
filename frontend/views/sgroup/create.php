@@ -12,7 +12,8 @@ $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
 $this->title = 'Добавить группу';
-$this->params['breadcrumbs'][] = ['label' => 'Направления подготовки', 'url' => urldecode('index.php?r=sgroup/index&id='.$idFacultet)];
+$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')  ];
+$this->params['breadcrumbs'][] = ['label' => 'Группы', 'url' => urldecode('index.php?r=sgroup/index&id='.$idFacultet)];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="sgroup-create">

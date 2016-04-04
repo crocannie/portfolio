@@ -19,6 +19,7 @@ class Group extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $count; 
     public static function tableName()
     {
         return 'sgroup';
@@ -31,7 +32,7 @@ class Group extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'idNapravlenie'], 'required'],
-            [['idNapravlenie'], 'integer'],
+            [['idNapravlenie', 'count'], 'integer'],
             [['name'], 'string', 'max' => 128]
         ];
     }
@@ -45,6 +46,7 @@ class Group extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'idNapravlenie' => 'Id Napravlenie',
+            'count' =>'count',
         ];
     }
 

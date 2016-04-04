@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 use common\models\StatusEvent;
+use common\models\EventType;
 
 use Yii;
 use common\models\rating\Rating;
@@ -38,7 +39,7 @@ class RatingController extends Controller
         // ]);
         $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('statusEvent.name, statusEvent.id, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('statusEvent, valuesRating')
                         ->where(array('and', 'valuesRating.idFaculte'=>$id, 'statusEvent.id = valuesRating.idItem'))
         ]);
@@ -124,5 +125,61 @@ class RatingController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionStatus($id)
+    {
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => Rating::find(),
+        // ]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('statusEvent, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>1])
+        ]);
+        return $this->render('status', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionContest($id)
+    {
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => Rating::find(),
+        // ]);
+        $table = Rating::find()->where(['idTable'=>1]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('eventType, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'eventType.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>2])
+
+        ]);
+        return $this->render('contest', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionArticle($id)
+    {
+        // $dataProvider = new ActiveDataProvider([
+        //     'query' => Rating::find(),
+        // ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('typeArticle.name, typeArticle.id, valuesRating.idTable, valuesRating.idItem, valuesRating.value, valuesRating.idFacultet')
+                        ->from('typeArticle, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeArticle.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>3])
+
+        ]);
+        return $this->render('article', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 }

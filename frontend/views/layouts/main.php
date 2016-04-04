@@ -14,6 +14,7 @@ use yii\bootstrap\Carousel;
 use yii\helpers\Url;
 use yii\helpers\BaseUrl;
 use common\models\User;
+use common\models\Sotrudnik;
 
 AppAsset::register($this);
 ?>
@@ -62,8 +63,10 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Заявления', 'url' => urldecode('index.php?r=rating-study/create')];
         }
         if (User::isSotrudnik(Yii::$app->user->identity->email)){
-            $menuItems[] = ['label' => 'Хз', 'url' => urldecode('index.php?r=site/activities') ];
-            $menuItems[] = ['label' => 'Хз', 'url' => urldecode('index.php?r=rating-study/create')];
+            //$id = Yii::$app->user->identity->id;
+            $sotrudnik = Sotrudnik::findOne(Yii::$app->user->identity->id);
+            $idFacultet = $sotrudnik->idFacultet0->id;
+            $menuItems[] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat') ];
         }
         $menuItems[] = ['label' => 'Личный кабинет', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
         $menuItems[] = '<li>'

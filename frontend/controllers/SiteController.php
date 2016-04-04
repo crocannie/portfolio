@@ -316,4 +316,9 @@ class SiteController extends Controller
     {
         return $this->render('activities');
     }
+
+    public function actionDekanat()
+    {
+        return $this->render('dekanat');
+    }
 }
