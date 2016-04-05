@@ -34,36 +34,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       <li><a href=<?=$article?>>Виды статей</a></li>
     </ul><br>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
 
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn',
-                                'headerOptions' => ['width' => '50']
-],
-            // 'idFacultet',
-            // 'idTable',
-            // 'idItem',
-                'name'=>[
-                    'class' => \yii\grid\DataColumn::className(),
-                    'format' => 'html',
-                    'label'=>'Название',
-                    'value' => function ($model, $index, $widget) {
-                        return $model->name ;},
-                    'headerOptions' => ['width' => '50']
-                ], 
-                'value'=>[
-                    'class' => \yii\grid\DataColumn::className(),
-                    'format' => 'html',
-                    'label'=>'Значение',
-                    'value' => function ($model, $index, $widget) {
-                        return $model->value ;},
-                    'headerOptions' => ['width' => '50']
-                ],
-                ['class' => 'yii\grid\ActionColumn', 'template' => '{update}'],
-            // ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
 <?php
    //  echo "Test".'<br>';
    //  $id = Yii::$app->user->identity->id;
@@ -85,5 +56,98 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
    //                      ->where(['valuesRating.idFacultet'=>$idFacultet])
    //                      ->andwhere('statusEvent.id = valuesRating.idItem');
    //  echo count($test);
-?>
+
+?>  
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/w3.css">
+
+<style type="text/css">
+  table {
+    border-collapse: collapse; /*убираем пустые промежутки между ячейками*/
+    border: 1px solid #dddddd; /*устанавливаем для таблицы внешнюю границу серого цвета толщиной 1px*/
+  }
+  td, th {
+    border: 1px solid #dddddd;
+    padding: 10px;
+
+  }
+  th{
+    text-align: center;
+  }
+  li {
+    margin-left: 10px;
+  }
+  .zebra {
+    list-style: none;
+    border-left: 10px solid #FC7574;
+    padding: 0;
+    /*font-family: "Lucida Sans";*/
+  }
+  .zebra li {
+    padding: 10px;
+  }
+  .zebra li:nth-child(odd) {
+    background: #E1F1FF;
+  }
+  .zebra li:nth-child(even) {
+    background: white;
+  }
+  .zebra {
+    list-style: none;
+    border-left: 8px solid #7ba579;
+    padding: 10;
+    margin-left: 20px;
+/*    font-family: "Lucida Sans";
+*/  }
+  .zebra li {
+    padding: 1px;
+  }
+  .zebra li:nth-child(odd) {
+    background: white;
+  }
+  .zebra li:nth-child(even) {
+    background: white;
+  }
+</style>
+
+<h4>Критерий <b>Статус мероприятий</b> применяется при оценивании: </h4>
+<ul class="zebra">
+  <li>участия студента в мероприятиях</li>
+  <li>статуса издания публикаций</li>
+</ul><br>
+
+Используется в следующих направлениях деятельности:
+<ul class="zebra">
+  <li>учебная</li>
+  <li>научно-исследовательская</li>
+  <li>общественная</li>
+  <li>культурно-творческая</li>
+  <li>спортивная</li>
+</ul><br>
+
+<table  width="450" border="1" >
+  <col width="200" valign="top">
+  <col width="200" valign="top">
+  <col width="50" valign="top">
+    <tr>
+      <th>Название</th>
+      <th>Значение</th>
+      <th></th>
+    </tr>
+      <?php foreach ($model as $row){?>
+    <tr>        
+      <td>
+        <?php
+          echo $row['name'].'<br>';
+        ?>
+      </td>
+      <td>
+        <?php echo $row['value'].'<br>'; ?>
+      </td>
+      <td>
+        <?php echo Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $row['id']]).'<br>'; }?>
+      </td>
+    </tr>
+</table>
+
 </div>

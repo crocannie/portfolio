@@ -139,8 +139,16 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>1])
         ]);
+        $sql = 'select statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet from statusEvent, valuesRating where valuesRating.idFacultet = :id and statusEvent.id = valuesRating.idItem and valuesRating.idTable = 1';
+        $model = Yii::$app->db->createCommand($sql)
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+
+        // return $this->render('status', [
+        //     'dataProvider' => $dataProvider,
+        // ]);
         return $this->render('status', [
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 

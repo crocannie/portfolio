@@ -1,0 +1,38 @@
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => 
+        [
+            [
+              'class' => 'yii\grid\SerialColumn',
+              'headerOptions' => ['width' => '50']
+            ],
+            // 'idFacultet',
+            // 'idTable',
+            // 'idItem',
+            'name'=>
+              [
+                'class' => \yii\grid\DataColumn::className(),
+                'format' => 'html',
+                'label'=>'Название',
+                'value' => function ($model, $index, $widget) {
+                          return $model->name ;},
+                'headerOptions' => ['width' => '300']
+              ], 
+            'value'=>
+              [
+                'class' => \yii\grid\DataColumn::className(),
+                'format' => 'html',
+                'label'=>'Значение',
+                'value' => function ($model, $index, $widget) {
+                          return $model->value ;},
+                'headerOptions' => ['width' => '200']
+              ],
+              [
+                'class' => 'yii\grid\ActionColumn', 
+                'template' => '{update}',
+                // 'headerOptions' => ['width' => '10']                
+               ],
+            // ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
