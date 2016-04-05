@@ -36,39 +36,54 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'idFacultet',
-            'idTable',
-            'idItem',
-            'value',
-            'name',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\SerialColumn',
+                                'headerOptions' => ['width' => '50']
+],
+            // 'idFacultet',
+            // 'idTable',
+            // 'idItem',
+                'name'=>[
+                    'class' => \yii\grid\DataColumn::className(),
+                    'format' => 'html',
+                    'label'=>'Название',
+                    'value' => function ($model, $index, $widget) {
+                        return $model->name ;},
+                    'headerOptions' => ['width' => '50']
+                ], 
+                'value'=>[
+                    'class' => \yii\grid\DataColumn::className(),
+                    'format' => 'html',
+                    'label'=>'Значение',
+                    'value' => function ($model, $index, $widget) {
+                        return $model->value ;},
+                    'headerOptions' => ['width' => '50']
+                ],
+                ['class' => 'yii\grid\ActionColumn', 'template' => '{update}'],
+            // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php
-    echo "Test".'<br>';
-    $id = Yii::$app->user->identity->id;
-    $sotrudnik = Sotrudnik::findOne($id);
-    $idFacultet = $sotrudnik->idFacultet0->id;
-    $sql = 'select s.id, v.idItem, s.name, v.value, v.idFacultet from statusEvent s, valuesRating v where v.idFacultet = :id and s.id = v.idItem';
-    $statusEvent = Yii::$app->db->createCommand($sql)
-                            ->bindValue(':id', $idFacultet)
-                            ->queryAll();
+   //  echo "Test".'<br>';
+   //  $id = Yii::$app->user->identity->id;
+   //  $sotrudnik = Sotrudnik::findOne($id);
+   //  $idFacultet = $sotrudnik->idFacultet0->id;
+   //  $sql = 'select s.id, v.idItem, s.name, v.value, v.idFacultet from statusEvent s, valuesRating v where v.idFacultet = :id and s.id = v.idItem';
+   //  $statusEvent = Yii::$app->db->createCommand($sql)
+   //                          ->bindValue(':id', $idFacultet)
+   //                          ->queryAll();
 
-    foreach($statusEvent as $row){
-        echo '<br>'.$row['id'].' '.$row['name'].' '.$row['value'].'<br>';
-    }
+   //  foreach($statusEvent as $row){
+   //      echo '<br>'.$row['id'].' '.$row['name'].' '.$row['value'].'<br>';
+   //  }
 
 
-   $test = StatusEvent::find()
-                        ->select('statusEvent.id, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
-                        ->from('statusEvent, valuesRating')
-                        ->where(['valuesRating.idFacultet'=>$idFacultet])
-                        ->andwhere('statusEvent.id = valuesRating.idItem');
-    echo count($test);
+   // $test = StatusEvent::find()
+   //                      ->select('statusEvent.id, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
+   //                      ->from('statusEvent, valuesRating')
+   //                      ->where(['valuesRating.idFacultet'=>$idFacultet])
+   //                      ->andwhere('statusEvent.id = valuesRating.idItem');
+   //  echo count($test);
 ?>
 </div>

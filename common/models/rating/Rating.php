@@ -50,7 +50,8 @@ class Rating extends \yii\db\ActiveRecord
             'idFacultet' => 'Id Facultet',
             'idTable' => 'Id Table',
             'idItem' => 'Id Item',
-            'value' => 'Value',
+            'value' => 'Значение',
+            'name' =>  'Название'
         ];
     }
 
