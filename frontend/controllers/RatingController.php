@@ -3,14 +3,14 @@
 namespace frontend\controllers;
 use common\models\StatusEvent;
 use common\models\EventType;
-
+use common\models\rating\Value;
 use Yii;
 use common\models\rating\Rating;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+error_reporting( E_STRICT);
 /**
  * RatingController implements the CRUD actions for Rating model.
  */
@@ -85,12 +85,19 @@ class RatingController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $idFac)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->idTable == 1){
+                $status = $this->getStatus($idFac);
+                return $this->redirect(['status', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 2){
+                $contest = $this->getContest($idFac);
+                return $this->redirect(['contest', 'id' => $model->idFacultet]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -139,10 +146,7 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>1])
         ]);
-        $sql = 'select statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet from statusEvent, valuesRating where valuesRating.idFacultet = :id and statusEvent.id = valuesRating.idItem and valuesRating.idTable = 1';
-        $model = Yii::$app->db->createCommand($sql)
-                                ->bindValue(':id', $id)
-                                ->queryAll();
+        $model = $this->getStatus($id);
 
         // return $this->render('status', [
         //     'dataProvider' => $dataProvider,
@@ -167,8 +171,14 @@ class RatingController extends Controller
                         ->andwhere(['valuesRating.idTable'=>2])
 
         ]);
+        $sql = 'select eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet from eventType, valuesRating where valuesRating.idFacultet = :id and eventType.id = valuesRating.idItem and valuesRating.idTable = 2';
+        $model = $this->getContest($id);
+
+        // return $this->render('contest', [
+        //     'dataProvider' => $dataProvider,
+        // ]);
         return $this->render('contest', [
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -184,10 +194,32 @@ class RatingController extends Controller
                         ->from('typeArticle, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeArticle.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>3])
+        ]);
+        $sql = 'select typeArticle.name, typeArticle.id, valuesRating.idTable, valuesRating.idItem, typeArticle.name, valuesRating.value, valuesRating.idFacultet from typeArticle, valuesRating where valuesRating.idFacultet = :id and typeArticle.id = valuesRating.idItem and valuesRating.idTable = 3';
+        $model = Yii::$app->db->createCommand($sql)
+                                ->bindValue(':id', $id)
+                                ->queryAll();
 
-        ]);
+        // return $this->render('contest', [
+        //     'dataProvider' => $dataProvider,
+        // ]);
         return $this->render('article', [
-            'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
+    }
+    public function getStatus($id){
+        $sql = 'select valuesRating.id as idValue, statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet from statusEvent, valuesRating where valuesRating.idFacultet = :id and statusEvent.id = valuesRating.idItem and valuesRating.idTable = 1';
+        $status = Yii::$app->db->createCommand($sql)
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $status;                             
+    }
+
+    public function getContest($id){
+        $sql = 'select valuesRating.id as idValue, eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet from eventType, valuesRating where valuesRating.idFacultet = :id and eventType.id = valuesRating.idItem and valuesRating.idTable = 2';
+        $status = Yii::$app->db->createCommand($sql)
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        return $status;                             
     }
 }

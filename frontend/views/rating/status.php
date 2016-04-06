@@ -6,7 +6,7 @@ use common\models\rating\Rating;
 use common\models\Sotrudnik;
 use common\models\StatusEvent;
 use common\models\Sgroup;
-
+error_reporting( E_STRICT);
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $id = Yii::$app->user->identity->id;
@@ -17,54 +17,11 @@ $this->title = 'Статус мероприятий';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
 ?>
-<div class="rating-index">
-    
-<?php 
-    // $grants = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
-    // $patents = urldecode('index.php?r=patents/index&id='.Yii::$app->user->identity->id); 
-    // $articles = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
-    // $participation = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id); 
-    $status = urldecode('index.php?r=rating/status&id='.$idFacultet); 
-    $contest = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
-    $article = urldecode('index.php?r=rating/article&id='.$idFacultet); 
-?>
-    <ul class="nav nav-tabs">
-      <li class="active"><a href=<?=$status?>>Статус мероприятий</a></li>
-      <li><a href=<?=$contest?>>Виды мероприятий</a></li>
-      <li><a href=<?=$article?>>Виды статей</a></li>
-    </ul><br>
-
-
-<?php
-   //  echo "Test".'<br>';
-   //  $id = Yii::$app->user->identity->id;
-   //  $sotrudnik = Sotrudnik::findOne($id);
-   //  $idFacultet = $sotrudnik->idFacultet0->id;
-   //  $sql = 'select s.id, v.idItem, s.name, v.value, v.idFacultet from statusEvent s, valuesRating v where v.idFacultet = :id and s.id = v.idItem';
-   //  $statusEvent = Yii::$app->db->createCommand($sql)
-   //                          ->bindValue(':id', $idFacultet)
-   //                          ->queryAll();
-
-   //  foreach($statusEvent as $row){
-   //      echo '<br>'.$row['id'].' '.$row['name'].' '.$row['value'].'<br>';
-   //  }
-
-
-   // $test = StatusEvent::find()
-   //                      ->select('statusEvent.id, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
-   //                      ->from('statusEvent, valuesRating')
-   //                      ->where(['valuesRating.idFacultet'=>$idFacultet])
-   //                      ->andwhere('statusEvent.id = valuesRating.idItem');
-   //  echo count($test);
-
-?>  
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/w3.css">
 
 <style type="text/css">
   table {
-    border-collapse: collapse; /*убираем пустые промежутки между ячейками*/
-    border: 1px solid #dddddd; /*устанавливаем для таблицы внешнюю границу серого цвета толщиной 1px*/
+    border-collapse: collapse; 
+    border: 1px solid #dddddd;
   }
   td, th {
     border: 1px solid #dddddd;
@@ -94,11 +51,10 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
   }
   .zebra {
     list-style: none;
-    border-left: 8px solid #7ba579;
+    border-left: 5px solid #7ba579;
     padding: 10;
     margin-left: 20px;
-/*    font-family: "Lucida Sans";
-*/  }
+ }
   .zebra li {
     padding: 1px;
   }
@@ -108,7 +64,26 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
   .zebra li:nth-child(even) {
     background: white;
   }
+
 </style>
+<div class="rating-index">
+
+<?php 
+    // $grants = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
+    // $patents = urldecode('index.php?r=patents/index&id='.Yii::$app->user->identity->id); 
+    // $articles = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
+    // $participation = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id); 
+    $st = urldecode('index.php?r=rating/status&id='.$idFacultet); 
+    $con = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
+    $article = urldecode('index.php?r=rating/article&id='.$idFacultet); 
+?>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href=<?=$st?>>Статус мероприятий</a></li>
+      <li><a href=<?=$con?>>Виды мероприятий</a></li>
+      <li><a href=<?=$article?>>Виды статей</a></li>
+    </ul><br>
+  
+
 
 <h4>Критерий <b>Статус мероприятий</b> применяется при оценивании: </h4>
 <ul class="zebra">
@@ -128,7 +103,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
 <table  width="450" border="1" >
   <col width="200" valign="top">
   <col width="200" valign="top">
-  <col width="50" valign="top">
+  <col width="30" valign="top">
     <tr>
       <th>Название</th>
       <th>Значение</th>
@@ -145,9 +120,8 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         <?php echo $row['value'].'<br>'; ?>
       </td>
       <td>
-        <?php echo Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $row['id']]).'<br>'; }?>
+        <?php echo Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $row['idValue'], 'idFac'=>$idFacultet]).'<br>'; }?>
       </td>
     </tr>
 </table>
-
 </div>
