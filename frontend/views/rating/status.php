@@ -69,17 +69,13 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
 <div class="rating-index">
 
 <?php 
-    // $grants = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
-    // $patents = urldecode('index.php?r=patents/index&id='.Yii::$app->user->identity->id); 
-    // $articles = urldecode('index.php?r=articles/index&id='.Yii::$app->user->identity->id); 
-    // $participation = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id); 
-    $st = urldecode('index.php?r=rating/status&id='.$idFacultet); 
-    $con = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
+    $status = urldecode('index.php?r=rating/status&id='.$idFacultet); 
+    $contest = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
     $article = urldecode('index.php?r=rating/article&id='.$idFacultet); 
 ?>
     <ul class="nav nav-tabs">
-      <li class="active"><a href=<?=$st?>>Статус мероприятий</a></li>
-      <li><a href=<?=$con?>>Виды мероприятий</a></li>
+      <li class="active"><a href=<?=$status?>>Статус мероприятий</a></li>
+      <li><a href=<?=$article?>>Виды мероприятий</a></li>
       <li><a href=<?=$article?>>Виды статей</a></li>
     </ul><br>
   

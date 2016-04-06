@@ -34,14 +34,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        // 'brandLabel' => Html::img('/advanced/frontend/views/layouts/logo.png', ['alt'=>Yii::$app->name]),
-        // 'brandLabel' => '<img src= "/advanced/frontend/views/layouts/logo.png" hspace="0" vspace="-100">',
-       // 'brandLabel' => Html::img('@web/logo.jpg', ['alt'=>Yii::$app->name]),
-
-
         'brandLabel' => 'Портфолио',
-
-        // 'brandLabel' => '<img src="/advanced/frontend/views/layouts/logo.png" />'.(Yii::$app->name),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -49,9 +42,6 @@ AppAsset::register($this);
     ]);?>
     <?php
     $menuItems = [
-        // ['label' => 'Главная', 'url' => ['/site/index']],
-        // ['label' => 'О системе', 'url' => ['/site/about']],
-        // ['label' => 'Контакты', 'url' => ['/site/contact']],
     ];
 
     if (Yii::$app->user->isGuest) {
@@ -63,7 +53,6 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Заявления', 'url' => urldecode('index.php?r=rating-study/create')];
         }
         if (User::isSotrudnik(Yii::$app->user->identity->email)){
-            //$id = Yii::$app->user->identity->id;
             $sotrudnik = Sotrudnik::findOne(Yii::$app->user->identity->id);
             $idFacultet = $sotrudnik->idFacultet0->id;
             $menuItems[] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat') ];
