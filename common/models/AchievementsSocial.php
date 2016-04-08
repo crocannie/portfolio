@@ -78,7 +78,7 @@ class AchievementsSocial extends \yii\db\ActiveRecord
 
     public function getValue($id){
         $ret = Yii::$app->db->createCommand('select s.count as count, t.value as value from socialParticipation s, typeSocialParticipation t where idStudent = :id  and s.idSocialParticipationType = t.id and s.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':id', Yii::$app->user->identity->id)
+                            ->bindValue(':id', $id)
                             ->queryAll();
         return $ret;
     } 

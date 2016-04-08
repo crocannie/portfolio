@@ -1,5 +1,5 @@
 <?php
-
+//https://pixabay.com/en/home-office-workstation-office-336373/
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\rating\Rating;
@@ -9,9 +9,13 @@ use common\models\Sgroup;
 error_reporting( E_STRICT);
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+$id = Yii::$app->user->identity->id;
+$sotrudnik = Sotrudnik::findOne($id);
+$idFacultet = $sotrudnik->idFacultet0->id;
 
 $status = urldecode('index.php?r=rating/status&id='.$idFacultet); 
 $contest = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
+$document = urldecode('index.php?r=rating/document&id='.$idFacultet); 
 $article = urldecode('index.php?r=rating/article&id='.$idFacultet); 
 
 $id = Yii::$app->user->identity->id;
@@ -22,62 +26,13 @@ $this->title = 'Статус мероприятий';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
 ?>
-
-<style type="text/css">
-  table {
-    border-collapse: collapse; 
-    border: 1px solid #dddddd;
-  }
-  td, th {
-    border: 1px solid #dddddd;
-    padding: 10px;
-
-  }
-  th{
-    text-align: center;
-  }
-  li {
-    margin-left: 10px;
-  }
-  .zebra {
-    list-style: none;
-    border-left: 10px solid #FC7574;
-    padding: 0;
-    /*font-family: "Lucida Sans";*/
-  }
-  .zebra li {
-    padding: 10px;
-  }
-  .zebra li:nth-child(odd) {
-    background: #E1F1FF;
-  }
-  .zebra li:nth-child(even) {
-    background: white;
-  }
-  .zebra {
-    list-style: none;
-    border-left: 5px solid #7ba579;
-    padding: 10;
-    margin-left: 20px;
- }
-  .zebra li {
-    padding: 1px;
-  }
-  .zebra li:nth-child(odd) {
-    background: white;
-  }
-  .zebra li:nth-child(even) {
-    background: white;
-  }
-
-</style>
 <div class="rating-index">
 <div class="row">
   <div class="col-lg-3">
     <ul class="nav nav-pills nav-stacked" style="width: 200px;">
         <li class="active"><a href=<?=$status?>>Статус мероприятий</a></li>
-        <li><a href=<?=$article?>>Виды мероприятий</a></li>
-        <li><a href=<?=$article?>>Награды</a></li>
+        <li><a href=<?=$contest?>>Виды мероприятий</a></li>
+        <li><a href=<?=$document?>>Награды</a></li>
         <li><a href=<?=$article?>>Виды публикаций</a></li>
         <li><a href=<?=$article?>>Соавторство</a></li>
         <li><a href=<?=$article?>>Направления науки</a></li>
@@ -104,6 +59,14 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       <li>спортивная</li>
     </ul><br>
 
+    <span class="label label-warning">Внимание </span> 
+    <div class="alert alert-warning alert-dismissible fade in" role="alert" style="width: 450px; text-align: center; height: 50px">
+      <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+        <span aria-hidden="true">&times;</span>-->
+      </button>
+      <h4>Значения показателей от 0.5 до 2 </h4>
+    </div>
+    
     <table  width="450" border="1" >
       <col width="200" valign="top">
       <col width="200" valign="top">

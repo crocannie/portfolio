@@ -1,4 +1,5 @@
 <?php
+//https://pixabay.com/en/home-office-workstation-office-336373/
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\rating\Rating;
@@ -21,7 +22,7 @@ $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
-$this->title = 'Виды публикакций';
+$this->title = 'Награды';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
 ?>
@@ -31,8 +32,8 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
     <ul class="nav nav-pills nav-stacked" style="width: 200px;">
         <li><a href=<?=$status?>>Статус мероприятий</a></li>
         <li><a href=<?=$contest?>>Виды мероприятий</a></li>
-        <li><a href=<?=$document?>>Награды</a></li>
-        <li class="active"><a href=<?=$article?>>Виды публикаций</a></li>
+        <li class="active"><a href=<?=$document?>>Награды</a></li>
+        <li><a href=<?=$article?>>Виды публикаций</a></li>
         <li><a href=<?=$article?>>Соавторство</a></li>
         <li><a href=<?=$article?>>Направления науки</a></li>
         <li><a href=<?=$article?>>Панетенты</a></li>
@@ -43,10 +44,9 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       </ul>
   </div>
   <div class="col-lg-6">
-    <h4>Критерий <b>Виды публикаций</b> применяется при оценивании: </h4>
+    <h4>Критерий <b>Награды</b> применяется при оценивании: </h4>
       <ul class="zebra">
-        <li>участия студента в мероприятиях</li>
-        <li>статуса издания публикаций</li>
+        <li>участия студента в мероприятиях, олимпиадах, соревнованиях и т.д.</li>
       </ul><br>
 
     Используется в следующих направлениях деятельности:

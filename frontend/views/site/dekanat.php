@@ -25,9 +25,9 @@ $criterii = urldecode('index.php?r=rating/status&id='.$idFacultet);
 
 <h1><?= Html::encode('Деканат') ?></h1>
 
-<ul class="nav nav-tabs nav-stacked">
-    <li><a href=<?=$napravlenie?>></i> Направления подготовки</a></li>
-    <li><a href=<?=$group?>></i> Группы студентов</a></li>
-    <li><a href=<?=$group?>></i> Заявления студентов</a></li>
-    <li><a href=<?=$criterii?>></i> Критерии для отбора стипендиатов</a></li>
+<ul class="nav nav-tabs nav-stacked" >
+    <li><a href=<?=$napravlenie?>></i>Направления подготовки</a></li>
+    <li><a href=<?=$group?>></i>Группы студентов</a></li>
+    <li><a href=<?=$group?>></i>Заявления студентов</a></li>
+    <li><a href=<?=$criterii?>></i>Критерии для отбора стипендиатов</a></li>
 </ul>

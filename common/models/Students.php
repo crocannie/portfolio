@@ -6,6 +6,7 @@ use frontend\models\Facultet;
 use frontend\models\Napravlenie;
 use frontend\models\Group;
 use common\models\EducationLevel;
+use common\models\Sgroup;
 
 use frontend\models\Universities;
 

@@ -17,7 +17,6 @@ use common\models\PerformanceCulture;
 use common\models\ParticipationSport;
 use common\models\rating\Sport;
 
-
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -65,15 +64,6 @@ td {
 
 }
 </style>
-<?php
-  // $status = Culture::getStatus($idStudent);
-  // $count = Culture::getCount($idStudent);
-
-  // foreach ($status as $row) {$value = $row['status'];}
-
-  // foreach ($count as $row) {$test = $row['countS']; }
-?>
-
 
 <table width="1000" border="1">
        <col width="30" valign="top">
@@ -88,12 +78,12 @@ td {
       <tr>
         <td>2</td>
         <td>Группа, факультет</td>
-        <td><?php echo $student->idGroup0->name.", ".$student->idFacultet0->name?><br></td>
+        <td><?php echo $student->idGroup0.", ".$student->idFacultet0 ?><br></td>
       </tr>
       <tr>
         <td>3</td>
         <td>Код и наименование направления подготовки/специальности</td>
-        <td><?php echo $student->idNapravlenie0->shifr.", ".$student->idNapravlenie0->name?> <br></td>
+        <td><?php echo $student->idNapravlenie0.", ".$student->idNapravlenie0?> <br></td>
       </tr>
       <tr>
         <td>4</td>
@@ -105,11 +95,11 @@ td {
       </tr>
         <?php
           // $ret = $achievementsSport->getAchievementsSport($idStudent);
-          // $sql = 'SELECT asp.*, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievementsSport asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idTypeContest = tc.id and asp.idDocumentTYpe = td.id AND asp.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
-          // $ret = Yii::$app->db->createCommand($sql)
-          //               ->bindValue(':id', Yii::$app->user->identity->id)
-          //               ->queryAll();
-        $ret = AchievementsSport::getAll($idStudent);
+          $sql = 'SELECT asp.*, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievementsSport asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idTypeContest = tc.id and asp.idDocumentTYpe = td.id AND asp.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
+          $ret = Yii::$app->db->createCommand($sql)
+                        ->bindValue(':id', Yii::$app->user->identity->id)
+                        ->queryAll();
+        // $ret = AchievementsSport::getAll($idStudent);
           $rowspan = 1 + (count($ret));
           echo "<td rowspan={$rowspan}>5</td>";
         ?>        <td>Получение награды (приза) за результаты спортивной деятельности (в течение 2 последних лет)</td>
@@ -150,11 +140,11 @@ td {
         <td> 
           <?php
             // $ret = $sportParticipation->getSportParticipation($idStudent);
-            // $sql = 'SELECT * FROM `sportParticipation` WHERE idStudent = :id AND sportParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
-            // $ret = Yii::$app->db->createCommand($sql)
-            //             ->bindValue(':id', Yii::$app->user->identity->id)
-            //             ->queryAll();
-        $ret = ParticipationSport::getAll($idStudent);
+            $sql = 'SELECT * FROM `sportParticipation` WHERE idStudent = :id AND sportParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
+            $ret = Yii::$app->db->createCommand($sql)
+                        ->bindValue(':id', Yii::$app->user->identity->id)
+                        ->queryAll();
+        // $ret = ParticipationSport::getAll($idStudent);
               foreach ($ret as $row) {      
                 $description = $row['description'];
                 $count = $row['count'];
@@ -167,48 +157,45 @@ td {
     </table>
     </div>
 
-<?php
-echo "R1: ".Sport::getR1($idStudent)."<br>";
-echo "R2: ".Sport::getR2($idStudent)."<br>";?>
 <div class="sport-create">
 
     <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>$idStudent])->label(false) ?>
 
-    <?= $form->field($model, 'r1')->hiddenInput(['value'=>Sport::getR1($idStudent)])->label(false) ?>
 
-    <?= $form->field($model, 'r2')->hiddenInput(['value'=>Sport::getR2($idStudent)])->label(false) ?>
     
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
 
     <div class="alert alert-success" style="width: 200px; text-align: center; height: 50px">
       <h4>Ваш рейтинг: <?php 
-          echo Sport::getR1($idStudent) + Sport::getR2($idStudent);
+          // echo Sport::getR1($idStudent) + Sport::getR2($idStudent);
         ?>
       </h4>
     </div>
 
 <?php
-  $status = Sport::getStatus($idStudent);
-  $count = Sport::getCount($idStudent);
+  // $status = Sport::getStatus($idStudent);
+  // $count = Sport::getCount($idStudent);
 
-  foreach ($status as $row) {$value = $row['status'];}
+//   foreach ($status as $row) {$value = $row['status'];}
 
-  foreach ($count as $row) {$test = $row['countS']; }
+//   foreach ($count as $row) {$test = $row['countS']; }
 
-if ($test != 0){ ;?>
+// if ($test != 0){ ;?>
         <div class="alert alert-info" style="width: 200px; text-align: center; height: 50px">
           <h4>
-            Заявка <?php if($value == 1){ echo "отправлена"; }?>
+            Заявка <?php 
+            // if($value == 1){ echo "отправлена"; }?>
           </h4>
         </div>
 <?php
-} 
-else {?>
+// } 
+// else {
+  ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
   <?php 
-}
+// }
 ?>
     <?php ActiveForm::end(); ?>
 

@@ -27,7 +27,7 @@ $idFacultet = $sotrudnik->idFacultet0->id;
 
     <?= $form->field($model, 'idItem')->hiddenInput()->label(false) ?>
  
-    <?= $form->field($model, 'value')->textInput(['style'=>'width:100px'])->label(false) ?>
+    <?= $form->field($model, 'value')->textInput(['style'=>'width:50px'])->label(false) ?>
 	
 
     <div class="form-group">

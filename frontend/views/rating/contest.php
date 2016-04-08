@@ -21,60 +21,26 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
 <?php  
     $status = urldecode('index.php?r=rating/status&id='.$idFacultet); 
     $contest = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
+    $document = urldecode('index.php?r=rating/document&id='.$idFacultet); 
     $article = urldecode('index.php?r=rating/article&id='.$idFacultet); 
 ?>
-    <ul class="nav nav-tabs">
-      <li><a href=<?=$status?>>Статус мероприятий</a></li>
-      <li class="active"><a href=<?=$contest?>>Виды мероприятий</a></li>
-      <li><a href=<?=$article?>>Виды статей</a></li>
-    </ul><br>
-<style type="text/css">
-  table {
-    border-collapse: collapse; 
-    border: 1px solid #dddddd;
-  }
-  td, th {
-    border: 1px solid #dddddd;
-    padding: 10px;
-
-  }
-  th{
-    text-align: center;
-  }
-  li {
-    margin-left: 10px;
-  }
-  .zebra {
-    list-style: none;
-    border-left: 10px solid #FC7574;
-    padding: 0;
-    /*font-family: "Lucida Sans";*/
-  }
-  .zebra li {
-    padding: 10px;
-  }
-  .zebra li:nth-child(odd) {
-    background: #E1F1FF;
-  }
-  .zebra li:nth-child(even) {
-    background: white;
-  }
-  .zebra {
-    list-style: none;
-    border-left: 5px solid #7ba579;
-    padding: 10;
-    margin-left: 20px;
- }
-  .zebra li {
-    padding: 1px;
-  }
-  .zebra li:nth-child(odd) {
-    background: white;
-  }
-  .zebra li:nth-child(even) {
-    background: white;
-  }
-</style>
+<div class="row">
+  <div class="col-lg-3">
+    <ul class="nav nav-pills nav-stacked" style="width: 200px;">
+        <li><a href=<?=$status?>>Статус мероприятий</a></li>
+        <li class="active"><a href=<?=$article?>>Виды мероприятий</a></li>
+        <li><a href=<?=$document?>>Награды</a></li>
+        <li><a href=<?=$article?>>Виды публикаций</a></li>
+        <li><a href=<?=$article?>>Соавторство</a></li>
+        <li><a href=<?=$article?>>Направления науки</a></li>
+        <li><a href=<?=$article?>>Панетенты</a></li>
+        <li><a href=<?=$article?>>Статус патента</a></li>
+        <li><a href=<?=$article?>>Виды конкурсов</a></li>
+        <li><a href=<?=$article?>>Виды участий</a></li>
+        <li><a href=<?=$article?>>Коэффициент студента</a></li>
+      </ul>
+  </div>
+<div class="col-lg-6">
 <div class="rating-index">
    <h4>Критерий <b>Виды мероприятий</b> применяется для оценивания: </h4>
 <ul class="zebra">
@@ -89,6 +55,14 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
   <li>культурно-творческая</li>
   <li>спортивная</li>
 </ul><br>
+
+    <span class="label label-warning">Внимание </span> 
+    <div class="alert alert-warning alert-dismissible fade in" role="alert" style="width: 450px; text-align: center; height: 50px">
+      <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
+        <span aria-hidden="true">&times;</span>-->
+      </button>
+      <h4>Значения показателей от 0.5 до 2 </h4>
+    </div>
 
 <table  width="450" border="1" >
   <col width="200" valign="top">
@@ -114,5 +88,5 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       </td>
     </tr>
 </table>
-
+</div>
 </div>
