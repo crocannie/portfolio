@@ -50,7 +50,8 @@ AppAsset::register($this);
     } else {
         if (User::isStudent(Yii::$app->user->identity->email)){
             $menuItems[] = ['label' => 'Достижения', 'url' => urldecode('index.php?r=site/activities') ];
-            $menuItems[] = ['label' => 'Заявления', 'url' => urldecode('index.php?r=rating-study/create')];
+                          // $all = urldecode('index.php?r=rating-study/create'); 
+            $menuItems[] = ['label' => 'Заявления', 'url' => urldecode('index.php?r=rating-student/study')]; 
         }
         if (User::isSotrudnik(Yii::$app->user->identity->email)){
             $sotrudnik = Sotrudnik::findOne(Yii::$app->user->identity->id);

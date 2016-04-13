@@ -32,8 +32,8 @@ class AchievementsSocial extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idSocialParticipationType', 'count', 'idDocument', 'idStudent'], 'integer'],
-            [['date', 'idStudent'], 'required'],
+            [['idSocialParticipationType', 'count', 'idStudent', 'idStatus', 'idLevel', 'idTypeParticipant'], 'integer'],
+            [['date', 'idStudent',  'idStatus', 'idLevel', 'idTypeParticipant', 'idSocialParticipationType', 'count'], 'required'],
             [['date'], 'safe'],
             [['description'], 'string', 'max' => 1024],
             [['location'], 'string', 'max' => 512],
@@ -51,10 +51,13 @@ class AchievementsSocial extends \yii\db\ActiveRecord
             'description' => 'Описание',
             'count' => 'Количество участий',
             'date' => 'Дата',
-            'idDocument' => 'Id Document',
+            // 'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
             'location' => 'Location',
-            'file' => 'Документ'
+            'file' => 'Документ',
+            'idStatus'=>'Статус мероприятия', 
+            'idLevel'=> 'Уровень мероприятия', 
+            'idTypeParticipant' => 'Участник'
         ];
     }
     /**

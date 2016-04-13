@@ -17,6 +17,14 @@ $status = urldecode('index.php?r=rating/status&id='.$idFacultet);
 $contest = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
 $document = urldecode('index.php?r=rating/document&id='.$idFacultet); 
 $article = urldecode('index.php?r=rating/article&id='.$idFacultet); 
+$science = urldecode('index.php?r=rating/science&id='.$idFacultet); 
+$patent = urldecode('index.php?r=rating/patent&id='.$idFacultet); 
+$typeContest = urldecode('index.php?r=rating/typecontest&id='.$idFacultet); 
+$level = urldecode('index.php?r=rating/education&id='.$idFacultet); 
+$authorship = urldecode('index.php?r=rating/authorship&id='.$idFacultet); 
+$statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet); 
+$activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
+$activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
 
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
@@ -34,13 +42,14 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         <li><a href=<?=$contest?>>Виды мероприятий</a></li>
         <li><a href=<?=$document?>>Награды</a></li>
         <li><a href=<?=$article?>>Виды публикаций</a></li>
-        <li><a href=<?=$article?>>Соавторство</a></li>
-        <li><a href=<?=$article?>>Направления науки</a></li>
-        <li><a href=<?=$article?>>Панетенты</a></li>
-        <li><a href=<?=$article?>>Статус патента</a></li>
-        <li><a href=<?=$article?>>Виды конкурсов</a></li>
-        <li><a href=<?=$article?>>Виды участий</a></li>
-        <li><a href=<?=$article?>>Коэффициент студента</a></li>
+        <li><a href=<?=$authorship?>>Cоавторство</a></li>
+        <li><a href=<?=$science?>>Направления науки</a></li>
+        <li><a href=<?=$patent?>>Панетенты</a></li>
+        <li><a href=<?=$statuspatent?>>Статус патента</a></li>
+        <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
+        <li><a href=<?=$article?>>? Виды участий</a></li>
+        <li><a href=<?=$level?>>Коэффициент студента</a></li>
+        <li><a href=<?=$activity?>>Направления деятельности</a></li>
       </ul>
   </div>
   <div class="col-lg-6">

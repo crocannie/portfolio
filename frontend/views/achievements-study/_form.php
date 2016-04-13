@@ -8,6 +8,7 @@ use yii\helpers\ArrayHelper;
 use common\models\StatusEvent;
 use common\models\EventType;
 use common\models\TypeDocument;
+use common\models\EventLevel;
 
 
 
@@ -53,7 +54,14 @@ use common\models\TypeDocument;
                 'style'=>'width:500px',
             ]); 
     ?>
-
+    
+    <?= $form->field($model, 'idLevel')->dropDownList(
+        ArrayHelper::map(EventLevel::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите уровень мероприятия',
+                'style'=>'width:500px',
+            ]); 
+    ?>
     <?= $form->field($model, 'eventTitle')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'idDocumentType')->dropDownList(

@@ -395,13 +395,17 @@ create table achievementsPresident(
 
 --РЕЙТИНГИ
 --НИР
-create table rni (
+create table studentRating (
 	id integer primary key not null auto_increment,
 	idStudent integer not null,	
+  	idActivity int(11) NOT NULL,
 	r1 double not null,
 	r2 double not null,
-	r3 double not null,
-	foreign key(idStudent) references students(id)
+	r3 double not null,  
+	status int(11) NOT NULL,
+  	mark int(11) NOT NULL,
+	foreign key(idStudent) references students(idStudent),
+	foreign key(idActivity) references activity(id)
 );
 
 create table value(
@@ -471,3 +475,30 @@ CREATE TABLE IF NOT EXISTS `ratingSport` (
   PRIMARY KEY (`id`),
 	foreign key(idStudent) references students(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `studentRating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idStudent` int(11) NOT NULL,
+  `r1` double NOT NULL,
+  `r2` double NOT NULL,
+  `r3` double NOT NULL,
+  `status` int(11) NOT NULL,
+  `mark` int(11) NOT NULL,
+  `idActivity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+create table grantType(
+	id integer primary key not null auto_increment,
+	name char(128) not null
+);
+
+create table level(
+	id integer primary key not null auto_increment,
+	name char(128) not null
+);
+
+alter table grants add CONSTRAINT foreign key(typeGrant) references grantType(id);

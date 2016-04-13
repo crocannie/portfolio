@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\ParticipationSport;
+use common\models\rating\Value;
+error_reporting( E_STRICT);
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -31,3 +34,6 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.Yii::$app->user->iden
     <li><a href=<?=$kr?>></i> Культурно-творческая деятельность</a></li>
     <li><a href=<?=$sr?>></i> Спортивная деятельность</a></li>
 </ul>
+<?php
+	// echo Value::getCulture(1, 50);
+?>

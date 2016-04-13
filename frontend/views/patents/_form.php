@@ -30,14 +30,10 @@ use common\models\StatusPatent;
     <?= $form->field($model, 'copyrightHolder')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
+    
+    <?= $form->field($model, 'status')
+                ->radioList(ArrayHelper::map(StatusPatent::find()->all(), 'id', 'name')) ?>
 
-    <?= $form->field($model, 'status')->dropDownList(
-        ArrayHelper::map(StatusPatent::find()->all(), 'id', 'name'), 
-            [                        
-                'prompt'=>'Выберите тип статьи',
-                'style'=>'width:500px',
-            ]); 
-    ?>
 
     <?= $form->field($model, 'dateApp')->widget(
         DatePicker::className(), [

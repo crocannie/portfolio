@@ -4,7 +4,9 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use dosamigos\datepicker\DatePicker;
 use common\models\TypeSocialParticipation;
-
+use common\models\StatusEvent;
+use common\models\EventLevel;
+use common\models\TypeParticipant;
 /* @var $this yii\web\View */
 /* @var $model common\models\AchievementsSocial */
 /* @var $form yii\widgets\ActiveForm */
@@ -24,17 +26,36 @@ use common\models\TypeSocialParticipation;
 
     <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
-    <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+    <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:100px','type' => 'number']) ?>
+    
+    <?= $form->field($model, 'idStatus')->dropDownList(
+        ArrayHelper::map(StatusEvent::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите статус мероприятия',
+                'style'=>'width:500px',
+            ]); 
+    ?>
+
+    <?= $form->field($model, 'idLevel')->dropDownList(
+        ArrayHelper::map(EventLevel::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите уровень мероприятия',
+                'style'=>'width:500px',
+            ]); 
+    ?>
+
+    <?= $form->field($model, 'idTypeParticipant')->dropDownList(
+        ArrayHelper::map(TypeParticipant::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите вид участия',
+                'style'=>'width:500px',
+            ]); 
+    ?>
 
     <?= $form->field($model, 'date')->widget(
         DatePicker::className(), [
-            
-            // inline too, not bad
             'inline' => true,     
             'language' => 'ru',
-           //'size' => 'sm',
-             // modify template for custom rendering
-            //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
             'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
             'clientOptions' => [
                 'autoclose' => true,

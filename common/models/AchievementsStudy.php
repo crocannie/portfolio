@@ -41,9 +41,9 @@ class AchievementsStudy extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'dateEvent', 'idEventType', 'idStatus', 'eventTitle', 'idDocumentType', 'idStudent'], 'required'],
+            [['name', 'dateEvent', 'idEventType', 'idStatus', 'eventTitle', 'idDocumentType', 'idStudent', 'idLevel'], 'required'],
             [['dateEvent'], 'safe'],
-            [['idEventType', 'idStatus', 'idDocumentType', 'idDocument', 'idStudent'], 'integer'],
+            [['idEventType', 'idStatus', 'idDocumentType', 'idStudent', 'idLevel'], 'integer'],
             [['name'], 'string', 'max' => 128],
             [['eventTitle'], 'string', 'max' => 512],
             [['file'], 'file'],
@@ -64,9 +64,10 @@ class AchievementsStudy extends \yii\db\ActiveRecord
             'idStatus' => 'Статус мероприятия',
             'eventTitle' => 'Название мероприятия',
             'idDocumentType' => 'Вид полученного документа',
-            'idDocument' => 'Id Document',
+            // 'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
             'file'=>'Документ',
+            'idLevel' => 'Уровень мероприятия'
         ];
     }
 

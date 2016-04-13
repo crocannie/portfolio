@@ -37,8 +37,8 @@ class ParticipationCulture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['count', 'idDocument', 'idStudent'], 'integer'],
-            [['date', 'idStudent'], 'required'],
+            [['count', 'idStudent', 'idStatus', 'idLevel', 'idTypeParticipant'], 'integer'],
+            [['date', 'idStudent', 'count', 'idStatus', 'idLevel', 'idTypeParticipant'], 'required'],
             [['date'], 'safe'],
             [['description'], 'string', 'max' => 1024],
             [['location'], 'string', 'max' => 512],
@@ -57,9 +57,12 @@ class ParticipationCulture extends \yii\db\ActiveRecord
             'count' => 'Количество мероприятий',
             'date' => 'Дата',
             'location' => 'Location',
-            'idDocument' => 'Id Document',
+            // 'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
-            'file' => 'Документ'
+            'file' => 'Документ',
+            'idStatus'=>'Статус мероприятия', 
+            'idLevel'=> 'Уровень мероприятия', 
+            'idTypeParticipant' => 'Участник'
         ];
     }
 
