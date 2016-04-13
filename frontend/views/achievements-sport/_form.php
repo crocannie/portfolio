@@ -29,7 +29,7 @@ use common\models\TypeDocument;
     <?= $form->field($model, 'idTypeContest')->dropDownList(
         ArrayHelper::map(EventType::find()->all(), 'id', 'name'), 
             [                        
-                'prompt'=>'Выберите статус',
+                'prompt'=>'Выберите вид',
                 'style'=>'width:500px',
             ]); 
     ?>

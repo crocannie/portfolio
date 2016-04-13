@@ -79,7 +79,7 @@ class ParticipationSport extends \yii\db\ActiveRecord
     }
 
     public function getAll($id){
-        $sql = 'SELECT * FROM `sportParticipation` WHERE idStudent = :id AND sportParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
+        $sql = 'SELECT * as count FROM `sportParticipation` WHERE idStudent = :id AND sportParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
         $ret = Yii::$app->db->createCommand($sql)
                                 ->bindValue(':id', $id)
                                 ->queryAll();

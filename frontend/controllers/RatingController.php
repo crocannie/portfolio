@@ -79,32 +79,54 @@ class RatingController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Rating model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id, $idFac)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if ($model->idTable == 1){
-                $status = $this->getStatus($idFac);
+                $status = Value::getStatus($idFac);
                 return $this->redirect(['status', 'id' => $model->idFacultet]);
             }
             if ($model->idTable == 2){
-                $contest = $this->getContest($idFac);
+                $contest = Value::getContest($idFac);
                 return $this->redirect(['contest', 'id' => $model->idFacultet]);
             }
             if ($model->idTable == 3){
-                $document = $this->getDocument($idFac);
+                $document = Value::getDocument($idFac);
                 return $this->redirect(['document', 'id' => $model->idFacultet]);
             }
             if ($model->idTable == 4){
-                $document = $this->getArticle($idFac);
+                $document = Value::getArticle($idFac);
                 return $this->redirect(['article', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 5){
+                $document = Value::getScience($idFac);
+                return $this->redirect(['science', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 6){
+                $document = Value::getPatent($idFac);
+                return $this->redirect(['science', 'id' => $model->idFacultet]);
+            }           
+            if ($model->idTable == 7){
+                $document = Value::getPatent($idFac);
+                return $this->redirect(['typecontest', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 8){
+                $document = Value::getEducationLevel($idFac);
+                return $this->redirect(['education', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 9){
+                $document = Value::getAuthorship($idFac);
+                return $this->redirect(['authorship', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 10){
+                $document = Value::getStatuspatent($idFac);
+                return $this->redirect(['statuspatent', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 11){
+                $document = Value::getActivity($idFac);
+                return $this->redirect(['activity', 'id' => $model->idFacultet]);
             }
         } else {
             return $this->render('update', [
@@ -113,12 +135,6 @@ class RatingController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing Rating model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -126,13 +142,6 @@ class RatingController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Rating model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Rating the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Rating::findOne($id)) !== null) {
@@ -142,11 +151,10 @@ class RatingController extends Controller
         }
     }
 
+    // Статус мероприятий
     public function actionStatus($id)
     {
-        // $dataProvider = new ActiveDataProvider([
-        //     'query' => Rating::find(),
-        // ]);
+        // $dataProvider = new ActiveDataProvider(['query' => Rating::find(),]);
         $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
                         ->select('statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
@@ -154,8 +162,8 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>1])
         ]);
-        $model = $this->getStatus($id);
-
+        // $model = $this->getStatus($id);
+        $model = Value::getStatus($id);
         // return $this->render('status', [
         //     'dataProvider' => $dataProvider,
         // ]);
@@ -164,58 +172,104 @@ class RatingController extends Controller
         ]);
     }
 
+    // Виды мероприятияй
     public function actionContest($id)
     {
-        $model = $this->getContest($id);
+        $model = Value::getContest($id);
         return $this->render('contest', [
             'model' => $model,
         ]);
     }
 
+    // Виды нарград
     public function actionDocument($id)
     {
-        $model = $this->getDocument($id);
+        $model = Value::getDocument($id);
         return $this->render('document', [
             'model' => $model,
         ]);
     }    
 
+    // Виды публикаций
     public function actionArticle($id)
     {
-        $model = $this->getArticle($id);
+        $model = Value::getArticle($id);
         return $this->render('article', [
             'model' => $model,
         ]);
     }
-    public function getStatus($id){
-        $sql = 'select valuesRating.id as idValue, statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet from statusEvent, valuesRating where valuesRating.idFacultet = :id and statusEvent.id = valuesRating.idItem and valuesRating.idTable = 1';
-        $status = Yii::$app->db->createCommand($sql)
-                                ->bindValue(':id', $id)
-                                ->queryAll();
-        return $status;                             
+        
+    // Направления науки
+    public function actionScience($id)
+    {
+        $model = Value::getScience($id);
+        return $this->render('science', [
+            'model' => $model,
+        ]);
     }
 
-    public function getContest($id){
-        $sql = 'select valuesRating.id as idValue, eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet from eventType, valuesRating where valuesRating.idFacultet = :id and eventType.id = valuesRating.idItem and valuesRating.idTable = 2';
-        $status = Yii::$app->db->createCommand($sql)
-                                ->bindValue(':id', $id)
-                                ->queryAll();
-        return $status;                             
+    public function actionPatent($id)
+    {
+        $model = Value::getPatent($id);
+        return $this->render('patent', [
+            'model' => $model,
+        ]);
     }
 
-    public function getDocument($id){
-        $sql = 'select valuesRating.id as idValue, typeDocument.name, typeDocument.id, valuesRating.idTable, valuesRating.idItem, typeDocument.name, valuesRating.value, valuesRating.idFacultet from typeDocument, valuesRating where valuesRating.idFacultet = :id and typeDocument.id = valuesRating.idItem and valuesRating.idTable = 3';
-        $status = Yii::$app->db->createCommand($sql)
-                                ->bindValue(':id', $id)
-                                ->queryAll();
-        return $status;                             
+    public function actionTypecontest($id)
+    {
+        $model = Value::getTypeContest($id);
+        return $this->render('typeContest', [
+            'model' => $model,
+        ]);
     }
 
-    public function getArticle($id){
-        $sql = 'select valuesRating.id as idValue, typeArticle.name, typeArticle.id, valuesRating.idTable, valuesRating.idItem, typeArticle.name, valuesRating.value, valuesRating.idFacultet from typeArticle, valuesRating where valuesRating.idFacultet = :id and typeArticle.id = valuesRating.idItem and valuesRating.idTable = 4';
-        $status = Yii::$app->db->createCommand($sql)
-                                ->bindValue(':id', $id)
-                                ->queryAll();
-        return $status;                             
+    public function actionEducation($id)
+    {
+        $model = Value::getEducationLevel($id);
+        return $this->render('education', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionAuthorship($id)
+    {
+        $model = Value::getAuthorship($id);
+        return $this->render('authorship', [
+            'model' => $model,
+        ]);
+    }
+    //statuspatent
+    public function actionStatuspatent($id)
+    {
+        $model = Value::getStatuspatent($id);
+        return $this->render('statuspatent', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionActivity($id)
+    {
+        $model = Value::getActivity($id);
+        return $this->render('activity', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionStudents($id)
+    {
+        $model = Value::getStudent($id);
+        // $science = Value::getStudent($id, 2);
+        // $society = Value::getStudent($id, 3);
+        // $culture = Value::getStudent($id, 4);
+        // $sport = Value::getStudent($id,   5);
+
+        return $this->render('students', [
+            'model' => $model,
+            // 'science' => $science,
+            // 'society' => $society,
+            // 'culture' => $culture,
+            // 'sport' => $sport,
+        ]);
     }
 }

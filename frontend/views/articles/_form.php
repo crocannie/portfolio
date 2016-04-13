@@ -49,20 +49,14 @@ use common\models\Authorship;
                 'style'=>'width:500px',
             ]); 
     ?>
-
-    <?= $form->field($model, 'idAuthorship')->dropDownList(
-        ArrayHelper::map(Authorship::find()->all(), 'id', 'name'), 
-            [                        
-                'prompt'=>'Выберите статус',
-                'style'=>'width:500px',
-            ]); 
-    ?>
+    <?php echo $form->field($model, 'idAuthorship')
+                ->radioList(ArrayHelper::map(Authorship::find()->all(), 'id', 'name')); ?>
     
     <?= $form->field($model, 'file')->fileInput() ?>
 
     <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>
 
-    <?= $form->field($model, 'volumePublication')->textInput(['style'=>'width:500px']) ?>
+    <?= $form->field($model, 'volumePublication')->textInput(['style'=>'width:100px', 'type' => 'number']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

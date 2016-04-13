@@ -24,7 +24,7 @@ use common\models\TypeSocialParticipation;
 
     <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
-    <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
+    <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:100px','type' => 'number']) ?>
 
     <?= $form->field($model, 'date')->widget(
         DatePicker::className(), [

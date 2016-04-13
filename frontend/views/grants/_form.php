@@ -7,6 +7,7 @@ use dosamigos\datepicker\DatePicker;
 
 use common\models\TypeContest;
 use common\models\ScienceDirection;
+use common\models\GrantType;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Grants */
@@ -20,6 +21,9 @@ use common\models\ScienceDirection;
     <?= $form->field($model, 'nameProject')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
     
     <?= $form->field($model, 'nameOrganization')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
+
+    <?php echo $form->field($model, 'typeGrant')
+                ->radioList(ArrayHelper::map(GrantType::find()->all(), 'id', 'name')); ?>
 
     <?= $form->field($model, 'dateBegin')->widget(
         DatePicker::className(), [

@@ -40,7 +40,8 @@ class Culture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idStudent', 'r1', 'r2', 'r3', 'status', 'mark'], 'required'],
+            // [['idStudent', 'r1', 'r2', 'r3', 'status', 'mark'], 'required'],
+            [['idStudent', 'status', 'mark'], 'required'],
             [['idStudent', 'status', 'mark'], 'integer'],
             [['r1', 'r2', 'r3'], 'number']
         ];

@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\db\Command;
 
-error_reporting(E_ALL ^ E_STRICT);
+// error_reporting(E_ALL ^ E_STRICT);
 /**
  * This is the model class for table "articles".
  *

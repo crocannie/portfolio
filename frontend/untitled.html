@@ -1,0 +1,46 @@
+<?php
+echo "string";
+    $event = EventType::find()->all();
+    echo count($event).'<br>';
+    for ($i = 0; $i < count($event); $i++){
+        $rows[] = [
+            'idItem' => $event[$i]['id'],
+            'idTable' => 1,
+            'valie' => 0.5 + $i,
+            'idFacultet' => 1,
+        ];
+        echo $i.' '.$event[$i]['id'].'<br>';
+    }
+    $sql = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idItem', 'idTable', 'value', 'idFacultet'], $rows)->execute();
+?>
+<?php
+echo "string";
+    $event = StatusEvent::find()->all();
+    echo count($event).'<br>';
+    for ($i = 0; $i < count($event); $i++){
+        $rows[] = [
+            'idItem' => $event[$i]['id'],
+            'idTable' => 1,
+            'valie' => 0.5 + $i,
+            'idFacultet' => 1,
+        ];
+        echo $i.' '.$event[$i]['id'].'<br>';
+    }
+    $sql = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idItem', 'idTable', 'value', 'idFacultet'], $rows)->execute();
+?>
+
+<?php
+echo "string";
+    $event = TypeDocument::find()->all();
+    echo count($event).'<br>';
+    for ($i = 0; $i < count($event); $i++){
+        $rows[] = [
+            'idItem' => $event[$i]['id'],
+            'idTable' => 3,
+            'valie' => 0.5 + $i,
+            'idFacultet' => 1,
+        ];
+        echo $i.' '.$event[$i]['id'].'<br>';
+    }
+    $sql = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idItem', 'idTable', 'value', 'idFacultet'], $rows)->execute();
+?>
