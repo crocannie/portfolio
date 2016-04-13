@@ -20,6 +20,7 @@ use common\models\TypeParticipant;
     <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:100px','type' => 'number']) ?>
+<<<<<<< HEAD
     
     <?= $form->field($model, 'idStatus')->dropDownList(
         ArrayHelper::map(StatusEvent::find()->all(), 'id', 'name'), 
@@ -44,6 +45,8 @@ use common\models\TypeParticipant;
                 'style'=>'width:500px',
             ]); 
     ?>
+=======
+>>>>>>> bbf623c70de69fa31bcb16a661fa99f96c0da135
 
     <?= $form->field($model, 'date')->widget(
         DatePicker::className(), [
