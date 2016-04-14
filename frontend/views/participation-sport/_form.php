@@ -20,7 +20,6 @@ use common\models\TypeParticipant;
     <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:100px','type' => 'number']) ?>
-<<<<<<< HEAD
     
     <?= $form->field($model, 'idStatus')->dropDownList(
         ArrayHelper::map(StatusEvent::find()->all(), 'id', 'name'), 

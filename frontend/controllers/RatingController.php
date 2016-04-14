@@ -10,7 +10,8 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-error_reporting( E_STRICT);
+error_reporting(E_ALL ^ E_STRICT);
+error_reporting(E_ERROR);
 /**
  * RatingController implements the CRUD actions for Rating model.
  */

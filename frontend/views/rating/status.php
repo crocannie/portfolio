@@ -6,6 +6,7 @@ use common\models\rating\Rating;
 use common\models\Sotrudnik;
 use common\models\StatusEvent;
 use common\models\Sgroup;
+// error_reporting( E_STRICT);
 error_reporting( E_STRICT);
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */

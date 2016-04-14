@@ -34,10 +34,3 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.Yii::$app->user->iden
     <li><a href=<?=$kr?>></i> Культурно-творческая деятельность</a></li>
     <li><a href=<?=$sr?>></i> Спортивная деятельность</a></li>
 </ul>
-<?php
-<<<<<<< HEAD
-	// echo Value::getCulture(1, 50);
-=======
-	echo Value::getCulture(1, 50);
->>>>>>> bbf623c70de69fa31bcb16a661fa99f96c0da135
-?>

@@ -17,23 +17,32 @@ use common\models\TypeParticipant;
     <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
     
     <?= $form->field($model, 'idSocialParticipationType')->dropDownList(
-        ArrayHelper::map(TypeSocialParticipation::find()->all(), 'id', 'name'), 
+        ArrayHelper::map(TypeSocialParticipation::find()->all(), 'id', 'id'), 
             [                        
                 'prompt'=>'Выберите вид участия',
-                'style'=>'width:500px',
+                'style'=>'width:300px',
             ]); 
     ?>
-
+    <table>
+        <?php
+            $type = TypeSocialParticipation::find()->all();
+            foreach ($type as $row) {
+        ?>
+        <tr>
+            <td><?= $row['id']?></td>
+            <td style="width:1000px;"><?= $row['name']?></td>
+        </tr>
+        <?php } ?>
+    </table><br>
     <?= $form->field($model, 'description')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'count')->textInput(['maxlength' => true, 'style'=>'width:100px','type' => 'number']) ?>
-<<<<<<< HEAD
     
     <?= $form->field($model, 'idStatus')->dropDownList(
         ArrayHelper::map(StatusEvent::find()->all(), 'id', 'name'), 
             [                        
                 'prompt'=>'Выберите статус мероприятия',
-                'style'=>'width:500px',
+                'style'=>'width:300px',
             ]); 
     ?>
 
@@ -41,7 +50,7 @@ use common\models\TypeParticipant;
         ArrayHelper::map(EventLevel::find()->all(), 'id', 'name'), 
             [                        
                 'prompt'=>'Выберите уровень мероприятия',
-                'style'=>'width:500px',
+                'style'=>'width:300px',
             ]); 
     ?>
 
@@ -49,11 +58,9 @@ use common\models\TypeParticipant;
         ArrayHelper::map(TypeParticipant::find()->all(), 'id', 'name'), 
             [                        
                 'prompt'=>'Выберите вид участия',
-                'style'=>'width:500px',
+                'style'=>'width:300px',
             ]); 
     ?>
-=======
->>>>>>> bbf623c70de69fa31bcb16a661fa99f96c0da135
 
     <?= $form->field($model, 'date')->widget(
         DatePicker::className(), [

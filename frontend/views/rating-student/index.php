@@ -13,6 +13,7 @@ use common\models\Sotrudnik;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Анкеты-заявления студентов';
+$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = $this->title;
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);

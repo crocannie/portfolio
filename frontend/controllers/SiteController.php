@@ -115,9 +115,12 @@ class SiteController extends Controller
                     'model' => $model,
                     ]);
             } elseif ($model->loginSotrudnik()) {
-                    return $this->render('index', [
-                    'model' => $model,
-                    ]);            
+                    // return $this->render('index', [
+                    // 'model' => $model,
+                    // ]);                   
+                     return $this->render('dekanat', [
+                    'model' => $model,]);  
+
                 }
         } else {
             return $this->render('login', [
@@ -126,11 +129,6 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -138,11 +136,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -161,66 +154,10 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
     public function actionAbout()
     {
         return $this->render('about');
     }
-
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    // public function actionSignup()
-    // {
-    //     $model = new SignupForm();
-    //     if ($model->load(Yii::$app->request->post()) && $model->validate()){
-    //         if($student = $model->signup()){
-    //             if(Yii::$app->getUser()->login($student)){
-    //                 return $this->render('index', [
-    //                 'model' => $model,
-    //         ]);
-    //            // return $this->goHome;  
-    //            /* return $this->render('index',[
-    //                 'model'=>$model,
-    //                 ]);   */  
-    //             }           
-    //         }
-    //         else{
-    //             Yii::$app->session->setFlash('error', 'Ошибка при регистрации');
-    //             return $this->refresh();
-    //         }
-    //     }
-    //     return $this->render('signup',[
-    //         'model'=>$model,
-    //         ]);
-    // }
-
-    // public function actionSignup()
-    // {
-    //     $model = new SignupForm();
-    //     $student = new Students();
-
-    //     if (isset($_POST['User']) && isset($_POST['Students'])){
-
-    //         // $model->atttibutes = $_POST['User'];
-    //         // $student->atttibutes = $_POST['Student'];
-    //         if ($model->validate() && $student->validate()){
-    //             $model->save(false);
-    //             $student->idStudent = $model->id;
-    //             $student->save(false);
-    //             $this->redirect(array('index', 'id'=>$model->id));
-    //         }
-    //     }
-    //     $this->render('signup', array(
-    //         'model'=>$model, 'student'=>$student,
-    //         ));
-    // }
     
     public function actionSignup()
     {

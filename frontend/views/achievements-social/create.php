@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Html;
+use common\models\TypeSocialParticipation;
+
 /* @var $this yii\web\View */
 /* @var $model common\models\AchievementsSocial */
 $all = urldecode('index.php?r=site/activities'); 
@@ -13,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="achievements-social-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
 
     <?= $this->render('_form', [
         'model' => $model,
