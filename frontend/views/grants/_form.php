@@ -8,7 +8,8 @@ use dosamigos\datepicker\DatePicker;
 use common\models\TypeContest;
 use common\models\ScienceDirection;
 use common\models\GrantType;
-
+use common\models\StatusEvent;
+use common\models\EventLevel;
 /* @var $this yii\web\View */
 /* @var $model common\models\Grants */
 /* @var $form yii\widgets\ActiveForm */
@@ -73,6 +74,22 @@ use common\models\GrantType;
             [                        
                 'prompt'=>'Выберите направление',
                 'style'=>'width:500px',
+            ]); 
+    ?>
+    
+    <?= $form->field($model, 'idStatus')->dropDownList(
+        ArrayHelper::map(StatusEvent::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите статус мероприятия',
+                'style'=>'width:300px',
+            ]); 
+    ?>
+
+    <?= $form->field($model, 'idLevel')->dropDownList(
+        ArrayHelper::map(EventLevel::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите уровень мероприятия',
+                'style'=>'width:300px',
             ]); 
     ?>
     

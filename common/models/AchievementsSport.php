@@ -42,9 +42,9 @@ class AchievementsSport extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idStatus', 'idTypeContest', 'idDocumentType', 'idDocument', 'idStudent'], 'integer'],
+            [['idStatus', 'idTypeContest', 'idDocumentType', 'idStudent', 'idLevel'], 'integer'],
             [['year'], 'safe'],
-            [['idDocumentType', 'idStudent'], 'required'],
+            [['idDocumentType', 'idStudent', 'idTypeContest', 'idDocumentType', 'idLevel'], 'required'],
             [['name'], 'string', 'max' => 256],
             [['location'], 'string', 'max' => 512],
             [['file'], 'file']
@@ -66,7 +66,8 @@ class AchievementsSport extends \yii\db\ActiveRecord
             'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
             'location' => 'Location',
-            'file' => 'Документ'
+            'file' => 'Документ',
+            'idLevel' => 'Уровень мероприятия'
         ];
     }
 

@@ -41,9 +41,9 @@ class PerformanceCulture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idStatus', 'idTypePublicPerformance', 'idDocumentType', 'idDocument', 'idStudent'], 'integer'],
+            [['idStatus', 'idTypePublicPerformance', 'idDocumentType', 'idStudent', 'idLevel'], 'integer'],
             [['year'], 'safe'],
-            [['idDocumentType', 'idStudent'], 'required'],
+            [['idDocumentType', 'idStudent', 'idLevel', 'idTypePublicPerformance', 'idDocumentType'], 'required'],
             [['name'], 'string', 'max' => 256],
             [['location'], 'string', 'max' => 512],
             [['file'], 'file']
@@ -62,10 +62,10 @@ class PerformanceCulture extends \yii\db\ActiveRecord
             'idTypePublicPerformance' => 'Жанр',
             'year' => 'Дата',
             'idDocumentType' => 'Вид полученного документа',
-            'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
             'location' => 'Location',
-            'file' => 'Документ'
+            'file' => 'Документ',
+            'idLevel' => 'Уровень мероприятия'
         ];
     }
 

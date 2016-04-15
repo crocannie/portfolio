@@ -129,6 +129,10 @@ class RatingController extends Controller
                 $document = Value::getActivity($idFac);
                 return $this->redirect(['activity', 'id' => $model->idFacultet]);
             }
+            if ($model->idTable == 12){
+                $document = Value::getLevel($idFac);
+                return $this->redirect(['getLevel', 'id' => $model->idFacultet]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -257,20 +261,35 @@ class RatingController extends Controller
         ]);
     }
 
+    public function actionLevel($id)
+    {
+        $model = Value::getLevel($id);
+        return $this->render('level', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionGrant($id)
+    {
+        $model = Value::getLevel($id);
+        return $this->render('grant', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionTypeParticipant($id)
+    {
+        $model = Value::getLevel($id);
+        return $this->render('typeParticipant', [
+            'model' => $model,
+        ]);
+    }
     public function actionStudents($id)
     {
         $model = Value::getStudent($id);
-        // $science = Value::getStudent($id, 2);
-        // $society = Value::getStudent($id, 3);
-        // $culture = Value::getStudent($id, 4);
-        // $sport = Value::getStudent($id,   5);
 
         return $this->render('students', [
             'model' => $model,
-            // 'science' => $science,
-            // 'society' => $society,
-            // 'culture' => $culture,
-            // 'sport' => $sport,
         ]);
     }
 }

@@ -6,6 +6,7 @@ use common\models\rating\Rating;
 use common\models\Sotrudnik;
 use common\models\StatusEvent;
 use common\models\Sgroup;
+// error_reporting( E_STRICT);
 error_reporting( E_STRICT);
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,13 +25,14 @@ $level = urldecode('index.php?r=rating/education&id='.$idFacultet);
 $authorship = urldecode('index.php?r=rating/authorship&id='.$idFacultet); 
 $statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet); 
 $activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
+$activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
 $level = urldecode('index.php?r=rating/level&id='.$idFacultet); 
 
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
-$this->title = 'Виды патентов';
+$this->title = 'Статус мероприятий';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
 ?>
@@ -40,12 +42,12 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
     <ul class="nav nav-pills nav-stacked" style="width: 200px;">
         <li><a href=<?=$status?>>Статус мероприятий</a></li>
         <li><a href=<?=$contest?>>Виды мероприятий</a></li>
-        <li><a href=<?=$level?>>Уровень мероприятия</a></li>
+        <li class="active"><a href=<?=$level?>>Уровень мероприятия</a></li>
         <li><a href=<?=$document?>>Награды</a></li>
         <li><a href=<?=$article?>>Виды публикаций</a></li>
         <li><a href=<?=$authorship?>>Cоавторство</a></li>
         <li><a href=<?=$science?>>Направления науки</a></li>
-        <li class="active"><a href=<?=$patent?>>Панетенты</a></li>
+        <li><a href=<?=$patent?>>Панетенты</a></li>
         <li><a href=<?=$statuspatent?>>Статус патента</a></li>
         <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
         <li><a href=<?=$article?>>? Виды участий</a></li>
@@ -54,14 +56,18 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       </ul>
   </div>
   <div class="col-lg-6">
-    <h4>Критерий <b><?= $this->title ?></b> применяется при оценивании: </h4>
+    <h4>Критерий <b>Уровень мероприятия</b> применяется при оценивании: </h4>
       <ul class="zebra">
-        <li>патента</li>
+        <li>участия студента в мероприятиях</li>
       </ul><br>
 
     Используется в следующих направлениях деятельности:
     <ul class="zebra">
+      <li>учебная</li>
       <li>научно-исследовательская</li>
+      <li>общественная</li>
+      <li>культурно-творческая</li>
+      <li>спортивная</li>
     </ul><br>
 
     <span class="label label-warning">Внимание </span> 

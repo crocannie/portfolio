@@ -13,6 +13,7 @@ use common\models\Authorship;
 use common\models\EducationLevel;
 use common\models\StatusPatent;
 use common\models\Activity;
+use common\models\EventLevel;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\rating\Rating */
@@ -84,7 +85,11 @@ $this->params['breadcrumbs'][] = 'Редактирование критерия'
 		$name = Activity::findOne($model->idItem);
 		echo '<h3>'.$table.': <br>'.$name['name'].'</h3>';
 	}
-
+	if($model->idTable == 12){
+		$table = 'Уровень мероприятия';
+		$name = EventLevel::findOne($model->idItem);
+		echo '<h3>'.$table.': <br>'.$name['name'].'</h3>';
+	}
 ?>
     <?= $this->render('_form', [
         'model' => $model,

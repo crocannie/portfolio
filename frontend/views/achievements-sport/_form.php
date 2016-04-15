@@ -8,6 +8,8 @@ use yii\helpers\ArrayHelper;
 use common\models\StatusEvent;
 use common\models\EventType;
 use common\models\TypeDocument;
+use common\models\EventLevel;
+
 /* @var $this yii\web\View */
 /* @var $model common\models\AchievementsSport */
 /* @var $form yii\widgets\ActiveForm */
@@ -30,6 +32,14 @@ use common\models\TypeDocument;
         ArrayHelper::map(EventType::find()->all(), 'id', 'name'), 
             [                        
                 'prompt'=>'Выберите вид',
+                'style'=>'width:500px',
+            ]); 
+    ?>
+    
+    <?= $form->field($model, 'idLevel')->dropDownList(
+        ArrayHelper::map(EventLevel::find()->all(), 'id', 'name'), 
+            [                        
+                'prompt'=>'Выберите уровень мероприятия',
                 'style'=>'width:500px',
             ]); 
     ?>

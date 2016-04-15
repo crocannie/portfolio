@@ -42,9 +42,9 @@ class AchievementsCulture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idStatus', 'idTypeContest', 'idDocumentType', 'idDocument', 'idStudent'], 'integer'],
+            [['idStatus', 'idTypeContest', 'idDocumentType', 'idDocument', 'idStudent', 'idLevel'], 'integer'],
             [['year'], 'safe'],
-            [['idDocumentType', 'idStudent'], 'required'],
+            [['idDocumentType', 'idStudent', 'idLevel'], 'required'],
             [['name'], 'string', 'max' => 256],
             [['location'], 'string', 'max' => 512],
             [['file'], 'file']
@@ -65,7 +65,8 @@ class AchievementsCulture extends \yii\db\ActiveRecord
             'idDocumentType' => 'Вид полученного документа',
             'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
-            'file' => 'Документ'
+            'file' => 'Документ',
+            'idLevel' => 'Уровень мероприятия'
         ];
     }
 

@@ -44,8 +44,6 @@ use common\models\TypeParticipant;
                 'style'=>'width:500px',
             ]); 
     ?>
-=======
->>>>>>> bbf623c70de69fa31bcb16a661fa99f96c0da135
 
     <?= $form->field($model, 'date')->widget(
         DatePicker::className(), [

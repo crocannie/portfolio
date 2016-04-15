@@ -24,6 +24,7 @@ $level = urldecode('index.php?r=rating/education&id='.$idFacultet);
 $authorship = urldecode('index.php?r=rating/authorship&id='.$idFacultet); 
 $statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet); 
 $activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
+$level = urldecode('index.php?r=rating/level&id='.$idFacultet); 
 
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
@@ -39,6 +40,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
     <ul class="nav nav-pills nav-stacked" style="width: 200px;">
         <li><a href=<?=$status?>>Статус мероприятий</a></li>
         <li><a href=<?=$contest?>>Виды мероприятий</a></li>
+        <li><a href=<?=$level?>>Уровень мероприятия</a></li>
         <li><a href=<?=$document?>>Награды</a></li>
         <li><a href=<?=$article?>>Виды публикаций</a></li>
         <li class="active"><a href=<?=$authorship?>>Cоавторство</a></li>
@@ -67,7 +69,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"> 
         <span aria-hidden="true">&times;</span>-->
       </button>
-      <h4>Значения показателей от 0.5 до 2 </h4>
+      <h4>Значения показателей от 1 до 10 </h4>
     </div>
     
     <table  width="450" border="1" >

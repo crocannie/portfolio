@@ -10,8 +10,6 @@ use common\models\EventType;
 use common\models\TypeDocument;
 use common\models\EventLevel;
 
-
-
 /* @var $this yii\web\View */
 /* @var $model common\models\AchievementsStudy */
 /* @var $form yii\widgets\ActiveForm */
@@ -62,6 +60,7 @@ use common\models\EventLevel;
                 'style'=>'width:500px',
             ]); 
     ?>
+
     <?= $form->field($model, 'eventTitle')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'idDocumentType')->dropDownList(

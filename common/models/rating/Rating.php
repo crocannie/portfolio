@@ -37,7 +37,7 @@ class Rating extends \yii\db\ActiveRecord
             [['idFacultet', 'idTable', 'idItem'], 'required'],            
             [['name'], 'string', 'max' => 255],
             [['idFacultet', 'idTable', 'idItem'], 'integer'],
-            ['value', 'number', 'max' => 2, 'min' => 0.5]
+            ['value', 'number', 'max' => 10, 'min' => 1]
         ];
     }
 
