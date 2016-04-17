@@ -1,4 +1,5 @@
 <?php
+//https://pixabay.com/en/home-office-workstation-office-336373/
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\rating\Rating;
@@ -21,7 +22,7 @@ $patent = urldecode('index.php?r=rating/patent&id='.$idFacultet);
 $typeContest = urldecode('index.php?r=rating/typecontest&id='.$idFacultet); 
 $education = urldecode('index.php?r=rating/education&id='.$idFacultet); 
 $authorship = urldecode('index.php?r=rating/authorship&id='.$idFacultet); 
-$statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet);  
+$statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet); 
 $activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
 $level = urldecode('index.php?r=rating/level&id='.$idFacultet); 
 $grant = urldecode('index.php?r=rating/grant&id='.$idFacultet); 
@@ -31,7 +32,7 @@ $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
-$this->title = 'Виды публикакций';
+$this->title = 'Типы участников в организации мероприятий';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
 ?>
@@ -43,31 +44,27 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         <li><a href=<?=$contest?>>Виды мероприятий</a></li>
         <li><a href=<?=$level?>>Уровень мероприятия</a></li>
         <li><a href=<?=$document?>>Награды</a></li>
-        <li class="active"><a href=<?=$article?>>Виды публикаций</a></li>
-        <li><a href=<?=$authorship?>>Cоавторство</a></li>
-        <li><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
+        <li><a href=<?=$article?>>Виды публикаций</a></li>
+        <li><a href=<?=$authorship?>>Cоавторство</a></li>       
+        <li class="active"><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
         <li><a href=<?=$grant?>>Виды участия в грантах</a></li>
         <li><a href=<?=$science?>>Направления науки</a></li>
         <li><a href=<?=$patent?>>Панетенты</a></li>
         <li><a href=<?=$statuspatent?>>Статус патента</a></li>
         <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
-        <li><a href=<?=$education?>>Коэффициент студента</a></li>
-        <li><a href=<?=$activity?>>Направления деятельности</a></li>
+        <li><a href=<?=$level?>>Коэффициент студента</a></li>
+        <li><a href=<?=$education?>>Направления деятельности</a></li>
       </ul>
   </div>
   <div class="col-lg-6">
-    <h4>Критерий <b>Виды публикаций</b> применяется при оценивании: </h4>
+    <h4>Критерий <b><?= $this->title ?></b> применяется при оценивании: </h4>
       <ul class="zebra">
-        <li>статуса издания публикаций</li>
+        <li>патента</li>
       </ul><br>
 
     Используется в следующих направлениях деятельности:
     <ul class="zebra">
-      <li>учебная</li>
       <li>научно-исследовательская</li>
-      <li>общественная</li>
-      <li>культурно-творческая</li>
-      <li>спортивная</li>
     </ul><br>
 
     <span class="label label-warning">Внимание </span> 

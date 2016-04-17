@@ -20,11 +20,13 @@ $article = urldecode('index.php?r=rating/article&id='.$idFacultet);
 $science = urldecode('index.php?r=rating/science&id='.$idFacultet); 
 $patent = urldecode('index.php?r=rating/patent&id='.$idFacultet); 
 $typeContest = urldecode('index.php?r=rating/typecontest&id='.$idFacultet); 
-$level = urldecode('index.php?r=rating/education&id='.$idFacultet); 
+$education = urldecode('index.php?r=rating/education&id='.$idFacultet); 
 $authorship = urldecode('index.php?r=rating/authorship&id='.$idFacultet); 
 $statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet); 
 $activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
 $level = urldecode('index.php?r=rating/level&id='.$idFacultet); 
+$grant = urldecode('index.php?r=rating/grant&id='.$idFacultet); 
+$typeParticipant = urldecode('index.php?r=rating/typeparticipant&id='.$idFacultet); 
 
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
@@ -44,12 +46,13 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         <li><a href=<?=$document?>>Награды</a></li>
         <li><a href=<?=$article?>>Виды публикаций</a></li>
         <li><a href=<?=$authorship?>>Cоавторство</a></li>
+        <li><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
+        <li><a href=<?=$grant?>>Виды участия в грантах</a></li>
         <li class="active"><a href=<?=$science?>>Направления науки</a></li>
         <li><a href=<?=$patent?>>Панетенты</a></li>
         <li><a href=<?=$statuspatent?>>Статус патента</a></li>
         <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
-        <li><a href=<?=$article?>>? Виды участий</a></li>
-        <li><a href=<?=$level?>>Коэффициент студента</a></li>
+        <li><a href=<?=$education?>>Коэффициент студента</a></li>
         <li><a href=<?=$activity?>>Направления деятельности</a></li>
       </ul>
   </div>

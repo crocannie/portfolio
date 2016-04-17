@@ -261,9 +261,12 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
     <?php
-      $r1 = Value::getScience($student->idFacultet, $student->idStudent);
+      $r1 = Value::getStudy($student->idFacultet, $student->idStudent);
+      $r2 = Value::getArticleR($student->idFacultet, $student->idStudent);
+      $r3 = Value::getScienceR($student->idFacultet, $student->idStudent);
+      $r =  $r1 + $r2 + $r3;
     ?>
-    <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
+    <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r])->label(false) ?>
 
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'2'])->label(false) ?>
 

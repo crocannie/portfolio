@@ -131,7 +131,15 @@ class RatingController extends Controller
             }
             if ($model->idTable == 12){
                 $document = Value::getLevel($idFac);
-                return $this->redirect(['getLevel', 'id' => $model->idFacultet]);
+                return $this->redirect(['level', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 13){
+                $document = Value::getGrant($idFac);
+                return $this->redirect(['grant', 'id' => $model->idFacultet]);
+            }
+            if ($model->idTable == 14){
+                $document = Value::getTypeParticipant($idFac);
+                return $this->redirect(['typeparticipant', 'id' => $model->idFacultet]);
             }
         } else {
             return $this->render('update', [
@@ -224,7 +232,7 @@ class RatingController extends Controller
     public function actionTypecontest($id)
     {
         $model = Value::getTypeContest($id);
-        return $this->render('typeContest', [
+        return $this->render('typecontest', [
             'model' => $model,
         ]);
     }
@@ -271,16 +279,16 @@ class RatingController extends Controller
     
     public function actionGrant($id)
     {
-        $model = Value::getLevel($id);
+        $model = Value::getGrant($id);
         return $this->render('grant', [
             'model' => $model,
         ]);
     }
     
-    public function actionTypeParticipant($id)
+    public function actionTypeparticipant($id)
     {
-        $model = Value::getLevel($id);
-        return $this->render('typeParticipant', [
+        $model = Value::getTypeParticipant($id);
+        return $this->render('typeparticipant', [
             'model' => $model,
         ]);
     }

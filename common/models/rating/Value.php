@@ -110,6 +110,15 @@ class Value {
                                    ->queryAll();
            return $status;                             
     }
+
+    public function getTypeParticipant($id){
+           $sql = 'select valuesRating.id as idValue, typeParticipant.name, typeParticipant.id, valuesRating.idTable, valuesRating.idItem, typeParticipant.name, valuesRating.value, valuesRating.idFacultet from typeParticipant, valuesRating where valuesRating.idFacultet = :id and typeParticipant.id = valuesRating.idItem and valuesRating.idTable = 14';
+           $status = Yii::$app->db->createCommand($sql)
+                                   ->bindValue(':id', $id)
+                                   ->queryAll();
+           return $status;                             
+    }
+
     //Студенты по учебной
     public function getStudent($id){
            $sql = ' select s.idFacultet, rs.idStudent, s.firstName, s.secondName, s.midleName, el.name as kurs, n.name as napravlenie, n.shifr, sg.name as groupn, rs.mark, ac.name as activity, (rs.R1+rs.R2+rs.R3) as sum
@@ -222,13 +231,13 @@ class Value {
                             ->queryAll();
 
         $level = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
-                            from valuesRating r, achievements a
+                            select r.value, a.year, a.name, a.idLevel, r.idItem
+                            from valuesRating r, achievementsSport a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -249,48 +258,37 @@ class Value {
                             ->queryAll();
 
         $status1 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.date, a.description, a.idStatus, r.idItem
                             from valuesRating r, sportParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
         $type1 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.date, a.description, a.idTypeParticipant, r.idItem
                             from valuesRating r, sportParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 2
-                            and r.idItem = a.idTypeContest
+                            and r.idItem = a.idTypeParticipant
                             and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
 
-        $doc1 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
-                            from valuesRating r, sportParticipation a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 3
-                            and r.idItem = a.idDocumentType
-                            and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
 
         $level1 = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
+                            select r.value, a.date, a.description, a.idLevel, r.idItem
                             from valuesRating r, sportParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -299,7 +297,7 @@ class Value {
         //     $R2 += $row['count']*0.5;
         // }
         for ($i = 0; $i < count($status1); $i++){
-            $R2 += ($status1[$i]['value'] * $type1[$i]['value'] * $doc1[$i]['value'] * $level1[$i]['value']);
+            $R2 += ($status1[$i]['value'] * $type1[$i]['value']  * $level1[$i]['value']);
         }
         // return $R2 = $count * 1;
         // return $R1;
@@ -316,48 +314,37 @@ class Value {
                             ->queryAll();
 
         $status = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
-                            from valuesRating r, achievementsSport a
+                            select r.value, a.date, a.description, a.idStatus, r.idItem
+                            from valuesRating r, socialParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
-        $type = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
-                            from valuesRating r, achievementsSport a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 2
-                            and r.idItem = a.idTypeContest
-                            and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
-
-        $doc = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
-                            from valuesRating r, achievementsSport a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 3
-                            and r.idItem = a.idDocumentType
-                            and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
 
         $level = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
-                            from valuesRating r, achievements a
+                            select r.value, a.date, a.description, a.idLevel, r.idItem
+                            from valuesRating r, socialParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        $type = Yii::$app->db->createCommand('
+                            select r.value, a.date, a.description, a.idTypeParticipant, r.idItem
+                            from valuesRating r, socialParticipation a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 14
+                            and r.idItem = a.idTypeParticipant
+                            and a.idStudent = :idStudent
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -367,7 +354,7 @@ class Value {
         // }
         $R1 = null;
             for ($i = 0; $i < count($status); $i++){
-                $R1 += ($status[$i]['value'] * $type[$i]['value'] * $doc[$i]['value'] * $level[$i]['value']);
+                $R1 += ($status[$i]['value'] * $level[$i]['value'] * $type[$i]['value']);
             }
         return $R1;
     }
@@ -385,7 +372,7 @@ class Value {
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
         $type = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.year, a.name, a.idTypeContest, r.idItem
                             from valuesRating r, achievementsKTD a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 2
@@ -397,7 +384,7 @@ class Value {
                             ->queryAll();
 
         $doc1 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.year, a.name, a.idDocumentType, r.idItem
                             from valuesRating r, achievementsKTD a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 3
@@ -409,13 +396,13 @@ class Value {
                             ->queryAll();
 
         $level1 = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
+                            select r.value, a.year, a.name, a.idLevel, r.idItem
                             from valuesRating r, achievementsKTD a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -435,20 +422,20 @@ class Value {
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
-        $type2 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
-                            from valuesRating r, publicPerformance a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 2
-                            and r.idItem = a.idTypeContest
-                            and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
+        // $type2 = Yii::$app->db->createCommand('
+        //                     select r.value, a.year, a.name, a.idTypePublicPerformance, r.idItem
+        //                     from valuesRating r, publicPerformance a
+        //                     where r.idFacultet = :idFacultet
+        //                     and r.idTable = 2
+        //                     and r.idItem = a.idTypePublicPerformance
+        //                     and a.idStudent = :idStudent
+        //                     and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+        //                     ->bindValue(':idFacultet', $idFacultet)
+        //                     ->bindValue(':idStudent', $idStudent)
+        //                     ->queryAll();
 
         $doc2 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.year, a.name, a.idDocumentType, r.idItem
                             from valuesRating r, publicPerformance a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 3
@@ -460,20 +447,20 @@ class Value {
                             ->queryAll();
 
         $level2 = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
+                            select r.value, a.year, a.name, a.idLevel, r.idItem
                             from valuesRating r, publicPerformance a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
 
         $R2 = null;
             for ($i = 0; $i < count($status2); $i++){
-                $R2 += ($status2[$i]['value'] * $type2[$i]['value'] * $doc2[$i]['value'] *$level2[$i]['value']);
+                $R2 += ($status2[$i]['value'] * $doc2[$i]['value'] * $level2[$i]['value']);
             }
 
         $cnt = Yii::$app->db->createCommand('
@@ -485,121 +472,182 @@ class Value {
                             ->queryAll();
 
         $status3 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.date, a.description, a.idStatus, r.idItem
                             from valuesRating r, ktdParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
         $type3 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            select r.value, a.date, a.description, a.idTypeParticipant, r.idItem
                             from valuesRating r, ktdParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 2
-                            and r.idItem = a.idTypeContest
+                            and r.idItem = a.idTypeParticipant
                             and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
 
-        $doc3 = Yii::$app->db->createCommand('
-                            select r.value, a.year, a.name, a.idStatus, r.idItem
-                            from valuesRating r, ktdParticipation a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 3
-                            and r.idItem = a.idDocumentType
-                            and a.idStudent = :idStudent
-                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
+        // $doc3 = Yii::$app->db->createCommand('
+        //                     select r.value, a.year, a.name, a.idStatus, r.idItem
+        //                     from valuesRating r, ktdParticipation a
+        //                     where r.idFacultet = :idFacultet
+        //                     and r.idTable = 3
+        //                     and r.idItem = a.idDocumentType
+        //                     and a.idStudent = :idStudent
+        //                     and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+        //                     ->bindValue(':idFacultet', $idFacultet)
+        //                     ->bindValue(':idStudent', $idStudent)
+        //                     ->queryAll();
 
         $level3 = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
+                            select r.value, a.date, a.description, a.idLevel, r.idItem
                             from valuesRating r, ktdParticipation a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
         $R3 = null;                    
             for ($i = 0; $i < count($status2); $i++){
-                $R3 += ($status3[$i]['value'] * $type3[$i]['value'] * $doc3[$i]['value'] *$level3[$i]['value']);
+                $R3 += ($status3[$i]['value'] * $type3[$i]['value'] *$level3[$i]['value']);
             }
         return $R1 + $R2 + $R3;
     }
 
     public function getScienceR($idFacultet, $idStudent){
         $status = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idStatus, r.idItem
+                            select r.value, a.dateBegin, a.nameProject, a.idStatus, r.idItem
                             from valuesRating r, grants a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
-        
-        $type = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idEventType, r.idItem
-                            from valuesRating r, grants a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 2
-                            and r.idItem = a.idEventType
-                            and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-                            ->bindValue(':idFacultet', $idFacultet)
-                            ->bindValue(':idStudent', $idStudent)
-                            ->queryAll();
-
-        $doc = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idDocumentType, r.idItem
-                            from valuesRating r, grants a
-                            where r.idFacultet = :idFacultet
-                            and r.idTable = 3
-                            and r.idItem = a.idDocumentType
-                            and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
 
         $level = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idLevel, r.idItem
+                            select r.value, a.dateBegin, a.nameProject, a.idLevel, r.idItem
                             from valuesRating r, grants a
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+        
+        $type = Yii::$app->db->createCommand('
+                            select r.value, a.dateBegin, a.nameProject, a.idTypeContest, r.idItem
+                            from valuesRating r, grants a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 7
+                            and r.idItem = a.idTypeContest
+                            and a.idStudent = :idStudent
+                            and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
         
         $grantType = Yii::$app->db->createCommand('
-                            select r.value, a.dateEvent, a.name, a.idStatus, r.idItem
+                            select r.value, a.dateBegin, a.nameProject, a.typeGrant, r.idItem
                             from valuesRating r, grants a
                             where r.idFacultet = :idFacultet
-                            and r.idTable = 1
-                            and r.idItem = a.idStatus
+                            and r.idTable = 13
+                            and r.idItem = a.typeGrant
                             and a.idStudent = :idStudent
-                            and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
         $R1 = null;
+        for ($i = 0; $i < count($type); $i++){
+            $R1 =+ ($type[$i]['value'] * $grantType[$i]['value'] * $status[$i]['value'] * $level[$i]['value']);
+        }
+
+        $typepatent = Yii::$app->db->createCommand('
+                            select r.value, a.dateApp, a.name, a.idTypePatent, r.idItem
+                            from valuesRating r, patents a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 6
+                            and r.idItem = a.idTypePatent
+                            and a.idStudent = :idStudent
+                            and a.dateApp BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+        
+        $statuspatent = Yii::$app->db->createCommand('
+                            select r.value, a.dateApp, a.name, a.status, r.idItem
+                            from valuesRating r, patents a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 10
+                            and r.idItem = a.status
+                            and a.idStudent = :idStudent
+                            and a.dateApp BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+        $R2 = null;
+        for ($i = 0; $i < count($typepatent); $i++){
+            $R2 =+ ($typepatent[$i]['value'] * $statuspatent[$i]['value']);
+        }
+        return $R1 + $R2;
+    }
+
+    public function getArticleR($idFacultet, $idStudent){
+
+        $status = Yii::$app->db->createCommand('
+                            select r.value, a.year, a.name, a.idStatus, r.idItem
+                            from valuesRating r, articles a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 1
+                            and r.idItem = a.idStatus
+                            and a.idStudent = :idStudent
+                            AND a.year BETWEEN (YEAR( CURDATE( ) ) -2) AND (YEAR( CURDATE( ) ))')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        $type = Yii::$app->db->createCommand('
+                            select r.value, a.year, a.name, a.idType, r.idItem
+                            from valuesRating r, articles a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 4
+                            and r.idItem = a.idType
+                            and a.idStudent = :idStudent
+                            AND a.year BETWEEN (YEAR( CURDATE( ) ) -2) AND (YEAR( CURDATE( ) ))')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        $authorship = Yii::$app->db->createCommand('
+                            select r.value, a.year, a.name, a.idAuthorship, r.idItem
+                            from valuesRating r, articles a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 9
+                            and r.idItem = a.idAuthorship
+                            and a.idStudent = :idStudent
+                            AND a.year BETWEEN (YEAR( CURDATE( ) ) -2) AND (YEAR( CURDATE( ) ))')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        $R1 = null;
         for ($i = 0; $i < count($status); $i++){
-            $R1 =+ ($status[$i]['value'] * $type[$i]['value'] * $doc[$i]['value'] * $level[$i]['value']);
+            $R1 =+ ($status[$i]['value'] * $type[$i]['value'] * $authorship[$i]['value']);
         }
         return $R1;
     }

@@ -59,7 +59,7 @@ class AchievementsStudy extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'dateEvent' => 'Год проведения мероприятия',
+            'dateEvent' => 'Дата проведения мероприятия',
             'idEventType' => 'Вид мероприятия',
             'idStatus' => 'Статус мероприятия',
             'eventTitle' => 'Название мероприятия',

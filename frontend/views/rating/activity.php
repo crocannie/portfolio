@@ -26,12 +26,14 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
   $science = urldecode('index.php?r=rating/science&id='.$idFacultet); 
   $patent = urldecode('index.php?r=rating/patent&id='.$idFacultet); 
   $typeContest = urldecode('index.php?r=rating/typecontest&id='.$idFacultet); 
-  $level = urldecode('index.php?r=rating/education&id='.$idFacultet); 
+$education = urldecode('index.php?r=rating/education&id='.$idFacultet); 
   $authorship = urldecode('index.php?r=rating/authorship&id='.$idFacultet); 
   $statuspatent = urldecode('index.php?r=rating/statuspatent&id='.$idFacultet); 
   $activity = urldecode('index.php?r=rating/activity&id='.$idFacultet); 
   $students = urldecode('index.php?r=rating/students&id='.$idFacultet); 
   $level = urldecode('index.php?r=rating/level&id='.$idFacultet); 
+  $grant = urldecode('index.php?r=rating/grant&id='.$idFacultet); 
+  $typeParticipant = urldecode('index.php?r=rating/typeparticipant&id='.$idFacultet); 
 
 ?>
 <div class="row">
@@ -43,31 +45,20 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         <li><a href=<?=$document?>>Награды</a></li>
         <li><a href=<?=$article?>>Виды публикаций</a></li>
         <li><a href=<?=$authorship?>>Cоавторство</a></li>
+        <li><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
+        <li><a href=<?=$grant?>>Виды участия в грантах</a></li>
         <li><a href=<?=$science?>>Направления науки</a></li>
         <li><a href=<?=$patent?>>Панетенты</a></li>
         <li><a href=<?=$statuspatent?>>Статус патента</a></li>
         <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
-        <li><a href=<?=$article?>>? Виды участий</a></li>
-        <li><a href=<?=$level?>>Коэффициент студента</a></li>
+        <li><a href=<?=$education?>>Коэффициент студента</a></li>
         <li class="active"><a href=<?=$activity?>>Направления деятельности</a></li>
-        <li><a href=<?=$students?>>students студента</a></li>
       </ul>
   </div>
 <div class="col-lg-6">
 <div class="rating-index">
-   <h4>Критерий <b>Виды мероприятий</b> применяется для оценивания: </h4>
-<ul class="zebra">
-  <li>мероприятий, в которых принимал участие студент</li>
-</ul><br>
+   <h4>Критерий <b>Направления деятельности</b></h4>
 
-Используется в следующих направлениях деятельности:
-<ul class="zebra">
-  <li>учебная</li>
-  <li>научно-исследовательская</li>
-  <li>общественная</li>
-  <li>культурно-творческая</li>
-  <li>спортивная</li>
-</ul><br>
 
     <span class="label label-warning">Внимание </span> 
     <div class="alert alert-warning alert-dismissible fade in" role="alert" style="width: 450px; text-align: center; height: 50px">

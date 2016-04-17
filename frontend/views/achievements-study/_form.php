@@ -40,7 +40,7 @@ use common\models\EventLevel;
     <?= $form->field($model, 'idEventType')->dropDownList(
         ArrayHelper::map(EventType::find()->all(), 'id', 'name'), 
             [                        
-                'prompt'=>'Выберите статус',
+                'prompt'=>'Выберите вид',
                 'style'=>'width:500px',
             ]); 
     ?>
@@ -66,7 +66,7 @@ use common\models\EventLevel;
     <?= $form->field($model, 'idDocumentType')->dropDownList(
         ArrayHelper::map(TypeDocument::find()->all(), 'id', 'name'), 
             [                        
-                'prompt'=>'Выберите статус',
+                'prompt'=>'Выберите вид',
                 'style'=>'width:500px',
             ]); 
     ?>

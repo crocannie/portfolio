@@ -43,3 +43,7 @@ $criterii = urldecode('index.php?r=rating/status&id='.$idFacultet);
 		</ul>
 	</div>
 </div>
+
+<?php
+
+?>

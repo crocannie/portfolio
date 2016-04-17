@@ -182,7 +182,7 @@ td {
 
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
     <?php
-      $r1 = Value::getSport($student->idFacultet, $student->idStudent);
+    echo  $r1 = Value::getSport($student->idFacultet, $student->idStudent);
     ?>
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
 
