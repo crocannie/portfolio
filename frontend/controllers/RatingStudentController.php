@@ -56,9 +56,39 @@ class RatingStudentController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        // return $this->render('view', [
+        //     'model' => $this->findModel($id),
+        // ]);
+        $model = Student::findOne($id);
+
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['study', 'id' => $model->idStudent]);
+        // } else {
+        if ($model->idActivity == 1){
+            return $this->render('study', [
+                'model' => $model,
+            ]);
+        }
+        if ($model->idActivity == 2){
+            return $this->render('science', [
+                'model' => $model,
+            ]);
+        }
+        if ($model->idActivity == 3){
+            return $this->render('society', [
+                'model' => $model,
+            ]);
+        }
+        if ($model->idActivity == 4){
+            return $this->render('culture', [
+                'model' => $model,
+            ]);
+        }
+        if ($model->idActivity == 5){
+            return $this->render('sport', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -132,7 +162,7 @@ class RatingStudentController extends Controller
         $model = new Student();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['study', 'id' => $model->id]);
+            return $this->redirect(['study', 'id' => $model->idStudent]);
         } else {
             return $this->render('study', [
                 'model' => $model,

@@ -18,18 +18,28 @@ use common\models\ParticipationCulture;
 use common\models\rating\Culture;
 use common\models\rating\Student;
 use common\models\rating\Value;
-
+use common\models\User;
+use common\models\Sotrudnik;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $all = urldecode('index.php?r=site/activities'); 
-$this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
-
-$idStudent = Yii::$app->user->identity->id;
-$this->title = 'Заявления-анкеты';
-
-$this->params['breadcrumbs'][] = $this->title;
+  if (User::isStudent(Yii::$app->user->identity->email)){
+    $idStudent = Yii::$app->user->identity->id;
+    $this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
+    $this->title = 'Заявления-анкеты';
+    $this->params['breadcrumbs'][] = $this->title;
+  }
+  if (User::isSotrudnik(Yii::$app->user->identity->email)){
+    $idStudent = $model->idStudent;
+    $idFacultet = Sotrudnik::findOne(Yii::$app->user->identity->id)->idFacultet0->id;
+    $this->title = 'Анкеты-заявления студентов';
+    $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
+    $this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => urldecode('index.php?r=rating-student/index&id='.$idFacultet)];
+    $this->params['breadcrumbs'][] = $this->title;
+  }
+  $student = Students::findOne($idStudent);
 
   $status = Student::getStatus($idStudent, 4);
   $count = Student::getCount($idStudent, 4);
@@ -52,6 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
       $ktd = urldecode('index.php?r=rating-student/culture'); 
       $sd = urldecode('index.php?r=rating-student/sport'); 
   ?>
+  <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
+    <h2><?= Html::encode('Направления деятельности') ?></h2>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
       <li><a href=<?=$nid?>>Начуно-исследовательская </a></li>
@@ -59,7 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
       <li class="active"><a href=<?=$ktd?>>Культурно-творческая </a></li>
       <li><a href=<?=$sd?>>Спортивная </a></li>
     </ul><br>
-    
+  <?php } ?>
+
 <p align='center'><FONT SIZE=4><b>ЗАЯВЛЕНИЕ-АНКЕТА ПРЕТЕНДЕНТА</b> <br />   на получение повышенной стипендии за достижения студента <br /> в <b>культурно-творческой</b> деятельности</FONT></p>
 
 <link rel="stylesheet" href="css/style.css">
@@ -95,9 +108,6 @@ $status = Student::getStatus($idStudent, 4);
       <tr>
         <td>1</td>
         <td>ФИО претендента</td>
-        <?php
-          $student = Students::findOne(Yii::$app->user->identity->id);
-        ?>
         <td><?php echo $student->secondName." ".$student->firstName." ".$student->midleName ?></td>
       </tr>     
       <tr>

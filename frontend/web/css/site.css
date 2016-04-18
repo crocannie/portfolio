@@ -1,6 +1,8 @@
 html,
 body {
     height: 100%;
+    /*background-image: url(home4.jpg);*/
+    /*background-size: contain; */
 }
 
 .wrap {
