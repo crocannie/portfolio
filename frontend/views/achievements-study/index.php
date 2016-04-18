@@ -53,9 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php
-    $user = Yii::$app->user->identity->id;
-    $path = 'uploads/'.$user;
-echo $path;
-?>
 </div>
+
+<?php
+         // $user = Yii::$app->user->identity->id;
+        
+         // $path = 'uploads/'.$user.'/';
+         // echo $path.'<br>';
+         // echo getcwd() . "\n";
+         //    if (!file_exists($path)){
+         //        mkdir('uploads/'.$user, 0777, true);
+         //    }
+
+?>

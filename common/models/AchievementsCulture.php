@@ -112,7 +112,7 @@ class AchievementsCulture extends \yii\db\ActiveRecord
 
     //Все достижения
     public function getAll($id){
-        $sql = 'SELECT a.*, d.name as nameDoc, s.name as status, t.name as type, s.value as valueStatus, t.value as valueType FROM achievementsKTD a, statusEvent s, eventType t, typeDocument d WHERE idStudent = :id and a.`idDocumentType` = d.id and `idStatus` = s.id and `idTypeContest` = t.id and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())';
+        $sql = 'SELECT a.*, d.name as nameDoc, s.name as status, t.name as type FROM achievementsKTD a, statusEvent s, eventType t, typeDocument d WHERE idStudent = :id and a.`idDocumentType` = d.id and `idStatus` = s.id and `idTypeContest` = t.id and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())';
         $ret = Yii::$app->db->createCommand($sql)
                             ->bindValue(':id', $id)
                             ->queryAll();

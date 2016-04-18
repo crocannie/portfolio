@@ -37,7 +37,7 @@ class SignupForm extends Model
             ['email', 'email'],
             [['email', 'secondName', 'firstName', 'midleName'], 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Email уже используется.'],
-            [['idCity', 'idUniversity', 'idFacultet', 'idNapravlenie', 'idGroup', 'idLevel', 'kurs'], 'required'],
+            [['idCity', 'idUniversity', 'idFacultet', 'idNapravlenie', 'idGroup', 'idLevel'], 'required'],
             [['role'], 'integer'],
 
             // ['password_hash', 'password_hash'],
@@ -58,7 +58,7 @@ class SignupForm extends Model
             'idFacultet' => 'Факультет',
             'idNapravlenie' => 'Направление',
             'idGroup' => 'Группа',
-            'idLevel' => 'idLevel',
+            'idLevel' => 'Курс',
             'email' => 'Email',
             'password_hash' => 'Пароль',
             'registrationCode' => 'Registration Code',
@@ -109,10 +109,11 @@ class SignupForm extends Model
             $student->idCity = $this->idCity;
             $student->idUniversity = $this->idUniversity;
             $student->idFacultet = $this->idFacultet;
+            $student->idLevel = $this->idLevel;
             $student->idNapravlenie = $this->idNapravlenie;
             $student->idGroup = $this->idGroup;
-            $student->idLevel = $this->idLevel;
-            $student->kurs = $this->kurs;
+
+            // $student->kurs = $this->kurs;
             $student->save();
             // return $user->save() ? $user : null;
             return $user;

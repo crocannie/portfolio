@@ -149,6 +149,7 @@ class Value {
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
+                            
         $type = Yii::$app->db->createCommand('
                             select r.value, a.dateEvent, a.name, a.idEventType, r.idItem
                             from valuesRating r, achievements a

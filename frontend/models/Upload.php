@@ -7,7 +7,8 @@ use yii\web\UploadedFile;
  error_reporting (E_ERROR);
 class Upload extends Model
 {
-
+//chown -R www-data:www-data /path/to/webserver/www
+//chmod -R g+rw /path/to/webserver/www
     public function upload($model, $id)
     {                
         $path = 'uploads/'.$id.'/';

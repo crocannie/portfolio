@@ -41,8 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'midleName') ?>
 
                 <?= $form->field($model, 'idCity')->dropDownList(
-                    ArrayHelper::map(Cities::find()->all(), 'id', 'name'), 
-                    //Cities::dropdown(),
+                    ArrayHelper::map(Cities::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'), 
                     [
                         'prompt'=>'Выберите город',
                         'onchange'=>'
@@ -53,8 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]); ?>
 
                 <?= $form->field($model, 'idUniversity')->dropDownList(
-                    //Universities::dropdown(), 
-                    ArrayHelper::map(Universities::find()->all(), 'id', 'name'),
+                    ArrayHelper::map(Universities::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
                     [
                         'prompt'=>'Выберите учебное заведение',
                         'onchange'=>'
@@ -65,7 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]); ?>
 
                 <?= $form->field($model, 'idFacultet')->dropDownList(
-                   // Facultet::dropdown(),
                     ArrayHelper::map(Facultet::find()->all(), 'id', 'name'), 
                     [
                         'prompt'=>'Выберите факультет',
@@ -84,10 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     ]); ?>
                     
-                <?= $form->field($model, 'kurs') ?>
-
                 <?= $form->field($model, 'idNapravlenie')->dropDownList(
-                    //Napravlenie::dropdown(),
                     ArrayHelper::map(Napravlenie::find()->all(), 'id', 'name'), 
                     [
                         'prompt'=>'Выберите направление',

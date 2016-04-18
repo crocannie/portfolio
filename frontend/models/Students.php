@@ -48,7 +48,7 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['idStudent', 'idCity', 'idUniversity', 'idFacultet', 'idLevel', 'kurs', 'idNapravlenie', 'idGroup'], 'integer'],
+            [['idStudent', 'idCity', 'idUniversity', 'idFacultet', 'idLevel', 'idNapravlenie', 'idGroup'], 'integer'],
             // [['secondName', 'firstName', 'midleName', 'idLevel'], 'required'],
             [['secondName', 'firstName', 'midleName'], 'string', 'max' => 64],
             [['secondName'], 'required'],
@@ -69,8 +69,7 @@ class Students extends \yii\db\ActiveRecord implements IdentityInterface
             'idCity' => 'Id City',
             'idUniversity' => 'Id University',
             'idFacultet' => 'Id Facultet',
-            'idLevel' => 'Id Level',
-            'kurs' => 'Kurs',
+            'idLevel' => 'Курс',
             'idNapravlenie' => 'Id Napravlenie',
             'idGroup' => 'Id Group',
         ];
