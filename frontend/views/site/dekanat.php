@@ -45,5 +45,6 @@ $criterii = urldecode('index.php?r=rating/status&id='.$idFacultet);
 </div>
 
 <?php
+        // $update = Yii::$app->db->createCommand()->update('valuesRating', ['value' => 10], 'id = 1')->execute();
 
 ?>

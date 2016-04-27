@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'idLevel'=>[
                     'label'=>'Степень',
-                    'value' => $model->idLevel0->name.', '.$model->kurs.' курс',
+                    'value' => $model->idLevel0->name,
             ],
 /*          'password',
             'registrationCode',

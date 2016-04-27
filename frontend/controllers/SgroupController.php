@@ -9,7 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Sotrudnik;
-
+use yii\helpers\Json;
 /**
  * SgroupController implements the CRUD actions for Sgroup model.
  */
@@ -53,6 +53,22 @@ class SgroupController extends Controller
         // $dataProvider = new ActiveDataProvider([
         //     'query' => Sgroup::find(),
         // ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Sgroup::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Sgroup']);
+            $post['Sgroup'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

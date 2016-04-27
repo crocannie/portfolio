@@ -1,11 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+// use yii\grid\GridView;
 use common\models\rating\Rating;
 use common\models\Sotrudnik;
 use common\models\EventType;
 use common\models\Sgroup;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -68,29 +69,31 @@ $education = urldecode('index.php?r=rating/education&id='.$idFacultet);
       <h4>Значения показателей от 1 до 10 </h4>
     </div>
 
-<table  width="450" border="1" >
-  <col width="200" valign="top">
-  <col width="200" valign="top">
-  <col width="30" valign="top">
-    <tr>
-      <th>Название</th>
-      <th>Значение</th>
-      <th></th>
-    </tr>
-      <?php foreach ($model as $row){?>
-    <tr>        
-      <td>
-        <?php
-          echo $row['name'].'<br>';
-        ?>
-      </td>
-      <td>
-        <?php echo $row['value'].'<br>'; ?>
-      </td>
-      <td>
-        <?php echo Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $row['idValue'], 'idFac'=>$idFacultet]).'<br>'; }?>
-      </td>
-    </tr>
-</table>
+<?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'pjax' => true,
+        'export' => false,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            // 'id',
+            // 'idFacultet',
+            // 'idTable',
+            'name',
+            // 'idItem',
+            // 'value',
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'value',
+                'header' => 'Значение',
+                // 'value' => function($model){
+                //     return $model->name;
+                // }
+             ],
+            // 'name',
+
+            // ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 </div>
 </div>

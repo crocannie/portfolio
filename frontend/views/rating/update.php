@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use common\models\StatusEvent;
 use common\models\EventType;
@@ -14,17 +13,13 @@ use common\models\EducationLevel;
 use common\models\StatusPatent;
 use common\models\Activity;
 use common\models\EventLevel;
-
 /* @var $this yii\web\View */
 /* @var $model common\models\rating\Rating */
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
-
 $this->title = 'Редактирование ';
-
 $this->params['breadcrumbs'][] = ['label' => 'Критерии для отбора стипендиатов', 'url' => urldecode('index.php?r=rating/status&id='.$idFacultet)]; 
-
 $this->params['breadcrumbs'][] = 'Редактирование критерия';
 ?>
  <h2><?= Html::encode($this->title) ?></h2>

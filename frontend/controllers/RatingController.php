@@ -10,6 +10,8 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
+
 error_reporting(E_ALL ^ E_STRICT);
 error_reporting(E_ERROR);
 /**
@@ -80,10 +82,9 @@ class RatingController extends Controller
         }
     }
 
-    public function actionUpdate($id, $idFac)
+  public function actionUpdate($id, $idFac)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if ($model->idTable == 1){
                 $status = Value::getStatus($idFac);
@@ -147,6 +148,10 @@ class RatingController extends Controller
             ]);
         }
     }
+        // $model = Rating::find()->where(['idTable'=>$idTable])->andwhere(['idFacultet'=>$idFacultet])->all();
+      //     for ($i = 0; $i < count($values); $i++){
+        //         $sql = 'UPDATE valuesRating SET value='.$values[$i]['value'].' WHERE idTable='.$idTable.' and idFacultet='.$idFacultet;
+        //     }
 
     public function actionDelete($id)
     {
@@ -176,120 +181,426 @@ class RatingController extends Controller
                         ->andwhere(['valuesRating.idTable'=>1])
         ]);
         // $model = $this->getStatus($id);
-        $model = Value::getStatus($id);
-        // return $this->render('status', [
-        //     'dataProvider' => $dataProvider,
-        // ]);
+        // $model = Value::getStatus($id);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('status', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
+        // return $this->render('status', [
+        //     'model' => $model,
+        // ]);
     }
 
     // Виды мероприятияй
     public function actionContest($id)
     {
-        $model = Value::getContest($id);
-        return $this->render('contest', [
-            'model' => $model,
+    $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('eventType, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'eventType.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>2])
         ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
+        return $this->render('contest', [
+            'dataProvider' => $dataProvider,
+        ]);
+        // $model = Value::getContest($id);
+        // return $this->render('contest', [
+        //     'model' => $model,
+        // ]);
     }
 
     // Виды нарград
     public function actionDocument($id)
     {
-        $model = Value::getDocument($id);
+    $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('typeDocument.name, typeDocument.id, valuesRating.idTable, valuesRating.idItem, typeDocument.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('typeDocument, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeDocument.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>3])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('document', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }    
 
     // Виды публикаций
     public function actionArticle($id)
     {
-        $model = Value::getArticle($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('typeArticle.name, typeArticle.id, valuesRating.idTable, valuesRating.idItem, typeArticle.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('typeArticle, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeArticle.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>4])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('article', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
         
     // Направления науки
     public function actionScience($id)
     {
-        $model = Value::getScience($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('scienceDirection.name, scienceDirection.id, valuesRating.idTable, valuesRating.idItem, scienceDirection.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('scienceDirection, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'scienceDirection.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>5])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('science', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionPatent($id)
     {
-        $model = Value::getPatent($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('typePatent.name, typePatent.id, valuesRating.idTable, valuesRating.idItem, typePatent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('typePatent, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typePatent.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>6])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('patent', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionTypecontest($id)
     {
-        $model = Value::getTypeContest($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('typeContest.name, typeContest.id, valuesRating.idTable, valuesRating.idItem, typeContest.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('typeContest, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeContest.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>7])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('typecontest', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionEducation($id)
     {
-        $model = Value::getEducationLevel($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('educationLevel.name, educationLevel.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('educationLevel, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'educationLevel.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>8])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('education', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionAuthorship($id)
     {
-        $model = Value::getAuthorship($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('authorship.name, authorship.id, valuesRating.idTable, valuesRating.idItem, authorship.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('authorship, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'authorship.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>9])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('authorship', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
     //statuspatent
     public function actionStatuspatent($id)
     {
-        $model = Value::getStatuspatent($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('statusPatent.name, statusPatent.id, valuesRating.idTable, valuesRating.idItem, statusPatent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('statusPatent, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusPatent.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>10])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('statuspatent', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionActivity($id)
     {
-        $model = Value::getActivity($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('activity.name, activity.id, valuesRating.idTable, valuesRating.idItem, activity.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('activity, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'activity.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>11])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('activity', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionLevel($id)
     {
-        $model = Value::getLevel($id);
+    $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('level.name, level.id, valuesRating.idTable, valuesRating.idItem, level.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('level, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'level.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>12])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('level', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
     
     public function actionGrant($id)
     {
-        $model = Value::getGrant($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('grantType.name, grantType.id, valuesRating.idTable, valuesRating.idItem, grantType.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('grantType, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'grantType.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>13])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('grant', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
     
     public function actionTypeparticipant($id)
     {
-        $model = Value::getTypeParticipant($id);
+     $dataProvider = new ActiveDataProvider([
+            'query' => Rating::find()
+                        ->select('typeParticipant.name, typeParticipant.id, valuesRating.idTable, valuesRating.idItem, typeParticipant.name, valuesRating.value, valuesRating.idFacultet')
+                        ->from('typeParticipant, valuesRating')
+                        ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeParticipant.id = valuesRating.idItem'))
+                        ->andwhere(['valuesRating.idTable'=>14])
+        ]);
+        if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Rating::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Rating']);
+            $post['Rating'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
         return $this->render('typeparticipant', [
-            'model' => $model,
+            'dataProvider' => $dataProvider,
         ]);
     }
     public function actionStudents($id)

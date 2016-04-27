@@ -22,8 +22,6 @@ use common\models\TypeDocument;
 
     <?= $form->field($model, 'name')->textArea(['maxlength' => true, 'style'=>'width:500px']) ?>
 
-
-
     <?php
         $beginYear = 1999;
         $currentYear =  date("Y");

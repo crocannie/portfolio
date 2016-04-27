@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * StudentController implements the CRUD actions for Students model.
@@ -35,6 +36,23 @@ class StudentController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Students::find(),
         ]);
+
+    if(Yii::$app->request->post('hasEditable')){
+            $sgroupId = Yii::$app->request->post('editableKey');
+            $sgroup = Students::findOne($sgroupId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Students']);
+            $post['Students'] = $posted;
+            if ($sgroup->load($post)){
+                $sgroup->save();    
+                // print_r($sgroup->getErrors());
+                $output = 'my values';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,

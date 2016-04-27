@@ -87,9 +87,6 @@ use common\models\EducationLevel;
                 'style'=>'width:500px',
             ]); ?>
 
-    <?= $form->field($model, 'kurs')->textInput(['maxlength' => true, 'style'=>'width:500px']) ?>
-
-
 <?php
     $student = Yii::$app->user->identity->id;
 ?>

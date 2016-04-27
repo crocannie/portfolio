@@ -46,7 +46,7 @@ class Articles extends \yii\db\ActiveRecord
     {
         return [
             [['idType', 'name', 'year', 'idStatus', 'idAuthorship', 'idStudent', 'volumePublication'], 'required'],
-            [['idType', 'year', 'idStatus', 'idAuthorship', 'idDocument', 'idStudent', 'volumePublication'], 'integer'],
+            [['idType', 'year', 'idStatus', 'idAuthorship', 'idStudent', 'volumePublication'], 'integer'],
             [['file'], 'file'],
             [['location'], 'string', 'max' => 512],
             [['name'], 'string', 'max' => 128]
@@ -65,7 +65,6 @@ class Articles extends \yii\db\ActiveRecord
             'year' => 'Год публикации',
             'idStatus' => 'Статус издания',
             'idAuthorship' => 'Соавторство',
-            'idDocument' => 'Документ',
             'idStudent' => 'Id Student',
             'volumePublication' => 'Объем публикации (стр)',
             'file'=>'Документ',

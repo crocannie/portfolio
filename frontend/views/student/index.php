@@ -1,12 +1,16 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+// use yii\grid\GridView;
 use common\models\Students;
 use yii\db\Command;
 use common\models\rating\Culture;
 use common\models\StatusEvent;
 use common\models\rating\Rating;
+use kartik\grid\GridView;
+use kartik\editable\Editable;
+use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -23,14 +27,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pjax' => true,
+        'export' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'idStudent',
-            'secondName',
+            // 'secondName',
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'secondName',
+                'header' => 'Фамилия',
+                // 'value' => function($model){
+                //     return $model->name;
+                // }
+             ],
             'firstName',
             'midleName',
             'idCity',
+              [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute'=>'secondName',
+                'pageSummary' => true,
+                'editableOptions'=> [
+                  'header' => 'profile',
+                  'format' => Editable::FORMAT_BUTTON,
+                  'inputType' => Editable::INPUT_DROPDOWN_LIST,
+                ]
+              ],
             // 'idUniversity',
             // 'idFacultet',
             // 'idNapravlenie',
@@ -65,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $table = Yii::$app->db->createCommand('SELECT * FROM `table`')->queryAll();
     for ($i = 0; $i < count($table); $i++) {
         $sql = Yii::$app->db->createCommand('select * from '.$table[$i]['name'])->queryAll();
-        echo '<br>'.$table[$i]['name'].': '.count($sql);
+        // echo '<br>'.$table[$i]['name'].': '.count($sql);
         // $idT = $table[$i]['id'];
         for ($j = 0; $j < count($sql); $j++){
             $rows[] = [
@@ -76,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ];        
         }
     }   
-    $insert = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idFacultet', 'idTable', 'idItem', 'value'], $rows)->execute();
+    // $insert = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idFacultet', 'idTable', 'idItem', 'value'], $rows)->execute();
 
     // for ($i = 0; $i < count($status); $i++){
     //     $rows[] = [

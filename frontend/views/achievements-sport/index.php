@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            // 'id',
             'name',
             'idStatus',
             'idTypeContest',
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'idDocumentType',
             // 'idDocument',
             'idStudent',
-            'location',
+            // 'location',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -1,11 +1,15 @@
+
 <?php
 //https://pixabay.com/en/home-office-workstation-office-336373/
 use yii\helpers\Html;
-use yii\grid\GridView;
+// use yii\grid\GridView;
 use common\models\rating\Rating;
-use common\models\Sotrudnik;
 use common\models\StatusEvent;
 use common\models\Sgroup;
+use common\models\Sotrudnik;
+use common\models\Students;
+use kartik\grid\GridView;
+
 // error_reporting( E_STRICT);
 error_reporting( E_STRICT);
 /* @var $this yii\web\View */
@@ -13,7 +17,6 @@ error_reporting( E_STRICT);
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
-
 $status = urldecode('index.php?r=rating/status&id='.$idFacultet); 
 $contest = urldecode('index.php?r=rating/contest&id='.$idFacultet); 
 $document = urldecode('index.php?r=rating/document&id='.$idFacultet); 
@@ -29,11 +32,9 @@ $activity = urldecode('index.php?r=rating/activity&id='.$idFacultet);
 $level = urldecode('index.php?r=rating/level&id='.$idFacultet); 
 $grant = urldecode('index.php?r=rating/grant&id='.$idFacultet); 
 $typeParticipant = urldecode('index.php?r=rating/typeparticipant&id='.$idFacultet); 
-
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
-
 $this->title = 'Статус мероприятий';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
@@ -82,30 +83,33 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
       <h4>Значения показателей от 1 до 10 </h4>
     </div>
     
-    <table  width="450" border="1" >
-      <col width="200" valign="top">
-      <col width="200" valign="top">
-      <col width="30" valign="top">
-        <tr>
-          <th>Название</th>
-          <th>Значение</th>
-          <th></th>
-        </tr>
-          <?php foreach ($model as $row){?>
-        <tr>        
-          <td>
-            <?php
-              echo $row['name'].'<br>';
-            ?>
-          </td>
-          <td>
-            <?php echo $row['value'].'<br>'; ?>
-          </td>
-          <td>
-            <?php echo Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $row['idValue'], 'idFac'=>$idFacultet]).'<br>'; }?>
-          </td>
-        </tr>
-    </table>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'pjax' => true,
+        'export' => false,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            // 'id',
+            // 'idFacultet',
+            // 'idTable',
+            'name',
+            // 'idItem',
+            // 'value',
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'value',
+                'header' => 'Значение',
+                // 'value' => function($model){
+                //     return $model->name;
+                // }
+             ],
+            // 'name',
+
+            // ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+
   </div>
 </div>
 </div>

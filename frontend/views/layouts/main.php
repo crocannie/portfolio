@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -17,6 +18,8 @@ use common\models\User;
 use common\models\Sotrudnik;
 
 AppAsset::register($this);
+
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -29,6 +32,9 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
+    <link rel="stylesheet" href="/vendor/yiisoft/yii2/to/font-awesome/css/font-awesome.min.css">
+
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -58,7 +64,7 @@ AppAsset::register($this);
             $idFacultet = $sotrudnik->idFacultet0->id;
             $menuItems[] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat') ];
         }
-        $menuItems[] = ['label' => 'Личный кабинет', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
+        $menuItems[] = ['label' => 'Личный кабинет <span class="glyphicon glyphicon-plus"></span>', 'url' => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id)];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -69,11 +75,75 @@ AppAsset::register($this);
             . Html::endForm()
             . '</li>';
     }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    
+    // echo Nav::widget([
+    //     'options' => ['class' => 'navbar-nav navbar-right'],
+    //     'items' => $menuItems,
+    // ]);
+    if (Yii::$app->user->isGuest) {
+            echo Nav::widget([
+                'items' => [
+                    [
+                        'label' => '<span class="glyphicon glyphicon-log-in"></span>',
+                        'url'   => ['/site/login'],
+                        'title'=>'Вход'
+                    ],
+                ],
+                'encodeLabels' => false,
+                'options' => [
+                    'class' => 'navbar-nav navbar-right'
+                ]
+            ]);
+    }else {
+        if (User::isStudent(Yii::$app->user->identity->email)){
+            echo Nav::widget([
+                'items' => [
+                    [
+                        'label' => 'Профиль <span class="glyphicon glyphicon-user"></span>',
+                        'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
+                        'title'=>'Профиль'
+                    ],
+                    [
+                        'label' => 'Достижения <span class="glyphicon glyphicon-briefcase"></span>',
+                        'url'   => urldecode('index.php?r=site/activities')
+                    ],
+                    [
+                        'label' => 'Заявления <span class="glyphicon glyphicon-file"></span>',
+                        'url'   => urldecode('index.php?r=rating-student/study')
+                    ],
+                    [
+                        'label' => 'Выход <span class="glyphicon glyphicon-log-out"></span>',
+                        'url'   => ['site/logout'],
+                        // 'class' => 'btn btn-success', 
+                        'linkOptions' => ['data-method' => 'post']
+                    ],
+                ],
+                'encodeLabels' => false,
+                'options' => [
+                    'class' => 'navbar-nav navbar-right'
+                ]
+            ]);
+        } else {
+            echo Nav::widget([
+                'items' => [
+                    [
+                        'label' => 'Профиль <span class="glyphicon glyphicon-user"></span>',
+                        'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
+                        'title'=>'Профиль'
+                    ],
+                    [
+                        'label' => 'Выход <span class="glyphicon glyphicon-log-out"></span>',
+                        'url'   => ['site/logout'],
+                        // 'class' => 'btn btn-success', 
+                        'linkOptions' => ['data-method' => 'post']
+                    ],
+                ],
+                'encodeLabels' => false,
+                'options' => [
+                    'class' => 'navbar-nav navbar-right'
+                ]
+            ]);
+        }
+    }
     NavBar::end();
     ?>
 
@@ -90,7 +160,6 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; Портфолио <?= date('Y') ?></p>
-
     </div>
 </footer>
 

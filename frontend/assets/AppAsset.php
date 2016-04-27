@@ -20,7 +20,6 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/table.css',
-        'css/magistrer.css',
         'js/sorttable.js'
 
     ];

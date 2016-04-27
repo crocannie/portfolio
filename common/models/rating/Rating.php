@@ -63,4 +63,8 @@ class Rating extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Facultet::className(), ['id' => 'idFacultet']);
     }
+
+    // public static function($idTable, $idFacultet){
+
+    // }
 }

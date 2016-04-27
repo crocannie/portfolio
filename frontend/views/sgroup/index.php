@@ -1,9 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+// use yii\grid\GridView;
 use common\models\Sotrudnik;
 use common\models\Students;
+use kartik\grid\GridView;
+use common\models\Sgroup;
+
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -15,6 +18,8 @@ $this->title = 'Группы';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = $this->title;
 
+// $sgroup = Sgroup::findOne(5);
+// echo count($sgroup);
 ?>
 <div class="sgroup-index">
 
@@ -26,11 +31,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'pjax' => true,
+        'export' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'name',
+                'header' => 'Название',
+                // 'value' => function($model){
+                //     return $model->name;
+                // }
+             ],
 
             // 'id',
-            'name',
+            // 'name',
             'idNapravlenie'=>[
                     'class' => \yii\grid\DataColumn::className(),
                     'format' => 'html',
