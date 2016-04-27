@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.10
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost:8889
--- Время создания: Апр 27 2016 г., 20:37
--- Версия сервера: 5.5.42
--- Версия PHP: 5.6.10
+-- Host: localhost
+-- Generation Time: Apr 18, 2016 at 04:24 PM
+-- Server version: 5.5.47-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,20 +14,20 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- База данных: `portfolio`
+-- Database: `portfolio`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `achievements`
+-- Table structure for table `achievements`
 --
 
-CREATE TABLE `achievements` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `achievements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(128) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `dateEvent` date NOT NULL,
@@ -36,11 +36,17 @@ CREATE TABLE `achievements` (
   `idStatus` int(11) NOT NULL,
   `eventTitle` varchar(512) NOT NULL,
   `idDocumentType` int(11) NOT NULL,
-  `location` varchar(512) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `location` varchar(512) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idEventType` (`idEventType`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idDocumentType` (`idDocumentType`),
+  KEY `idLevel` (`idLevel`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Дамп данных таблицы `achievements`
+-- Dumping data for table `achievements`
 --
 
 INSERT INTO `achievements` (`id`, `name`, `idStudent`, `dateEvent`, `idEventType`, `idLevel`, `idStatus`, `eventTitle`, `idDocumentType`, `location`) VALUES
@@ -50,11 +56,11 @@ INSERT INTO `achievements` (`id`, `name`, `idStudent`, `dateEvent`, `idEventType
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `achievementsKTD`
+-- Table structure for table `achievementsKTD`
 --
 
-CREATE TABLE `achievementsKTD` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `achievementsKTD` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) DEFAULT NULL,
   `idStatus` int(11) DEFAULT NULL,
   `idTypeContest` int(11) DEFAULT NULL,
@@ -63,30 +69,39 @@ CREATE TABLE `achievementsKTD` (
   `idDocument` int(11) DEFAULT NULL,
   `idStudent` int(11) NOT NULL,
   `location` varchar(512) NOT NULL,
-  `idLevel` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idLevel` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idTypeContest` (`idTypeContest`),
+  KEY `idDocumentType` (`idDocumentType`),
+  KEY `idDocument` (`idDocument`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idLevel` (`idLevel`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `achievementsPresident`
+-- Table structure for table `achievementsPresident`
 --
 
-CREATE TABLE `achievementsPresident` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `achievementsPresident` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(1024) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
-  `idStudent` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idStudent` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `achievementsSport`
+-- Table structure for table `achievementsSport`
 --
 
-CREATE TABLE `achievementsSport` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `achievementsSport` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) DEFAULT NULL,
   `idStatus` int(11) DEFAULT NULL,
   `idTypeContest` int(11) DEFAULT NULL,
@@ -94,29 +109,29 @@ CREATE TABLE `achievementsSport` (
   `idDocumentType` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `location` varchar(512) NOT NULL,
-  `idLevel` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `achievementsSport`
---
-
-INSERT INTO `achievementsSport` (`id`, `name`, `idStatus`, `idTypeContest`, `year`, `idDocumentType`, `idStudent`, `location`, `idLevel`) VALUES
-(1, 'Универсиада, 1 место за бег 1 км', 1, 1, '2016-04-13', 1, 52, 'uploads/52/2016.02.18Критерииоценкикандидатовнаповышенныестипендии(проект)(19z).docx', 4);
+  `idLevel` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idTypeContest` (`idTypeContest`),
+  KEY `idDocumentType` (`idDocumentType`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idLevel` (`idLevel`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `activity`
+-- Table structure for table `activity`
 --
 
-CREATE TABLE `activity` (
-  `id` int(11) NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Дамп данных таблицы `activity`
+-- Dumping data for table `activity`
 --
 
 INSERT INTO `activity` (`id`, `name`) VALUES
@@ -129,11 +144,11 @@ INSERT INTO `activity` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `articles`
+-- Table structure for table `articles`
 --
 
-CREATE TABLE `articles` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `articles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idType` int(11) NOT NULL,
   `name` char(255) NOT NULL,
   `year` int(11) NOT NULL,
@@ -141,29 +156,28 @@ CREATE TABLE `articles` (
   `idAuthorship` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `volumePublication` int(11) NOT NULL,
-  `location` varchar(512) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `articles`
---
-
-INSERT INTO `articles` (`id`, `idType`, `name`, `year`, `idStatus`, `idAuthorship`, `idStudent`, `volumePublication`, `location`) VALUES
-(1, 3, 'Анализ номенклатуры программных средств массового использования, применяемых в российских вузах', 2015, 3, 2, 52, 7, 'uploads/52/ГорбачеваАнна(mPa).pdf');
+  `location` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idType` (`idType`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idAuthorship` (`idAuthorship`),
+  KEY `idStudent` (`idStudent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `authorship`
+-- Table structure for table `authorship`
 --
 
-CREATE TABLE `authorship` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `authorship` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Дамп данных таблицы `authorship`
+-- Dumping data for table `authorship`
 --
 
 INSERT INTO `authorship` (`id`, `name`) VALUES
@@ -173,16 +187,17 @@ INSERT INTO `authorship` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `cities`
+-- Table structure for table `cities`
 --
 
-CREATE TABLE `cities` (
-  `id` int(11) NOT NULL,
-  `name` char(64) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `cities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Дамп данных таблицы `cities`
+-- Dumping data for table `cities`
 --
 
 INSERT INTO `cities` (`id`, `name`) VALUES
@@ -198,40 +213,42 @@ INSERT INTO `cities` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `educationLevel`
+-- Table structure for table `educationLevel`
 --
 
-CREATE TABLE `educationLevel` (
+CREATE TABLE IF NOT EXISTS `educationLevel` (
   `id` int(11) NOT NULL,
-  `name` varchar(256) CHARACTER SET utf8 NOT NULL
+  `name` varchar(256) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Дамп данных таблицы `educationLevel`
+-- Dumping data for table `educationLevel`
 --
 
 INSERT INTO `educationLevel` (`id`, `name`) VALUES
-(1, 'бакалавриат/специалитет, 1 курс'),
-(2, 'бакалавриат/специалитет, 2 курс'),
-(3, 'бакалавриат/специалитет, 3 курс'),
-(4, 'бакалавриат/специалитет, 4 курс'),
-(5, 'бакалавриат/специалитет, 5 курс'),
-(6, 'магистратура, 1 курс'),
-(7, 'магистратура, 2 курс');
+(0, 'бакалавриат/специалитет, 1 курс'),
+(1, 'бакалавриат/специалитет, 2 курс'),
+(2, 'бакалавриат/специалитет, 3 курс'),
+(3, 'бакалавриат/специалитет, 4 курс'),
+(4, 'бакалавриат/специалитет, 5 курс'),
+(5, 'магистратура, 1 курс'),
+(6, 'магистратура, 2 курс');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `eventType`
+-- Table structure for table `eventType`
 --
 
-CREATE TABLE `eventType` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `eventType` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Дамп данных таблицы `eventType`
+-- Dumping data for table `eventType`
 --
 
 INSERT INTO `eventType` (`id`, `name`) VALUES
@@ -241,17 +258,19 @@ INSERT INTO `eventType` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `facultet`
+-- Table structure for table `facultet`
 --
 
-CREATE TABLE `facultet` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `facultet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(128) NOT NULL,
-  `idUniversity` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `idUniversity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idUniversity` (`idUniversity`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
--- Дамп данных таблицы `facultet`
+-- Dumping data for table `facultet`
 --
 
 INSERT INTO `facultet` (`id`, `name`, `idUniversity`) VALUES
@@ -264,11 +283,11 @@ INSERT INTO `facultet` (`id`, `name`, `idUniversity`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `grants`
+-- Table structure for table `grants`
 --
 
-CREATE TABLE `grants` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `grants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nameProject` varchar(512) DEFAULT NULL,
   `nameOrganization` varchar(512) DEFAULT NULL,
   `typeGrant` int(11) NOT NULL,
@@ -281,22 +300,30 @@ CREATE TABLE `grants` (
   `idStudent` int(11) NOT NULL,
   `location` varchar(512) DEFAULT NULL,
   `idStatus` int(11) NOT NULL,
-  `idLevel` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idLevel` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idTypeContest` (`idTypeContest`),
+  KEY `idScienceDirection` (`idScienceDirection`),
+  KEY `idStudent` (`idStudent`),
+  KEY `typeGrant` (`typeGrant`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idLevel` (`idLevel`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `grantType`
+-- Table structure for table `grantType`
 --
 
-CREATE TABLE `grantType` (
-  `id` int(11) NOT NULL,
-  `name` char(128) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `grantType` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
--- Дамп данных таблицы `grantType`
+-- Dumping data for table `grantType`
 --
 
 INSERT INTO `grantType` (`id`, `name`) VALUES
@@ -306,11 +333,11 @@ INSERT INTO `grantType` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `ktdParticipation`
+-- Table structure for table `ktdParticipation`
 --
 
-CREATE TABLE `ktdParticipation` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ktdParticipation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(1024) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   `idStatus` int(11) DEFAULT NULL,
@@ -318,22 +345,29 @@ CREATE TABLE `ktdParticipation` (
   `idTypeParticipant` int(11) NOT NULL,
   `date` date NOT NULL,
   `location` varchar(512) NOT NULL,
-  `idStudent` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idStudent` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idStatus` (`idStatus`,`idLevel`),
+  KEY `idLevel` (`idLevel`),
+  KEY `idTypeParticipant` (`idTypeParticipant`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `level`
+-- Table structure for table `level`
 --
 
-CREATE TABLE `level` (
-  `id` int(11) NOT NULL,
-  `name` char(128) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `level` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Дамп данных таблицы `level`
+-- Dumping data for table `level`
 --
 
 INSERT INTO `level` (`id`, `name`) VALUES
@@ -347,16 +381,17 @@ INSERT INTO `level` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `migration`
+-- Table structure for table `migration`
 --
 
-CREATE TABLE `migration` (
+CREATE TABLE IF NOT EXISTS `migration` (
   `version` varchar(180) NOT NULL,
-  `apply_time` int(11) DEFAULT NULL
+  `apply_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `migration`
+-- Dumping data for table `migration`
 --
 
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
@@ -366,18 +401,20 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `napravlenie`
+-- Table structure for table `napravlenie`
 --
 
-CREATE TABLE `napravlenie` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `napravlenie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `shifr` char(128) NOT NULL,
   `name` char(128) NOT NULL,
-  `idFacultet` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+  `idFacultet` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idFacultet` (`idFacultet`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
--- Дамп данных таблицы `napravlenie`
+-- Dumping data for table `napravlenie`
 --
 
 INSERT INTO `napravlenie` (`id`, `shifr`, `name`, `idFacultet`) VALUES
@@ -387,11 +424,11 @@ INSERT INTO `napravlenie` (`id`, `shifr`, `name`, `idFacultet`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `patents`
+-- Table structure for table `patents`
 --
 
-CREATE TABLE `patents` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `patents` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(512) DEFAULT NULL,
   `idTypePatent` int(11) DEFAULT NULL,
   `copyrightHolder` varchar(512) DEFAULT NULL,
@@ -402,17 +439,21 @@ CREATE TABLE `patents` (
   `regNumber` int(11) DEFAULT NULL,
   `appNumber` int(11) DEFAULT NULL,
   `idStudent` int(11) NOT NULL,
-  `location` varchar(512) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `location` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idTypePatent` (`idTypePatent`),
+  KEY `idStudent` (`idStudent`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `publicPerformance`
+-- Table structure for table `publicPerformance`
 --
 
-CREATE TABLE `publicPerformance` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `publicPerformance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(256) DEFAULT NULL,
   `idStatus` int(11) DEFAULT NULL,
   `idTypePublicPerformance` int(11) DEFAULT NULL,
@@ -420,30 +461,30 @@ CREATE TABLE `publicPerformance` (
   `idDocumentType` int(11) NOT NULL,
   `idStudent` int(11) NOT NULL,
   `location` varchar(512) NOT NULL,
-  `idLevel` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `publicPerformance`
---
-
-INSERT INTO `publicPerformance` (`id`, `name`, `idStatus`, `idTypePublicPerformance`, `year`, `idDocumentType`, `idStudent`, `location`, `idLevel`) VALUES
-(1, 'Выступление с музыкально- драматическим произведением «В мире музыки» ', 3, 3, '2016-03-09', 4, 52, 'uploads/52/НИР_Цельная(Xf9).docx', 3);
+  `idLevel` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idTypePublicPerformance` (`idTypePublicPerformance`),
+  KEY `idDocumentType` (`idDocumentType`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idLevel` (`idLevel`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `scienceDirection`
+-- Table structure for table `scienceDirection`
 --
 
-CREATE TABLE `scienceDirection` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `scienceDirection` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(128) NOT NULL,
-  `value` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+  `value` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
--- Дамп данных таблицы `scienceDirection`
+-- Dumping data for table `scienceDirection`
 --
 
 INSERT INTO `scienceDirection` (`id`, `name`, `value`) VALUES
@@ -460,17 +501,19 @@ INSERT INTO `scienceDirection` (`id`, `name`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `sgroup`
+-- Table structure for table `sgroup`
 --
 
-CREATE TABLE `sgroup` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `sgroup` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(128) NOT NULL,
-  `idNapravlenie` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `idNapravlenie` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idNapravlenie` (`idNapravlenie`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Дамп данных таблицы `sgroup`
+-- Dumping data for table `sgroup`
 --
 
 INSERT INTO `sgroup` (`id`, `name`, `idNapravlenie`) VALUES
@@ -480,11 +523,11 @@ INSERT INTO `sgroup` (`id`, `name`, `idNapravlenie`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `socialParticipation`
+-- Table structure for table `socialParticipation`
 --
 
-CREATE TABLE `socialParticipation` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `socialParticipation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idSocialParticipationType` int(11) DEFAULT NULL,
   `description` varchar(1024) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
@@ -493,11 +536,16 @@ CREATE TABLE `socialParticipation` (
   `idTypeParticipant` int(11) NOT NULL,
   `date` date NOT NULL,
   `idStudent` int(11) NOT NULL,
-  `location` varchar(512) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  `location` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idStatus` (`idStatus`),
+  KEY `idLevel` (`idLevel`),
+  KEY `idTypeParticipant` (`idTypeParticipant`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
--- Дамп данных таблицы `socialParticipation`
+-- Dumping data for table `socialParticipation`
 --
 
 INSERT INTO `socialParticipation` (`id`, `idSocialParticipationType`, `description`, `count`, `idStatus`, `idLevel`, `idTypeParticipant`, `date`, `idStudent`, `location`) VALUES
@@ -509,10 +557,10 @@ INSERT INTO `socialParticipation` (`id`, `idSocialParticipationType`, `descripti
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `sotrudnik`
+-- Table structure for table `sotrudnik`
 --
 
-CREATE TABLE `sotrudnik` (
+CREATE TABLE IF NOT EXISTS `sotrudnik` (
   `idSotrudnik` int(11) NOT NULL,
   `secondName` char(64) NOT NULL,
   `firstName` char(64) NOT NULL,
@@ -520,11 +568,15 @@ CREATE TABLE `sotrudnik` (
   `idCity` int(11) DEFAULT NULL,
   `idUniversity` int(11) DEFAULT NULL,
   `idFacultet` int(11) DEFAULT NULL,
-  `dolzn` char(64) CHARACTER SET latin1 NOT NULL
+  `dolzn` char(64) CHARACTER SET latin1 NOT NULL,
+  PRIMARY KEY (`idSotrudnik`),
+  KEY `idCity` (`idCity`),
+  KEY `idUniversity` (`idUniversity`),
+  KEY `idFacultet` (`idFacultet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `sotrudnik`
+-- Dumping data for table `sotrudnik`
 --
 
 INSERT INTO `sotrudnik` (`idSotrudnik`, `secondName`, `firstName`, `midleName`, `idCity`, `idUniversity`, `idFacultet`, `dolzn`) VALUES
@@ -533,11 +585,11 @@ INSERT INTO `sotrudnik` (`idSotrudnik`, `secondName`, `firstName`, `midleName`, 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `sportParticipation`
+-- Table structure for table `sportParticipation`
 --
 
-CREATE TABLE `sportParticipation` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `sportParticipation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(1024) DEFAULT NULL,
   `count` int(11) DEFAULT NULL,
   `idStatus` int(11) NOT NULL,
@@ -545,22 +597,28 @@ CREATE TABLE `sportParticipation` (
   `idTypeParticipant` int(11) NOT NULL,
   `date` date NOT NULL,
   `idStudent` int(11) NOT NULL,
-  `location` varchar(512) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `location` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idStatus` (`idStatus`,`idLevel`,`idTypeParticipant`),
+  KEY `idLevel` (`idLevel`),
+  KEY `idTypeParticipant` (`idTypeParticipant`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `statusEvent`
+-- Table structure for table `statusEvent`
 --
 
-CREATE TABLE `statusEvent` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `statusEvent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Дамп данных таблицы `statusEvent`
+-- Dumping data for table `statusEvent`
 --
 
 INSERT INTO `statusEvent` (`id`, `name`) VALUES
@@ -572,16 +630,17 @@ INSERT INTO `statusEvent` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `statusPatent`
+-- Table structure for table `statusPatent`
 --
 
-CREATE TABLE `statusPatent` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `statusPatent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Дамп данных таблицы `statusPatent`
+-- Dumping data for table `statusPatent`
 --
 
 INSERT INTO `statusPatent` (`id`, `name`) VALUES
@@ -591,22 +650,25 @@ INSERT INTO `statusPatent` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `studentRating`
+-- Table structure for table `studentRating`
 --
 
-CREATE TABLE `studentRating` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `studentRating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idStudent` int(11) NOT NULL,
   `idActivity` int(11) NOT NULL,
   `r1` double NOT NULL,
   `r2` double NOT NULL,
   `r3` double NOT NULL,
   `status` int(11) NOT NULL,
-  `mark` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `mark` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idStudent` (`idStudent`),
+  KEY `idActivity` (`idActivity`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
--- Дамп данных таблицы `studentRating`
+-- Dumping data for table `studentRating`
 --
 
 INSERT INTO `studentRating` (`id`, `idStudent`, `idActivity`, `r1`, `r2`, `r3`, `status`, `mark`) VALUES
@@ -616,10 +678,10 @@ INSERT INTO `studentRating` (`id`, `idStudent`, `idActivity`, `r1`, `r2`, `r3`, 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `students`
+-- Table structure for table `students`
 --
 
-CREATE TABLE `students` (
+CREATE TABLE IF NOT EXISTS `students` (
   `idStudent` int(11) NOT NULL,
   `secondName` char(64) CHARACTER SET utf8 NOT NULL,
   `firstName` char(64) CHARACTER SET utf8 NOT NULL,
@@ -629,29 +691,37 @@ CREATE TABLE `students` (
   `idFacultet` int(11) DEFAULT NULL,
   `idLevel` int(11) DEFAULT NULL,
   `idNapravlenie` int(11) DEFAULT NULL,
-  `idGroup` int(11) DEFAULT NULL
+  `idGroup` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idStudent`),
+  KEY `idCity` (`idCity`),
+  KEY `idLevel` (`idLevel`),
+  KEY `idFacultet` (`idFacultet`),
+  KEY `idNapravlenie` (`idNapravlenie`),
+  KEY `idGroup` (`idGroup`),
+  KEY `idUniversity` (`idUniversity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Дамп данных таблицы `students`
+-- Dumping data for table `students`
 --
 
 INSERT INTO `students` (`idStudent`, `secondName`, `firstName`, `midleName`, `idCity`, `idUniversity`, `idFacultet`, `idLevel`, `idNapravlenie`, `idGroup`) VALUES
-(52, 'Лавров', 'Олег', 'Евгеньевич', 1, 1, 1, 2, 16, 5);
+(52, 'Лавров', 'Олег', 'Евгеньевич', 1, 1, 1, 0, 16, 5);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `table`
+-- Table structure for table `table`
 --
 
-CREATE TABLE `table` (
-  `id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `table` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
--- Дамп данных таблицы `table`
+-- Dumping data for table `table`
 --
 
 INSERT INTO `table` (`id`, `name`) VALUES
@@ -673,16 +743,17 @@ INSERT INTO `table` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typeArticle`
+-- Table structure for table `typeArticle`
 --
 
-CREATE TABLE `typeArticle` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `typeArticle` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
--- Дамп данных таблицы `typeArticle`
+-- Dumping data for table `typeArticle`
 --
 
 INSERT INTO `typeArticle` (`id`, `name`) VALUES
@@ -699,16 +770,17 @@ INSERT INTO `typeArticle` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typeContest`
+-- Table structure for table `typeContest`
 --
 
-CREATE TABLE `typeContest` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `typeContest` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Дамп данных таблицы `typeContest`
+-- Dumping data for table `typeContest`
 --
 
 INSERT INTO `typeContest` (`id`, `name`) VALUES
@@ -723,16 +795,17 @@ INSERT INTO `typeContest` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typeDocument`
+-- Table structure for table `typeDocument`
 --
 
-CREATE TABLE `typeDocument` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `typeDocument` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- Дамп данных таблицы `typeDocument`
+-- Dumping data for table `typeDocument`
 --
 
 INSERT INTO `typeDocument` (`id`, `name`) VALUES
@@ -744,16 +817,17 @@ INSERT INTO `typeDocument` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typeParticipant`
+-- Table structure for table `typeParticipant`
 --
 
-CREATE TABLE `typeParticipant` (
-  `id` int(11) NOT NULL,
-  `name` char(128) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `typeParticipant` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Дамп данных таблицы `typeParticipant`
+-- Dumping data for table `typeParticipant`
 --
 
 INSERT INTO `typeParticipant` (`id`, `name`) VALUES
@@ -765,16 +839,17 @@ INSERT INTO `typeParticipant` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typePatent`
+-- Table structure for table `typePatent`
 --
 
-CREATE TABLE `typePatent` (
-  `id` int(11) NOT NULL,
-  `name` char(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `typePatent` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Дамп данных таблицы `typePatent`
+-- Dumping data for table `typePatent`
 --
 
 INSERT INTO `typePatent` (`id`, `name`) VALUES
@@ -789,16 +864,17 @@ INSERT INTO `typePatent` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typePublicPerformance`
+-- Table structure for table `typePublicPerformance`
 --
 
-CREATE TABLE `typePublicPerformance` (
-  `id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `typePublicPerformance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 --
--- Дамп данных таблицы `typePublicPerformance`
+-- Dumping data for table `typePublicPerformance`
 --
 
 INSERT INTO `typePublicPerformance` (`id`, `name`) VALUES
@@ -841,16 +917,17 @@ INSERT INTO `typePublicPerformance` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `typeSocialParticipation`
+-- Table structure for table `typeSocialParticipation`
 --
 
-CREATE TABLE `typeSocialParticipation` (
-  `id` int(11) NOT NULL,
-  `name` varchar(512) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `typeSocialParticipation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- Дамп данных таблицы `typeSocialParticipation`
+-- Dumping data for table `typeSocialParticipation`
 --
 
 INSERT INTO `typeSocialParticipation` (`id`, `name`) VALUES
@@ -865,17 +942,19 @@ INSERT INTO `typeSocialParticipation` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `universities`
+-- Table structure for table `universities`
 --
 
-CREATE TABLE `universities` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `universities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(128) NOT NULL,
-  `idCity` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `idCity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idCity` (`idCity`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
--- Дамп данных таблицы `universities`
+-- Dumping data for table `universities`
 --
 
 INSERT INTO `universities` (`id`, `name`, `idCity`) VALUES
@@ -889,11 +968,11 @@ INSERT INTO `universities` (`id`, `name`, `idCity`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `user`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `role` int(11) NOT NULL,
@@ -901,11 +980,14 @@ CREATE TABLE `user` (
   `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `updated_at` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `password_reset_token` (`password_reset_token`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=53 ;
 
 --
--- Дамп данных таблицы `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `email`, `password_hash`, `role`, `auth_key`, `password_reset_token`, `status`, `created_at`, `updated_at`) VALUES
@@ -916,28 +998,30 @@ INSERT INTO `user` (`id`, `email`, `password_hash`, `role`, `auth_key`, `passwor
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `valuesRating`
+-- Table structure for table `valuesRating`
 --
 
-CREATE TABLE `valuesRating` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `valuesRating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `idFacultet` int(11) NOT NULL,
   `idTable` int(11) NOT NULL,
   `idItem` int(11) NOT NULL,
-  `value` double DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
+  `value` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idFacultet` (`idFacultet`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=71 ;
 
 --
--- Дамп данных таблицы `valuesRating`
+-- Dumping data for table `valuesRating`
 --
 
 INSERT INTO `valuesRating` (`id`, `idFacultet`, `idTable`, `idItem`, `value`) VALUES
-(1, 1, 1, 1, 9),
-(2, 1, 1, 2, 7),
-(3, 1, 1, 3, 6),
-(4, 1, 1, 4, 3),
-(5, 1, 2, 1, 6),
-(6, 1, 2, 2, 6),
+(1, 1, 1, 1, 2),
+(2, 1, 1, 2, 3),
+(3, 1, 1, 3, 4),
+(4, 1, 1, 4, 5),
+(5, 1, 2, 1, 2),
+(6, 1, 2, 2, 3),
 (7, 1, 3, 1, 2),
 (8, 1, 3, 2, 3),
 (9, 1, 3, 3, 4),
@@ -998,500 +1082,17 @@ INSERT INTO `valuesRating` (`id`, `idFacultet`, `idTable`, `idItem`, `value`) VA
 (64, 1, 12, 6, 7),
 (65, 1, 13, 2, 2),
 (66, 1, 13, 3, 3),
-(67, 1, 14, 1, 3),
+(67, 1, 14, 1, 2),
 (68, 1, 14, 2, 3),
 (69, 1, 14, 3, 4),
 (70, 1, 14, 4, 5);
 
 --
--- Индексы сохранённых таблиц
+-- Constraints for dumped tables
 --
 
 --
--- Индексы таблицы `achievements`
---
-ALTER TABLE `achievements`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idEventType` (`idEventType`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idDocumentType` (`idDocumentType`),
-  ADD KEY `idLevel` (`idLevel`);
-
---
--- Индексы таблицы `achievementsKTD`
---
-ALTER TABLE `achievementsKTD`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idTypeContest` (`idTypeContest`),
-  ADD KEY `idDocumentType` (`idDocumentType`),
-  ADD KEY `idDocument` (`idDocument`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idLevel` (`idLevel`);
-
---
--- Индексы таблицы `achievementsPresident`
---
-ALTER TABLE `achievementsPresident`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStudent` (`idStudent`);
-
---
--- Индексы таблицы `achievementsSport`
---
-ALTER TABLE `achievementsSport`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idTypeContest` (`idTypeContest`),
-  ADD KEY `idDocumentType` (`idDocumentType`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idLevel` (`idLevel`);
-
---
--- Индексы таблицы `activity`
---
-ALTER TABLE `activity`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `articles`
---
-ALTER TABLE `articles`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idType` (`idType`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idAuthorship` (`idAuthorship`),
-  ADD KEY `idStudent` (`idStudent`);
-
---
--- Индексы таблицы `authorship`
---
-ALTER TABLE `authorship`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `cities`
---
-ALTER TABLE `cities`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `educationLevel`
---
-ALTER TABLE `educationLevel`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `eventType`
---
-ALTER TABLE `eventType`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `facultet`
---
-ALTER TABLE `facultet`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idUniversity` (`idUniversity`);
-
---
--- Индексы таблицы `grants`
---
-ALTER TABLE `grants`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idTypeContest` (`idTypeContest`),
-  ADD KEY `idScienceDirection` (`idScienceDirection`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `typeGrant` (`typeGrant`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idLevel` (`idLevel`);
-
---
--- Индексы таблицы `grantType`
---
-ALTER TABLE `grantType`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `ktdParticipation`
---
-ALTER TABLE `ktdParticipation`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idStatus` (`idStatus`,`idLevel`),
-  ADD KEY `idLevel` (`idLevel`),
-  ADD KEY `idTypeParticipant` (`idTypeParticipant`);
-
---
--- Индексы таблицы `level`
---
-ALTER TABLE `level`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Индексы таблицы `migration`
---
-ALTER TABLE `migration`
-  ADD PRIMARY KEY (`version`);
-
---
--- Индексы таблицы `napravlenie`
---
-ALTER TABLE `napravlenie`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idFacultet` (`idFacultet`);
-
---
--- Индексы таблицы `patents`
---
-ALTER TABLE `patents`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idTypePatent` (`idTypePatent`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `status` (`status`);
-
---
--- Индексы таблицы `publicPerformance`
---
-ALTER TABLE `publicPerformance`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idTypePublicPerformance` (`idTypePublicPerformance`),
-  ADD KEY `idDocumentType` (`idDocumentType`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idLevel` (`idLevel`);
-
---
--- Индексы таблицы `scienceDirection`
---
-ALTER TABLE `scienceDirection`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `sgroup`
---
-ALTER TABLE `sgroup`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idNapravlenie` (`idNapravlenie`);
-
---
--- Индексы таблицы `socialParticipation`
---
-ALTER TABLE `socialParticipation`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idStatus` (`idStatus`),
-  ADD KEY `idLevel` (`idLevel`),
-  ADD KEY `idTypeParticipant` (`idTypeParticipant`);
-
---
--- Индексы таблицы `sotrudnik`
---
-ALTER TABLE `sotrudnik`
-  ADD PRIMARY KEY (`idSotrudnik`),
-  ADD KEY `idCity` (`idCity`),
-  ADD KEY `idUniversity` (`idUniversity`),
-  ADD KEY `idFacultet` (`idFacultet`);
-
---
--- Индексы таблицы `sportParticipation`
---
-ALTER TABLE `sportParticipation`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idStatus` (`idStatus`,`idLevel`,`idTypeParticipant`),
-  ADD KEY `idLevel` (`idLevel`),
-  ADD KEY `idTypeParticipant` (`idTypeParticipant`);
-
---
--- Индексы таблицы `statusEvent`
---
-ALTER TABLE `statusEvent`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `statusPatent`
---
-ALTER TABLE `statusPatent`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `studentRating`
---
-ALTER TABLE `studentRating`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idStudent` (`idStudent`),
-  ADD KEY `idActivity` (`idActivity`);
-
---
--- Индексы таблицы `students`
---
-ALTER TABLE `students`
-  ADD PRIMARY KEY (`idStudent`),
-  ADD KEY `idCity` (`idCity`),
-  ADD KEY `idLevel` (`idLevel`),
-  ADD KEY `idFacultet` (`idFacultet`),
-  ADD KEY `idNapravlenie` (`idNapravlenie`),
-  ADD KEY `idGroup` (`idGroup`),
-  ADD KEY `idUniversity` (`idUniversity`);
-
---
--- Индексы таблицы `table`
---
-ALTER TABLE `table`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typeArticle`
---
-ALTER TABLE `typeArticle`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typeContest`
---
-ALTER TABLE `typeContest`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typeDocument`
---
-ALTER TABLE `typeDocument`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typeParticipant`
---
-ALTER TABLE `typeParticipant`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typePatent`
---
-ALTER TABLE `typePatent`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typePublicPerformance`
---
-ALTER TABLE `typePublicPerformance`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `typeSocialParticipation`
---
-ALTER TABLE `typeSocialParticipation`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `universities`
---
-ALTER TABLE `universities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idCity` (`idCity`);
-
---
--- Индексы таблицы `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `password_reset_token` (`password_reset_token`);
-
---
--- Индексы таблицы `valuesRating`
---
-ALTER TABLE `valuesRating`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idFacultet` (`idFacultet`);
-
---
--- AUTO_INCREMENT для сохранённых таблиц
---
-
---
--- AUTO_INCREMENT для таблицы `achievements`
---
-ALTER TABLE `achievements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT для таблицы `achievementsKTD`
---
-ALTER TABLE `achievementsKTD`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `achievementsPresident`
---
-ALTER TABLE `achievementsPresident`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `achievementsSport`
---
-ALTER TABLE `achievementsSport`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT для таблицы `activity`
---
-ALTER TABLE `activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT для таблицы `articles`
---
-ALTER TABLE `articles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT для таблицы `authorship`
---
-ALTER TABLE `authorship`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT для таблицы `cities`
---
-ALTER TABLE `cities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT для таблицы `eventType`
---
-ALTER TABLE `eventType`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT для таблицы `facultet`
---
-ALTER TABLE `facultet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT для таблицы `grants`
---
-ALTER TABLE `grants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `grantType`
---
-ALTER TABLE `grantType`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT для таблицы `ktdParticipation`
---
-ALTER TABLE `ktdParticipation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `level`
---
-ALTER TABLE `level`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT для таблицы `napravlenie`
---
-ALTER TABLE `napravlenie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT для таблицы `patents`
---
-ALTER TABLE `patents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `publicPerformance`
---
-ALTER TABLE `publicPerformance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT для таблицы `scienceDirection`
---
-ALTER TABLE `scienceDirection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT для таблицы `sgroup`
---
-ALTER TABLE `sgroup`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT для таблицы `socialParticipation`
---
-ALTER TABLE `socialParticipation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
---
--- AUTO_INCREMENT для таблицы `sportParticipation`
---
-ALTER TABLE `sportParticipation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT для таблицы `statusEvent`
---
-ALTER TABLE `statusEvent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT для таблицы `statusPatent`
---
-ALTER TABLE `statusPatent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT для таблицы `studentRating`
---
-ALTER TABLE `studentRating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT для таблицы `table`
---
-ALTER TABLE `table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
---
--- AUTO_INCREMENT для таблицы `typeArticle`
---
-ALTER TABLE `typeArticle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT для таблицы `typeContest`
---
-ALTER TABLE `typeContest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT для таблицы `typeDocument`
---
-ALTER TABLE `typeDocument`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT для таблицы `typeParticipant`
---
-ALTER TABLE `typeParticipant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT для таблицы `typePatent`
---
-ALTER TABLE `typePatent`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT для таблицы `typePublicPerformance`
---
-ALTER TABLE `typePublicPerformance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
---
--- AUTO_INCREMENT для таблицы `typeSocialParticipation`
---
-ALTER TABLE `typeSocialParticipation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT для таблицы `universities`
---
-ALTER TABLE `universities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT для таблицы `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
---
--- AUTO_INCREMENT для таблицы `valuesRating`
---
-ALTER TABLE `valuesRating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=71;
---
--- Ограничения внешнего ключа сохраненных таблиц
---
-
---
--- Ограничения внешнего ключа таблицы `achievements`
+-- Constraints for table `achievements`
 --
 ALTER TABLE `achievements`
   ADD CONSTRAINT `achievements_ibfk_1` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`) ON UPDATE CASCADE,
@@ -1501,7 +1102,7 @@ ALTER TABLE `achievements`
   ADD CONSTRAINT `achievements_ibfk_5` FOREIGN KEY (`idLevel`) REFERENCES `level` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `achievementsKTD`
+-- Constraints for table `achievementsKTD`
 --
 ALTER TABLE `achievementsKTD`
   ADD CONSTRAINT `achievementsKTD_ibfk_1` FOREIGN KEY (`idStatus`) REFERENCES `statusEvent` (`id`) ON UPDATE CASCADE,
@@ -1511,13 +1112,13 @@ ALTER TABLE `achievementsKTD`
   ADD CONSTRAINT `achievementsKTD_ibfk_6` FOREIGN KEY (`idLevel`) REFERENCES `level` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `achievementsPresident`
+-- Constraints for table `achievementsPresident`
 --
 ALTER TABLE `achievementsPresident`
   ADD CONSTRAINT `achievementsPresident_ibfk_2` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`);
 
 --
--- Ограничения внешнего ключа таблицы `achievementsSport`
+-- Constraints for table `achievementsSport`
 --
 ALTER TABLE `achievementsSport`
   ADD CONSTRAINT `achievementsSport_ibfk_1` FOREIGN KEY (`idStatus`) REFERENCES `statusEvent` (`id`) ON UPDATE CASCADE,
@@ -1527,7 +1128,7 @@ ALTER TABLE `achievementsSport`
   ADD CONSTRAINT `achievementsSport_ibfk_6` FOREIGN KEY (`idLevel`) REFERENCES `level` (`id`) ON DELETE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `articles`
+-- Constraints for table `articles`
 --
 ALTER TABLE `articles`
   ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`idType`) REFERENCES `typeArticle` (`id`) ON UPDATE CASCADE,
@@ -1536,13 +1137,13 @@ ALTER TABLE `articles`
   ADD CONSTRAINT `articles_ibfk_5` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `facultet`
+-- Constraints for table `facultet`
 --
 ALTER TABLE `facultet`
   ADD CONSTRAINT `facultet_ibfk_1` FOREIGN KEY (`idUniversity`) REFERENCES `universities` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `grants`
+-- Constraints for table `grants`
 --
 ALTER TABLE `grants`
   ADD CONSTRAINT `grants_ibfk_1` FOREIGN KEY (`idTypeContest`) REFERENCES `typeContest` (`id`) ON UPDATE CASCADE,
@@ -1553,7 +1154,7 @@ ALTER TABLE `grants`
   ADD CONSTRAINT `grants_ibfk_7` FOREIGN KEY (`idLevel`) REFERENCES `level` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `ktdParticipation`
+-- Constraints for table `ktdParticipation`
 --
 ALTER TABLE `ktdParticipation`
   ADD CONSTRAINT `ktdParticipation_ibfk_2` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1562,13 +1163,13 @@ ALTER TABLE `ktdParticipation`
   ADD CONSTRAINT `ktdParticipation_ibfk_5` FOREIGN KEY (`idTypeParticipant`) REFERENCES `typeParticipant` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `napravlenie`
+-- Constraints for table `napravlenie`
 --
 ALTER TABLE `napravlenie`
   ADD CONSTRAINT `napravlenie_ibfk_1` FOREIGN KEY (`idFacultet`) REFERENCES `facultet` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `patents`
+-- Constraints for table `patents`
 --
 ALTER TABLE `patents`
   ADD CONSTRAINT `patents_ibfk_1` FOREIGN KEY (`idTypePatent`) REFERENCES `typePatent` (`id`) ON UPDATE CASCADE,
@@ -1576,7 +1177,7 @@ ALTER TABLE `patents`
   ADD CONSTRAINT `patents_ibfk_4` FOREIGN KEY (`status`) REFERENCES `statusPatent` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `publicPerformance`
+-- Constraints for table `publicPerformance`
 --
 ALTER TABLE `publicPerformance`
   ADD CONSTRAINT `publicPerformance_ibfk_1` FOREIGN KEY (`idStatus`) REFERENCES `statusEvent` (`id`) ON UPDATE CASCADE,
@@ -1586,13 +1187,13 @@ ALTER TABLE `publicPerformance`
   ADD CONSTRAINT `publicPerformance_ibfk_6` FOREIGN KEY (`idLevel`) REFERENCES `level` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `sgroup`
+-- Constraints for table `sgroup`
 --
 ALTER TABLE `sgroup`
   ADD CONSTRAINT `sgroup_ibfk_1` FOREIGN KEY (`idNapravlenie`) REFERENCES `napravlenie` (`id`) ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `socialParticipation`
+-- Constraints for table `socialParticipation`
 --
 ALTER TABLE `socialParticipation`
   ADD CONSTRAINT `socialParticipation_ibfk_1` FOREIGN KEY (`idStatus`) REFERENCES `statusEvent` (`id`) ON UPDATE CASCADE,
@@ -1601,7 +1202,7 @@ ALTER TABLE `socialParticipation`
   ADD CONSTRAINT `socialParticipation_ibfk_4` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `sotrudnik`
+-- Constraints for table `sotrudnik`
 --
 ALTER TABLE `sotrudnik`
   ADD CONSTRAINT `sotrudnik_ibfk_1` FOREIGN KEY (`idSotrudnik`) REFERENCES `user` (`id`),
@@ -1610,7 +1211,7 @@ ALTER TABLE `sotrudnik`
   ADD CONSTRAINT `sotrudnik_ibfk_4` FOREIGN KEY (`idFacultet`) REFERENCES `facultet` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `sportParticipation`
+-- Constraints for table `sportParticipation`
 --
 ALTER TABLE `sportParticipation`
   ADD CONSTRAINT `sportParticipation_ibfk_2` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -1619,14 +1220,14 @@ ALTER TABLE `sportParticipation`
   ADD CONSTRAINT `sportParticipation_ibfk_5` FOREIGN KEY (`idTypeParticipant`) REFERENCES `typeParticipant` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `studentRating`
+-- Constraints for table `studentRating`
 --
 ALTER TABLE `studentRating`
   ADD CONSTRAINT `studentrating_ibfk_1` FOREIGN KEY (`idStudent`) REFERENCES `students` (`idStudent`),
   ADD CONSTRAINT `studentrating_ibfk_2` FOREIGN KEY (`idActivity`) REFERENCES `activity` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `students`
+-- Constraints for table `students`
 --
 ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`idCity`) REFERENCES `cities` (`id`),
@@ -1637,13 +1238,13 @@ ALTER TABLE `students`
   ADD CONSTRAINT `students_ibfk_8` FOREIGN KEY (`idUniversity`) REFERENCES `universities` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `universities`
+-- Constraints for table `universities`
 --
 ALTER TABLE `universities`
   ADD CONSTRAINT `universities_ibfk_1` FOREIGN KEY (`idCity`) REFERENCES `cities` (`id`);
 
 --
--- Ограничения внешнего ключа таблицы `valuesRating`
+-- Constraints for table `valuesRating`
 --
 ALTER TABLE `valuesRating`
   ADD CONSTRAINT `valuesRating_ibfk_1` FOREIGN KEY (`idFacultet`) REFERENCES `facultet` (`id`);
