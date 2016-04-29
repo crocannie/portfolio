@@ -83,10 +83,16 @@ AppAsset::register($this);
             echo Nav::widget([
                 'items' => [
                     [
-                        'label' => '<span class="glyphicon glyphicon-log-in"></span>',
+                        'label' => 'Регистрация <span class="glyphicon glyphicon-education"></span>',
+                        'url'   => ['/site/signup'],
+                        'title'=>'Вход'
+                    ],
+                    [
+                        'label' => 'Вход <span class="glyphicon glyphicon-log-in"></span>',
                         'url'   => ['/site/login'],
                         'title'=>'Вход'
                     ],
+
                 ],
                 'encodeLabels' => false,
                 'options' => [
@@ -98,7 +104,7 @@ AppAsset::register($this);
             echo Nav::widget([
                 'items' => [
                     [
-                        'label' => 'Профиль <span class="glyphicon glyphicon-user"></span>',
+                        'label' => 'Студент <span class="glyphicon glyphicon-user"></span>',
                         'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
                         'title'=>'Профиль'
                     ],
@@ -157,11 +163,6 @@ AppAsset::register($this);
 
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; Портфолио <?= date('Y') ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>

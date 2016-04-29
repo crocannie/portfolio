@@ -115,11 +115,11 @@ class SiteController extends Controller
                     'model' => $model,
                     ]);
             } elseif ($model->loginSotrudnik()) {
-                    // return $this->render('index', [
-                    // 'model' => $model,
-                    // ]);                   
-                     return $this->render('dekanat', [
-                    'model' => $model,]);  
+                    return $this->render('index', [
+                    'model' => $model,
+                    ]);                   
+                    //  return $this->render('dekanat', [
+                    // 'model' => $model,]);  
 
                 }
         } else {
