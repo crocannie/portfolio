@@ -33,16 +33,6 @@ class SgroupController extends Controller
      */
     public function actionIndex($id)
     {
-        // $sql = Yii::$app->db->createCommand('select distinct g.name as name, g.idNapravlenie as idNapravlenie, g.id as id  from sgroup g, napravlenie n where g.idNapravlenie=n.id and n.idFacultet = :id')
-        //                     ->bindValue(':id', $id)
-        //                     ->queryAll();
-        // $dataProvider = new ActiveDataProvider([
-        //     'query'=> $sql,
-        //     ]);
-        // $dataProvider = new ActiveDataProvider([
-        //     'query' => Sgroup::find(),
-        // ]);
-
         $dataProvider = new ActiveDataProvider([
             'query' => Sgroup::find()
                     ->select('sgroup.id, sgroup.idNapravlenie, sgroup.name')
@@ -50,9 +40,7 @@ class SgroupController extends Controller
                     ->from('sgroup, napravlenie')
                     ->where(['napravlenie.idFacultet'=>$id])
         ]);
-        // $dataProvider = new ActiveDataProvider([
-        //     'query' => Sgroup::find(),
-        // ]);
+
         if(Yii::$app->request->post('hasEditable')){
             $sgroupId = Yii::$app->request->post('editableKey');
             $sgroup = Sgroup::findOne($sgroupId);
@@ -98,7 +86,7 @@ class SgroupController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }

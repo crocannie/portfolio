@@ -132,12 +132,12 @@ AppAsset::register($this);
             echo Nav::widget([
                 'items' => [
                     [
-                        'label' => 'Профиль <span class="glyphicon glyphicon-user"></span>',
+                        'label' => '<span class="glyphicon glyphicon-user"></span> Профиль',
                         'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
                         'title'=>'Профиль'
                     ],
                     [
-                        'label' => 'Выход <span class="glyphicon glyphicon-log-out"></span>',
+                        'label' => '<span class="glyphicon glyphicon-log-out"></span> Выход',
                         'url'   => ['site/logout'],
                         // 'class' => 'btn btn-success', 
                         'linkOptions' => ['data-method' => 'post']

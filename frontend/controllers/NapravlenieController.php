@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Sotrudnik;
+use yii\helpers\Json;
 
 /**
  * NapravlenieController implements the CRUD actions for Napravlenie model.
@@ -38,6 +39,23 @@ class NapravlenieController extends Controller
                 ->where(['idFacultet'=>$id])
         ]);
 
+        if(Yii::$app->request->post('hasEditable')){
+            $naprId = Yii::$app->request->post('editableKey');
+            $napravlenie = Napravlenie::findOne($naprId);
+            $out = Json::encode(['output'=>'', 'message'=>'']);
+            $post = [];
+            $posted = current($_POST['Napravlenie']);
+            $post['Napravlenie'] = $posted;
+            if ($napravlenie->load($post)){
+                $napravlenie->save();    
+                // print_r($sgroup->getErrors());
+                $output = '';
+                $out = Json::encode(['output' => $output]);
+            }
+            echo $out;
+            return;
+        }
+        //renderAjax
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -67,7 +85,7 @@ class NapravlenieController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index', 'id' => $model->idFacultet]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
