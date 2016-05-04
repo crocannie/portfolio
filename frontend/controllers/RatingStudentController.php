@@ -16,6 +16,9 @@ use common\models\Patents;
 use common\models\Articles;
 use common\models\AchievementsStudy;
 use common\models\rating\Student;
+use common\models\rating\Value;
+
+
 /**
  * RatingStudentController implements the CRUD actions for Student model.
  */
@@ -38,10 +41,12 @@ class RatingStudentController extends Controller
      * Lists all Student models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
+        // $model = Student::findOne($id);
+        
         $dataProvider = new ActiveDataProvider([
-            'query' => Student::find(),
+            'query' => Student::find()->where(['idFacultet'=>$id]),
         ]);
 
         return $this->render('index', [
@@ -220,5 +225,41 @@ class RatingStudentController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionCalc($cnt, $idFacultet)
+    {
+        $activity = Value::getActivity($idFacultet);
+        foreach ($activity as $row ) {
+        // echo $row['idValue'].' '.$row['id'].' '.$row['value'].'<br>';
+            if ($row['id'] == 1) {
+                $studyValue = $row['value']*10;
+            }
+            if ($row['id'] == 2) {
+                $scienceValue = $row['value']*10;
+            }
+            if ($row['id'] == 3) {
+                $socialValue = $row['value']*10;
+            }
+           if ($row['id'] == 4) {
+               $cultureValue = $row['value']*10;
+           }
+            if ($row['id'] == 5) {
+                $sportValue = $row['value']*10;
+            }
+        }
+
+        $studyCnt   = ($cnt * $studyValue)      / 100;
+        $scienceCnt = ($cnt * $scienceValue)    / 100;
+        $socialCnt  = ($cnt * $socialValue)     / 100;
+        $cultureCnt = ($cnt * $cultureValue)    / 100;
+        $sportCnt   = ($cnt * $sportValue)      / 100;
+
+        // return $studyCnt;
+        // return $this->render('calc',[
+        //     'model'=>$model,
+        //     // $studyCnt,
+        // ]);
+
     }
 }

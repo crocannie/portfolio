@@ -1,5 +1,6 @@
 <?php
 
+use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\ActionColumn; 
@@ -9,25 +10,29 @@ use common\models\EducationLevel;
 use common\models\Napravlenie;
 use common\models\Sotrudnik;
 use common\models\rating\Student;
+use common\models\rating\Value;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Анкеты-заявления студентов';
-$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = $this->title;
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 
-$status = urldecode('index.php?r=rating/status&id='.$idFacultet); 
-
+$anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
 ?>
 <div class="student-index">
     <div class="row">
-        <div class="col-lg-1 col-lg-offset-9">
-          <p><a class="btn btn-md btn-success" href=<?= $status ?>>Критерии для отбора стипендиатов</a></p>
-        </div>
-        <div class="col-lg-12">  
+        <div class="col-lg-3">
+            <ul class="nav nav-pills nav-stacked" style="width: 200px;">
+                <li class="active"><a href=<?=$anket?>>Анкеты-завления студентов</a></li>
+                <li><a href=<?=$nir?>>Сроки</a></li>
+                <li><a href=<?=$nir?>>Документы</a></li>
+            </ul>
+        </div>  
+
+        <div class="col-lg-9">
             <h1><?= Html::encode($this->title) ?></h1>
 
             <?= GridView::widget([
@@ -78,5 +83,80 @@ $status = urldecode('index.php?r=rating/status&id='.$idFacultet);
                 ],
             ]); ?>
         </div>
+
+            <?php
+            $this->registerJs('
+                var gridview_id = ""; // specific gridview
+                var columns = [2]; // index column that will grouping, start 1
+         
+                /*
+                DON\'T EDIT HERE
+         
+        http://www.hafidmukhlasin.com
+         
+                */
+                var column_data = [];
+                    column_start = [];
+                    rowspan = [];
+         
+                for (var i = 0; i < columns.length; i++) {
+                    column = columns[i];
+                    column_data[column] = "";
+                    column_start[column] = null;
+                    rowspan[column] = 1;
+                }
+         
+                var row = 1;
+                $(gridview_id+" table > tbody  > tr").each(function() {
+                    var col = 1;
+                    $(this).find("td").each(function(){
+                        for (var i = 0; i < columns.length; i++) {
+                            if(col==columns[i]){
+                                if(column_data[columns[i]] == $(this).html()){
+                                    $(this).remove();
+                                    rowspan[columns[i]]++;
+                                    $(column_start[columns[i]]).attr("rowspan",rowspan[columns[i]]);
+                                }
+                                else{
+                                    column_data[columns[i]] = $(this).html();
+                                    rowspan[columns[i]] = 1;
+                                    column_start[columns[i]] = $(this);
+                                }
+                            }
+                        }
+                        col++;
+                    })
+                    row++;
+                });
+            ');
+            ?>
     </div>
 </div>
+
+<?php
+    $active = Value::getActivity($idFacultet);
+    foreach ($active as $row ) {
+        echo $row['idValue'].' '.$row['id'].' '.$row['value'].'<br>';
+        if ($row['id'] == 1) {
+            $study = $row['value']*10;
+        }
+        if ($row['id'] == 2) {
+            $science = $row['value'];
+        }
+        if ($row['id'] == 3) {
+            $social = $row['value'];
+        }
+       if ($row['id'] == 4) {
+           $culture = $row['value'];
+       }
+        if ($row['id'] == 5) {
+            $sport = $row['value'];
+        }
+    }
+    echo "<br>".$study;
+    echo "<br>".$science;
+    echo "<br>".$social;
+    echo "<br>".$culture;
+    echo "<br>".$sport;
+    // echo $studyCnt = (20 * $study) / 100;
+?>

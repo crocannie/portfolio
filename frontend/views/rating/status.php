@@ -36,7 +36,6 @@ $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 $this->title = 'Статус мероприятий';
-$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
 $this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
 ?>
 <div class="rating-index">
@@ -96,14 +95,14 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
               'name',
               // 'idItem',
               // 'value',
-              [
-                  'class' => 'kartik\grid\EditableColumn',
-                  'attribute' => 'value',
-                  'header' => 'Значение',
-                  // 'value' => function($model){
-                  //     return $model->name;
-                  // }
-               ],
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'value',
+                'header' => 'Значение',
+                // 'value' => function($model){
+                //     return $model->name;
+                // }
+             ],
               // 'name',
 
               // ['class' => 'yii\grid\ActionColumn'],

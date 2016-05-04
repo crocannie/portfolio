@@ -43,7 +43,7 @@ class Grants extends \yii\db\ActiveRecord
     {
         return [
             [['dateBegin', 'dateEnd'], 'safe'],
-            [['idTypeContest', 'idScienceDirection', 'idDocument', 'idStudent', 'typeGrant', 'idStatus', 'idLevel'], 'integer'],
+            [['idTypeContest', 'idScienceDirection', 'idStudent', 'typeGrant', 'idStatus', 'idLevel'], 'integer'],
             [['idStudent', 'idStatus', 'idLevel'], 'required'],
             [['nameProject', 'nameOrganization', 'location'], 'string', 'max' => 512],
             [['regNumberCitis', 'regNumber'], 'string', 'max' => 128],

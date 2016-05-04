@@ -4,31 +4,52 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $all = urldecode('index.php?r=site/activities'); 
-$this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 $this->title = 'Общественная деятельность';
 $this->params['breadcrumbs'][] = $this->title;
-?>
+$ur = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+$nir = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
+$or = urldecode('index.php?r=achievements-social/index&id='.Yii::$app->user->identity->id); 
+$kr = urldecode('index.php?r=achievements-culture/index&id='.Yii::$app->user->identity->id); 
+$sr = urldecode('index.php?r=achievements-sport/index&id='.Yii::$app->user->identity->id);?>
 <div class="achievements-social-index">
+    <div class="row">
+        <div class="col-lg-3">
+            <ul class="nav nav-pills nav-stacked" style="width: 200px;">
+                <li><a href=<?=$ur?>>Учебная деятельность</a></li>
+                <li><a href=<?=$nir?>>Научно-исследовательская деятельность</a></li>
+                <li class="active"><a href=<?=$or?>>Общественная деятельность</a></li>
+                <li><a href=<?=$kr?>>Культурно-творческая деятельность</a></li>
+                <li><a href=<?=$sr?>>Спортивная деятельность</a></li>
+            </ul>
+        </div>  
+        <div class="col-lg-6">  
+            <p><?= Html::a('Добавить достижение', ['create'], ['class' => 'btn btn-success']) ?></p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    // 'id',
+                    // 'idSocialParticipationType',
+                    'description',
+                    // 'count',
+                    // 'date',
+                    'idEvendatetType'=>[
+                            'class' => \yii\grid\DataColumn::className(),
+                            'format' => 'html',
+                            'label'=>'Дата',
+                            'value' => function ($model, $index, $widget) {
+                                return $model->date;},
+                            'contentOptions'=>['style'=>'width: 100px;']
+                    ],
+                    // 'idDocument',
+                    // 'idStudent',
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'contentOptions'=>['style'=>'width: 70px;']
 
-    <p>
-        <?= Html::a('Добавить достижение', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            // 'id',
-            // 'idSocialParticipationType',
-            'description',
-            'count',
-            'date',
-            // 'idDocument',
-            // 'idStudent',
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+                    ],                ],
+            ]); ?>
+        </div>
+    </div>
 </div>

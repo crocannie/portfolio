@@ -1,116 +1,79 @@
 <?php
 
 use yii\helpers\Html;
-// use yii\grid\GridView;
+use yii\grid\GridView;
 use common\models\Students;
 use yii\db\Command;
 use common\models\rating\Culture;
 use common\models\StatusEvent;
 use common\models\rating\Rating;
-use kartik\grid\GridView;
-use kartik\editable\Editable;
+// use kartik\grid\GridView;
+// use kartik\editable\Editable;
 use yii\widgets\Pjax;
+use common\models\Sotrudnik;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Students';
-$this->params['breadcrumbs'][] = $this->title;
+$id = Yii::$app->user->identity->id;
+$sotrudnik = Sotrudnik::findOne($id);
+$idFacultet = $sotrudnik->idFacultet0->id;
+
+$this->title = 'Студенты';
+// $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
+$this->params['breadcrumbs'][] = 'Деканат';
+
+$group = urldecode('index.php?r=sgroup/index&id='.$idFacultet); 
+$napravlenie = urldecode('index.php?r=napravlenie/index&id='.$idFacultet); 
+$anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
+$student = urldecode('index.php?r=student/index&id='.$idFacultet); 
 ?>
 <div class="students-index">
+    <div class="row">
+        <div class="col-lg-3">
+            <ul class="nav nav-pills nav-stacked" style="width: 200px;">
+                <li><a href=<?=$napravlenie?>></i>Направления подготовки</a></li>
+                <li><a href=<?=$group?>></i>Группы </a></li>
+                <li class="active"><a href=<?=$student?>></i>Студенты</a></li>
+            </ul>
+        </div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <div class="col-lg-6">
+            <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Students', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    // 'idStudent',
+                    'secondName',
+                    'firstName',
+                    'midleName',
+                    // 'idCity',
+                    // 'idUniversity',
+                    // 'idFacultet',
+                    'idNapravlenie'=>[
+                        'class' => \yii\grid\DataColumn::className(),
+                        'format' => 'html',
+                        'label'=>'Направление подготовки',
+                        'value' => function ($model, $index, $widget) {
+                        return $model->idNapravlenie0->shifr.' '.$model->idNapravlenie0->name ;},
+                    ],
+                    'idGroup'=>[
+                        'class' => \yii\grid\DataColumn::className(),
+                        'format' => 'html',
+                        'label'=>'Группа',
+                        'value' => function ($model, $index, $widget) {
+                        return $model->idGroup0->name;},
+                    ],
+                    // 'email:email',
+                    // 'password',
+                    // 'registrationCode',
+                    // 'login',
+                    // 'status',
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'pjax' => true,
-        'export' => false,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'idStudent',
-            // 'secondName',
-            [
-                'class' => 'kartik\grid\EditableColumn',
-                'attribute' => 'secondName',
-                'header' => 'Фамилия',
-                // 'value' => function($model){
-                //     return $model->name;
-                // }
-             ],
-            'firstName',
-            'midleName',
-            'idCity',
-              [
-                'class' => 'kartik\grid\EditableColumn',
-                'attribute'=>'secondName',
-                'pageSummary' => true,
-                'editableOptions'=> [
-                  'header' => 'profile',
-                  'format' => Editable::FORMAT_BUTTON,
-                  'inputType' => Editable::INPUT_DROPDOWN_LIST,
-                ]
-              ],
-            // 'idUniversity',
-            // 'idFacultet',
-            // 'idNapravlenie',
-            // 'idGroup',
-            // 'email:email',
-            // 'password',
-            // 'registrationCode',
-            // 'login',
-            // 'status',
-
-            // ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-<?php
-    // $students = Students::find()->where(['idFacultet'=>1])->all();
-    // echo count($students).'<br>';
-    // for ($i = 0; $i < count($students); $i++){
-    //     $rows[] = [
-    //         'idStudent' => $students[$i]['idStudent'],
-    //         'mark' => 1,
-    //         'status' => 2,
-    //         'r1' => 2,
-    //     ];
-    //     echo $i.' '.$students[$i]['idStudent'].'<br>';
-    // }
-    // $sql = Yii::$app->db->createCommand()->batchInsert(Culture::tableName(), ['idStudent', 'mark', 'status', 'r1'], $rows)->execute();
-    $name = 'statusEvent';
-    // $status = StatusEvent::find()->all();
-    $sql = 'select * from '.$name;
-    $status = Yii::$app->db->createCommand($sql)->queryAll();
-
-    $table = Yii::$app->db->createCommand('SELECT * FROM `table`')->queryAll();
-    for ($i = 0; $i < count($table); $i++) {
-        $sql = Yii::$app->db->createCommand('select * from '.$table[$i]['name'])->queryAll();
-        // echo '<br>'.$table[$i]['name'].': '.count($sql);
-        // $idT = $table[$i]['id'];
-        for ($j = 0; $j < count($sql); $j++){
-            $rows[] = [
-                'idFacultet' => 1,
-                'idTable' => $table[$i]['id'],
-                'idItem' => $sql[$j]['id'],
-                'value' => $j + 2,
-            ];        
-        }
-    }   
-    // $insert = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idFacultet', 'idTable', 'idItem', 'value'], $rows)->execute();
-
-    // for ($i = 0; $i < count($status); $i++){
-    //     $rows[] = [
-    //         'idFacultet' => 1,
-    //         'idTable' => 1,
-    //         'idItem' => $status[$i]['id'],
-    //         'value' => $i + 1,
-    //     ];
-    //     // echo $i.' '.$status[$i]['idStudent'].'<br>';
-    // }
-    // $sql = Yii::$app->db->createCommand()->batchInsert(Rating::tableName(), ['idFacultet', 'idTable', 'idItem', 'value'], $rows)->execute();
-?>
+                    // ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+         </div>
+    </div>
 </div>

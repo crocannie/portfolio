@@ -29,6 +29,9 @@ class Student extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $cnt;
+
     public static function tableName()
     {
         return 'studentRating';
@@ -40,8 +43,8 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idStudent', 'idActivity', 'status', 'mark'], 'required'],
-            [['idStudent', 'idActivity', 'status', 'mark'], 'integer'],
+            // [['idStudent', 'idActivity', 'status', 'mark'], 'required'],
+            [['idStudent', 'idActivity', 'status', 'mark', 'cnt', 'idFacultet'], 'integer'],
             [['r1', 'r2', 'r3'], 'number']
         ];
     }
@@ -60,6 +63,7 @@ class Student extends \yii\db\ActiveRecord
             'r3' => 'R3',
             'status' => 'Status',
             'mark' => 'Доля оценок "отлично"',
+            'cnt' => 'Квота'
         ];
     }
 

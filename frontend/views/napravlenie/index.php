@@ -23,8 +23,7 @@ $this->params['breadcrumbs'][] = 'Деканат';
 
 $group = urldecode('index.php?r=sgroup/index&id='.$idFacultet); 
 $napravlenie = urldecode('index.php?r=napravlenie/index&id='.$idFacultet); 
-$anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
-$criterii = urldecode('index.php?r=rating/status&id='.$idFacultet); 
+$students = urldecode('index.php?r=student/index&id='.$idFacultet); 
 ?>
 <div class="napravlenie-index">
     <div class="row">
@@ -32,12 +31,12 @@ $criterii = urldecode('index.php?r=rating/status&id='.$idFacultet);
             <ul class="nav nav-pills nav-stacked" style="width: 200px;">
                 <li class="active"><a href=<?=$napravlenie?>></i>Направления подготовки</a></li>
                 <li><a href=<?=$group?>></i>Группы </a></li>
-                <li><a href=<?=$group?>></i>Студенты</a></li>
+                <li><a href=<?=$students?>></i>Студенты</a></li>
             </ul>
         </div>
 
         <div class="col-lg-6">
-            <h2>Направления подготовки студентов</h2><br>
+            <h1><?= $this->title  ?></h1><br>
             <p><?= Html::button('Добавить направление', ['value'=>Url::to('index.php?r=napravlenie/create'),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>
             <?php
                 Modal::begin([

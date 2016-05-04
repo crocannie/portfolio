@@ -13,56 +13,64 @@ $this->title = 'Учебная деятельность';
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 
 $this->params['breadcrumbs'][] = $this->title;
+
+$anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
 ?>
 <div class="achievements-study-index">
+    <div class="row">
+        <div class="col-lg-3">
+            <ul class="nav nav-pills nav-stacked" style="width: 200px;">
+                <li class="active"><a href=<?=$ur?>>Учебная деятельность</a></li>
+                <li><a href=<?=$nir?>>Научно-исследовательская деятельность</a></li>
+                <li><a href=<?=$or?>>Общественная деятельность</a></li>
+                <li><a href=<?=$kr?>>Культурно-творческая деятельность</a></li>
+                <li><a href=<?=$sr?>>Спортивная деятельность</a></li>
+            </ul>
+        </div>  
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <div class="col-lg-6">
+            <h1><?= Html::encode($this->title) ?></h1>
+            <p><?= Html::a('Добавить достижение', ['create'], ['class' => 'btn btn-success']) ?></p>
 
-    <p>
-        <?= Html::a('Добавить достижение', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                    //'id',
+                    'name',
+                    // 'dateEvent',
+                    'dateEvent'=>[
+                            'class' => \yii\grid\DataColumn::className(),
+                            'format' => 'html',
+                            'label'=>'Дата',
+                            'value' => function ($model, $index, $widget) {
+                                return $model->dateEvent;},
+                            'contentOptions'=>['style'=>'width: 100px;']
+                    ],
+                    // 'idEventType'=>[
+                    //         'class' => \yii\grid\DataColumn::className(),
+                    //         'format' => 'html',
+                    //         'label'=>'Вид мероприятия',
+                    //         'value' => function ($model, $index, $widget) {
+                    //             return $model->idEventType0->name ;},
+                    // ],
+                    // 'idStatus'=>[
+                    //         'class' => \yii\grid\DataColumn::className(),
+                    //         'format' => 'html',
+                    //         'label'=>'Статус мероприятия',
+                    //         'value' => function ($model, $index, $widget) {
+                    //             return $model->idStatus0->name ;},
+                    // ],
+                    // 'eventTitle',
+                    // 'idDocumentType',
+                    // 'idDocument',
+                    // 'idStudent',
+                    // 'location',
 
-            //'id',
-            'name',
-            'dateEvent',
-            'idEventType'=>[
-                    'class' => \yii\grid\DataColumn::className(),
-                    'format' => 'html',
-                    'label'=>'Вид мероприятия',
-                    'value' => function ($model, $index, $widget) {
-                        return $model->idEventType0->name ;},
-            ],
-            'idStatus'=>[
-                    'class' => \yii\grid\DataColumn::className(),
-                    'format' => 'html',
-                    'label'=>'Статус мероприятия',
-                    'value' => function ($model, $index, $widget) {
-                        return $model->idStatus0->name ;},
-            ],
-            // 'eventTitle',
-            // 'idDocumentType',
-            // 'idDocument',
-            // 'idStudent',
-            // 'location',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['style'=>'width: 70px;']],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>
-
-<?php
-         // $user = Yii::$app->user->identity->id;
-        
-         // $path = 'uploads/'.$user.'/';
-         // echo $path.'<br>';
-         // echo getcwd() . "\n";
-         //    if (!file_exists($path)){
-         //        mkdir('uploads/'.$user, 0777, true);
-         //    }
-
-?>

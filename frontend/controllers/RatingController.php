@@ -180,8 +180,6 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>1])
         ]);
-        // $model = $this->getStatus($id);
-        // $model = Value::getStatus($id);
         if(Yii::$app->request->post('hasEditable')){
             $sgroupId = Yii::$app->request->post('editableKey');
             $sgroup = Rating::findOne($sgroupId);
@@ -191,7 +189,6 @@ class RatingController extends Controller
             $post['Rating'] = $posted;
             if ($sgroup->load($post)){
                 $sgroup->save();    
-                // print_r($sgroup->getErrors());
                 $output = '';
                 $out = Json::encode(['output' => $output]);
             }
@@ -201,9 +198,6 @@ class RatingController extends Controller
         return $this->render('status', [
             'dataProvider' => $dataProvider,
         ]);
-        // return $this->render('status', [
-        //     'model' => $model,
-        // ]);
     }
 
     // Виды мероприятияй
@@ -211,7 +205,7 @@ class RatingController extends Controller
     {
     $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('eventType.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('eventType, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'eventType.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>2])
@@ -219,13 +213,13 @@ class RatingController extends Controller
         if(Yii::$app->request->post('hasEditable')){
             $sgroupId = Yii::$app->request->post('editableKey');
             $sgroup = Rating::findOne($sgroupId);
+            // $sgroup = Rating::find()->where(['idItem'=>$sgroupId])->andwhere(['idTable'=>2])->andwhere(['idFacultet'=>$id])->all();
             $out = Json::encode(['output'=>'', 'message'=>'']);
             $post = [];
             $posted = current($_POST['Rating']);
             $post['Rating'] = $posted;
             if ($sgroup->load($post)){
                 $sgroup->save();    
-                // print_r($sgroup->getErrors());
                 $output = '';
                 $out = Json::encode(['output' => $output]);
             }
@@ -246,7 +240,7 @@ class RatingController extends Controller
     {
     $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('typeDocument.name, typeDocument.id, valuesRating.idTable, valuesRating.idItem, typeDocument.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('typeDocument.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, typeDocument.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('typeDocument, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeDocument.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>3])
@@ -277,7 +271,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('typeArticle.name, typeArticle.id, valuesRating.idTable, valuesRating.idItem, typeArticle.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('typeArticle.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, typeArticle.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('typeArticle, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeArticle.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>4])
@@ -308,7 +302,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('scienceDirection.name, scienceDirection.id, valuesRating.idTable, valuesRating.idItem, scienceDirection.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('scienceDirection.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, scienceDirection.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('scienceDirection, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'scienceDirection.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>5])
@@ -338,7 +332,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('typePatent.name, typePatent.id, valuesRating.idTable, valuesRating.idItem, typePatent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('typePatent.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, typePatent.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('typePatent, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typePatent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>6])
@@ -368,7 +362,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('typeContest.name, typeContest.id, valuesRating.idTable, valuesRating.idItem, typeContest.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('typeContest.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, typeContest.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('typeContest, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeContest.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>7])
@@ -398,7 +392,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('educationLevel.name, educationLevel.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('educationLevel.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('educationLevel, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'educationLevel.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>8])
@@ -428,7 +422,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('authorship.name, authorship.id, valuesRating.idTable, valuesRating.idItem, authorship.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('authorship.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, authorship.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('authorship, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'authorship.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>9])
@@ -458,7 +452,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('statusPatent.name, statusPatent.id, valuesRating.idTable, valuesRating.idItem, statusPatent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('statusPatent.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, statusPatent.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('statusPatent, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusPatent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>10])
@@ -488,7 +482,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('activity.name, activity.id, valuesRating.idTable, valuesRating.idItem, activity.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('activity.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, activity.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('activity, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'activity.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>11])
@@ -518,7 +512,7 @@ class RatingController extends Controller
     {
     $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('level.name, level.id, valuesRating.idTable, valuesRating.idItem, level.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('level.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, level.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('level, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'level.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>12])
@@ -548,7 +542,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('grantType.name, grantType.id, valuesRating.idTable, valuesRating.idItem, grantType.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('grantType.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, grantType.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('grantType, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'grantType.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>13])
@@ -578,7 +572,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('typeParticipant.name, typeParticipant.id, valuesRating.idTable, valuesRating.idItem, typeParticipant.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('typeParticipant.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, typeParticipant.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('typeParticipant, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeParticipant.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>14])

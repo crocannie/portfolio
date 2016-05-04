@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = 'Деканат';
 $group = urldecode('index.php?r=sgroup/index&id='.$idFacultet); 
 $napravlenie = urldecode('index.php?r=napravlenie/index&id='.$idFacultet); 
 $anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
-$criterii = urldecode('index.php?r=rating/status&id='.$idFacultet);
+$student = urldecode('index.php?r=student/index&id='.$idFacultet); 
 ?>
 <div class="sgroup-index">
     <div class="row">
@@ -31,12 +31,12 @@ $criterii = urldecode('index.php?r=rating/status&id='.$idFacultet);
             <ul class="nav nav-pills nav-stacked" style="width: 200px;">
                 <li><a href=<?=$napravlenie?>></i>Направления подготовки</a></li>
                 <li class="active"><a href=<?=$group?>></i>Группы </a></li>
-                <li><a href=<?=$group?>></i>Студенты</a></li>
+                <li><a href=<?=$student?>></i>Студенты</a></li>
             </ul>
         </div>
 
         <div class="col-lg-6">
-            <h2><?= Html::encode('Группы студентов') ?></h2><br>
+            <h1><?= Html::encode('Группы студентов') ?></h1><br>
 
             <p><?= Html::button('Добавить группу', ['value'=>Url::to('index.php?r=sgroup/create'),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>       
             <?php

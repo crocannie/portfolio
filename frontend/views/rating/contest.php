@@ -7,6 +7,7 @@ use common\models\Sotrudnik;
 use common\models\EventType;
 use common\models\Sgroup;
 use kartik\grid\GridView;
+// use common\models\rating\Rating;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -85,11 +86,11 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'id',
-            // 'idFacultet',
-            // 'idTable',
+            'id',
+            'idFacultet',
+            'idTable',
             'name',
-            // 'idItem',
+            'idItem',
             // 'value',
             [
                 'class' => 'kartik\grid\EditableColumn',
@@ -104,5 +105,20 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
             // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    </div>
+  </div>
 </div>
-</div>
+<?php
+  // $sgroup = Rating::find()->where(['idItem'=>1])->andwhere(['idTable'=>2]);
+      $sgroup = Rating::find()->where(['idItem'=>1])->andwhere(['idTable'=>2])->andwhere(['idFacultet'=>1])->all();
+
+            // $sgroup = Rating::findOne($sgroupId);
+      // $sql = 'select valuesRating.id as idValue, eventType.name, eventType.id, valuesRating.idTable, valuesRating.idItem, eventType.name, valuesRating.value, valuesRating.idFacultet from eventType, valuesRating where valuesRating.idFacultet = :id and eventType.id = valuesRating.idItem and valuesRating.idTable = 2 and valuesRating.idItem = :';
+      // $sgroup = Yii::$app->db->createCommand($sql)
+      //                           ->bindValue(':id', 1)
+      //                           ->queryAll();
+  echo count($sgroup);
+  foreach ($sgroup as $row) {
+    echo $row['id'].' '.$row['idTable'].' '.$row['value'];
+  }
+?>
