@@ -29,6 +29,8 @@ $all = urldecode('index.php?r=site/activities');
     $this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
     $this->title = 'Заявления-анкеты';
     $this->params['breadcrumbs'][] = $this->title;
+    $idFacultet = Students::findOne(Yii::$app->user->identity->id)->idFacultet0->id;
+
   }
   if (User::isSotrudnik(Yii::$app->user->identity->email)){
     $idStudent = $model->idStudent;
@@ -224,6 +226,7 @@ $all = urldecode('index.php?r=site/activities');
 
   <div class="social-create">
     <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>$idStudent])->label(false) ?>
+    <?= $form->field($model, 'idFacultet')->hiddenInput(['value'=>$idFacultet])->label(false) ?>
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
     <?php $r1 = Value::getSociety($student->idFacultet, $student->idStudent); ?>
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>

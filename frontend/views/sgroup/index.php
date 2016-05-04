@@ -8,6 +8,7 @@ use kartik\grid\GridView;
 use common\models\Sgroup;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use common\models\Napravlenie;
 
 
 /* @var $this yii\web\View */
@@ -63,8 +64,9 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
                         //     return $model->name;
                         // }
                      ],
-                    // 'id',
+                    'id',
                     // 'name',
+                    'idNapravlenie',
                     'idNapravlenie'=>[
                             'class' => \yii\grid\DataColumn::className(),
                             'format' => 'html',

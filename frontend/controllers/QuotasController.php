@@ -33,7 +33,7 @@ class QuotasController extends Controller
      * Lists all Quotas models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         // $sql = Yii::$app->db->createCommand()->batchInsert(Quotas::tableName(), ['idStudent', 'mark', 'status', 'r1'], $rows)->execute();
         // $rows[] = [
@@ -72,16 +72,16 @@ class QuotasController extends Controller
         $cultureCnt = ($cnt * $cultureValue)    / 100;
         $sportCnt   = ($cnt * $sportValue)      / 100;
 
-        $id = 1;
+        // $id = 1;
         $sql = Yii::$app->db->createCommand()->update('quotas', 
             ['study' => $studyCnt, 'science' => $scienceCnt, 'social' => $socialCnt, 'culture' => $cultureCnt, 'sport' => $sportCnt,  ], 'idFacultet='.$id)->execute();
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Quotas::find(),
+            'query' => Quotas::find()->where(['idFacultet'=>$id]),
         ]);
         
         $dataProvider2 = new ActiveDataProvider([
-            'query' => Student::find()->where(['idFacultet'=>1]),
+            'query' => Student::find()->where(['idFacultet'=>$id]),
         ]);
 
         if(Yii::$app->request->post('hasEditable')){
@@ -104,7 +104,7 @@ class QuotasController extends Controller
 
         return $this->render('index', array(
             'dataProvider'=>$dataProvider,
-                        'dataProvider2'=>$dataProvider2,
+            'dataProvider2'=>$dataProvider2,
         ));
     }
 
@@ -113,12 +113,14 @@ class QuotasController extends Controller
      * @param integer $id
      * @return mixed
      */
+
     public function actionView($id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
+
 
     /**
      * Creates a new Quotas model.
@@ -148,6 +150,7 @@ class QuotasController extends Controller
     {
         // $model = $this->findModel($id);
         $model = Quotas::find()->where(['idFacultet'=>$id])->one();
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index', 'id' => $model->idFacultet]);
         } else {

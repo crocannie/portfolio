@@ -26,6 +26,8 @@ use common\models\rating\Value;
     $this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
     $this->title = 'Заявления-анкеты';
     $this->params['breadcrumbs'][] = $this->title;
+    $idFacultet = Students::findOne(Yii::$app->user->identity->id)->idFacultet0->id;
+
   }
   if (User::isSotrudnik(Yii::$app->user->identity->email)){
     $idStudent = $model->idStudent;
@@ -177,6 +179,8 @@ td {
       $r1 = Value::getStudy($student->idFacultet, $student->idStudent);
     ?>
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
+
+    <?= $form->field($model, 'idFacultet')->hiddenInput(['value'=>$idFacultet])->label(false) ?>
 
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'1'])->label(false) ?>
 

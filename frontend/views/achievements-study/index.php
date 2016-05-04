@@ -13,9 +13,11 @@ $this->title = 'Учебная деятельность';
 $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
 
 $this->params['breadcrumbs'][] = $this->title;
-
-$anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
-?>
+$ur = urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id);
+$nir = urldecode('index.php?r=grants/index&id='.Yii::$app->user->identity->id); 
+$or = urldecode('index.php?r=achievements-social/index&id='.Yii::$app->user->identity->id); 
+$kr = urldecode('index.php?r=achievements-culture/index&id='.Yii::$app->user->identity->id); 
+$sr = urldecode('index.php?r=achievements-sport/index&id='.Yii::$app->user->identity->id);?>
 <div class="achievements-study-index">
     <div class="row">
         <div class="col-lg-3">

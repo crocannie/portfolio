@@ -14,6 +14,7 @@ use common\models\rating\Value;
 use common\models\Quotas;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+use yii\helpers\Json;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -26,7 +27,10 @@ $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 ?>
 <div class="quotas-index">
-
+<?php
+// $olo = Student::find()->where(['idFacultet'=>1])->limit(5)->all();
+// echo count($olo);
+?>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= GridView::widget([
@@ -66,6 +70,8 @@ $idFacultet = $sotrudnik->idFacultet0->id;
             echo "<div id='modalContent'></div>";
         Modal::end();
     ?>
+    
+    <h2><?= Html::encode('Все заявления') ?></h2>
     <?= GridView::widget([
                 'dataProvider' => $dataProvider2,       
                 'pjax' => true,
@@ -115,4 +121,50 @@ $idFacultet = $sotrudnik->idFacultet0->id;
                     // ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]); ?>
+            <?php
+            $this->registerJs('
+                var gridview_id = ""; // specific gridview
+                var columns = [2]; // index column that will grouping, start 1
+         
+                /*
+                DON\'T EDIT HERE
+         
+        http://www.hafidmukhlasin.com
+         
+                */
+                var column_data = [];
+                    column_start = [];
+                    rowspan = [];
+         
+                for (var i = 0; i < columns.length; i++) {
+                    column = columns[i];
+                    column_data[column] = "";
+                    column_start[column] = null;
+                    rowspan[column] = 1;
+                }
+         
+                var row = 1;
+                $(gridview_id+" table > tbody  > tr").each(function() {
+                    var col = 1;
+                    $(this).find("td").each(function(){
+                        for (var i = 0; i < columns.length; i++) {
+                            if(col==columns[i]){
+                                if(column_data[columns[i]] == $(this).html()){
+                                    $(this).remove();
+                                    rowspan[columns[i]]++;
+                                    $(column_start[columns[i]]).attr("rowspan",rowspan[columns[i]]);
+                                }
+                                else{
+                                    column_data[columns[i]] = $(this).html();
+                                    rowspan[columns[i]] = 1;
+                                    column_start[columns[i]] = $(this);
+                                }
+                            }
+                        }
+                        col++;
+                    })
+                    row++;
+                });
+            ');
+            ?>
 </div>

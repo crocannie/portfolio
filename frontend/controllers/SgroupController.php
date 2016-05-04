@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Sotrudnik;
 use yii\helpers\Json;
+use common\models\Napravlenie;
 /**
  * SgroupController implements the CRUD actions for Sgroup model.
  */
@@ -84,7 +85,9 @@ class SgroupController extends Controller
         $model = new Sgroup();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $n = Sgroup::findOne($model->id)->idNapravlenie;
+            $idFacultet = Napravlenie::findOne($n)->idFacultet;
+            return $this->redirect(['index', 'id' => $idFacultet]);
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,

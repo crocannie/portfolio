@@ -30,6 +30,8 @@ $all = urldecode('index.php?r=site/activities');
     $this->params['breadcrumbs'][] = ['label' => 'Достижения', 'url' => $all];
     $this->title = 'Заявления-анкеты';
     $this->params['breadcrumbs'][] = $this->title;
+    $idFacultet = Students::findOne(Yii::$app->user->identity->id)->idFacultet0->id;
+
   }
   if (User::isSotrudnik(Yii::$app->user->identity->email)){
     $idStudent = $model->idStudent;
@@ -54,7 +56,6 @@ $all = urldecode('index.php?r=site/activities');
 ?>
 
 <div class="form-index">
-    <h2><?= Html::encode('Направления деятельности') ?></h2>
   <?php 
       $ud = urldecode('index.php?r=rating-student/study'); 
       $nid = urldecode('index.php?r=rating-student/science'); 
@@ -247,6 +248,8 @@ $status = Student::getStatus($idStudent, 4);
     ?>
     
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
+
+    <?= $form->field($model, 'idFacultet')->hiddenInput(['value'=>$idFacultet])->label(false) ?>
 
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'4'])->label(false) ?>
 <?php
