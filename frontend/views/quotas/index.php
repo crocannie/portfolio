@@ -11,20 +11,23 @@ use common\models\Napravlenie;
 use common\models\Sotrudnik;
 use common\models\rating\Student;
 use common\models\rating\Value;
+use common\models\Quotas;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Quotas';
 $this->params['breadcrumbs'][] = $this->title;
+
+$id = Yii::$app->user->identity->id;
+$sotrudnik = Sotrudnik::findOne($id);
+$idFacultet = $sotrudnik->idFacultet0->id;
 ?>
 <div class="quotas-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Quotas', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -44,74 +47,25 @@ $this->params['breadcrumbs'][] = $this->title;
                         //     return $model->name;
                         // }
             ],
-            'study'=>[
-                'header' => 'Учебная',
-                'value' => function($model){
-                            $activity = Value::getActivity(1);
-                            foreach ($activity as $row ) {
-                                if ($row['id'] == 1) {
-                                    $studyValue = $row['value']*10;
-                                }
-                            }
-                            $studyCnt   = ($model->cnt * $studyValue)      / 100;
-                        return $studyCnt;
-                        }
-            ],
-            'science'=>[
-                'header' => 'Научно-исследовательская',
-                'value' => function($model){
-                            $activity = Value::getActivity(1);
-                            foreach ($activity as $row ) {
-                                if ($row['id'] == 2) {
-                                    $scienceValue = $row['value']*10;
-                                }
-                            }
-                            $scienceCnt   = ($model->cnt * $scienceValue)      / 100;
-                        return $scienceCnt;
-                        }
-            ],
-            'social'=>[
-                'header' => 'Общественная',
-                'value' => function($model){
-                            $activity = Value::getActivity(1);
-                            foreach ($activity as $row ) {
-                                if ($row['id'] == 3) {
-                                    $socialValue = $row['value']*10;
-                                }
-                            }
-                            $socialCnt   = ($model->cnt * $socialValue)      / 100;
-                        return $socialCnt;
-                        }
-            ],
-            'culture'=>[
-                'header' => 'Культурно-творческая',
-                'value' => function($model){
-                            $activity = Value::getActivity(1);
-                            foreach ($activity as $row ) {
-                                if ($row['id'] == 4) {
-                                    $cultureValue = $row['value']*10;
-                                }
-                            }
-                            $cultureCnt   = ($model->cnt * $cultureValue)      / 100;
-                        return $cultureCnt;
-                        }
-            ],
-            'sport'=>[
-                'header' => 'Спортивная',
-                'value' => function($model){
-                            $activity = Value::getActivity(1);
-                            foreach ($activity as $row ) {
-                                if ($row['id'] == 5) {
-                                    $sportValue = $row['value']*10;
-                                }
-                            }
-                            $sportCnt   = ($model->cnt * $sportValue)      / 100;
-                        return $sportCnt;
-                        }
-            ],
+            'study',
+            'science',
+            'social',
+            'culture',
+            'sport',
             // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+<p><?= Html::button('Редактировать квоты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>       
+    <?php
+        Modal::begin([
+            'header'=>'<h3>Редактирование</h3>',
+            'id'=>'modal',
+            'size'=>'modal-lg',
+            ]);
+            echo "<div id='modalContent'></div>";
+        Modal::end();
+    ?>
     <?= GridView::widget([
                 'dataProvider' => $dataProvider2,       
                 'pjax' => true,

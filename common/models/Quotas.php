@@ -16,11 +16,11 @@ class Quotas extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public $study;
-    public $science;
-    public $social;
-    public $culture;
-    public $sport;
+    // public $study;
+    // public $science;
+    // public $social;
+    // public $culture;
+    // public $sport;
 
     public static function tableName()
     {
