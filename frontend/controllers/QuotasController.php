@@ -35,15 +35,6 @@ class QuotasController extends Controller
      */
     public function actionIndex($id)
     {
-        // $sql = Yii::$app->db->createCommand()->batchInsert(Quotas::tableName(), ['idStudent', 'mark', 'status', 'r1'], $rows)->execute();
-        // $rows[] = [
-        //     'idStudent' => $students[$i]['idStudent'],
-        //     'mark' => 1,
-        //     'status' => 2,
-        //     'r1' => 2,
-        // ];        
-        // $cnt = Quotas::findOne(1);
-        // $cnt = 20;
         $count = Quotas::find()->where(['idFacultet'=>1])->all();
         foreach ($count as $row) {
             $cnt = $row['cnt'];
@@ -101,13 +92,58 @@ class QuotasController extends Controller
             return;
 
         }
+        
+        $model = Quotas::find()->where(['idFacultet'=>$id])->one();
 
         return $this->render('index', array(
             'dataProvider'=>$dataProvider,
+            'model'=>$model,
             'dataProvider2'=>$dataProvider2,
         ));
     }
 
+    public function actionCalc($id)
+    {
+        $count = Quotas::find()->where(['idFacultet'=>1])->all();
+        foreach ($count as $row) {
+            $cnt = $row['cnt'];
+        }
+
+        $activity = Value::getActivity(1);
+        foreach ($activity as $row ) {
+            if ($row['id'] == 1) {
+                $studyValue = $row['value']*10;
+            }
+            if ($row['id'] == 2) {
+                $scienceValue = $row['value']*10;
+            }
+            if ($row['id'] == 3) {
+                $socialValue = $row['value']*10;
+            }
+           if ($row['id'] == 4) {
+               $cultureValue = $row['value']*10;
+           }
+            if ($row['id'] == 5) {
+                $sportValue = $row['value']*10;
+            }
+        }
+        $studyCnt   = ($cnt * $studyValue)      / 100;
+        $scienceCnt = ($cnt * $scienceValue)    / 100;
+        $socialCnt  = ($cnt * $socialValue)     / 100;
+        $cultureCnt = ($cnt * $cultureValue)    / 100;
+        $sportCnt   = ($cnt * $sportValue)      / 100;
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Quotas::find()->where(['idFacultet'=>$id]),
+        ]);
+        
+        $model = Quotas::find()->where(['idFacultet'=>$id])->one();
+
+        return $this->render('index', array(
+            'dataProvider'=>$dataProvider,
+            'model'=>$model,
+        ));
+    }
     /**
      * Displays a single Quotas model.
      * @param integer $id

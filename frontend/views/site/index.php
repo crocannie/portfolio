@@ -131,7 +131,7 @@ $this->title = 'Портфолио';
             $anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
           ?>
           <p><a href=<?=$anket?>><img height="180px" src="/portfolio/frontend/web/images/index/calendar2.png"></a></p>
-          <a style="color: #40424F" href=<?=$anket?>><h3>Стипендиальное обеспечение</h3></a>
+          <a style="color: #40424F" href=<?=$anket?>><h3>Стипендиальное обеспечение</h3></a><br>
           <p>Установка сроков подачи заявлений, просмотр отправленных студентами анкет</p>
           <div class="btn-group">
             <a style="width: 305px" class="btn btn-success" href=<?=$anket?>>Стипендиальное обеспечение</a>

@@ -20,7 +20,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Распеределение квот';
+$this->title = 'Quotas';
 $this->params['breadcrumbs'][] = $this->title;
 
 $id = Yii::$app->user->identity->id;
@@ -37,9 +37,9 @@ $idFacultet = $sotrudnik->idFacultet0->id;
     <div class="col-lg-3">
     </div>
     <div class="col-lg-9">
-        <h1><?= Html::encode($this->title) ?></h1>
         <div class="row">
             <div class="col-lg-4">
+                <h1><?= Html::encode($this->title) ?></h1>
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
@@ -53,18 +53,14 @@ $idFacultet = $sotrudnik->idFacultet0->id;
                         'sport',
                     ],
                 ]) ?>
-   
+                <p><?= Html::button('Редактировать квоты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>        
+                <p><?= Html::button('Рассчитать квоты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>        
 
             </div>
-            <div class="col-lg-4">
-                <p><?= Html::button('Редактировать квоты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet), 'style'=>"width: 200px",'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>        
-                <p><?= Html::button('Все анкеты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet), 'style'=>"width: 200px",'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>     
-            </div>    
         </div>
-
         <?php
             Modal::begin([
-                'header'=>'<h3>Редактирование квот</h3>',
+                'header'=>'<h3>Редактирование</h3>',
                 'id'=>'modal',
                 'size'=>'modal-lg',
                 ]);

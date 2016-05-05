@@ -46,7 +46,12 @@ class Quotas extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'idFacultet' => 'Id Facultet',
-            'cnt' => 'Cnt',
+            'cnt' => 'Всего',
+            'study'=> 'Учебная', 
+            'science'=> 'Научно-исследовательская', 
+            'social'=> 'Общественная', 
+            'culture'=> 'Культурно-творческая', 
+            'sport'=>'Спортивная',
         ];
     }
 }
