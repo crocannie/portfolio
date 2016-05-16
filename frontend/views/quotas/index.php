@@ -20,8 +20,12 @@ use common\models\Quotas;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\helpers\Json;
+<<<<<<< HEAD
 use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
+=======
+use yii\widgets\DetailView;
+>>>>>>> 6710b079b6990c20bea68b7aeb272f65bfed40a4
 
 use yii\web\NotFoundHttpException;
 use common\models\User;
@@ -33,7 +37,11 @@ use common\models\User;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+<<<<<<< HEAD
 $this->title = 'Распеределение стипенедиального обеспечения';
+=======
+$this->title = 'Распеределение квот';
+>>>>>>> 6710b079b6990c20bea68b7aeb272f65bfed40a4
 $this->params['breadcrumbs'][] = $this->title;
 
 $id = Yii::$app->user->identity->id;
@@ -45,6 +53,7 @@ $idFacultet = $sotrudnik->idFacultet0->id;
 // $olo = Student::find()->where(['idFacultet'=>1])->limit(5)->all();
 // echo count($olo);
 ?>
+<<<<<<< HEAD
     <h2><?= Html::encode($this->title) ?></h2>
     <div class="col-lg-1 col-lg-offset-11">
 <?php
@@ -290,10 +299,63 @@ echo Html::a('<i class="glyphicon glyphicon-print"></i>', ['/quotas/mpdf'], [
                 'tableOptions' => [
                     'class' => 'table table-bordered'
                 ],
+=======
+<div class="rating-index">
+  <div class="row">
+    <div class="col-lg-3">
+    </div>
+    <div class="col-lg-9">
+        <h1><?= Html::encode($this->title) ?></h1>
+        <div class="row">
+            <div class="col-lg-4">
+                <?= DetailView::widget([
+                    'model' => $model,
+                    'attributes' => [
+                        // 'id',
+                        // 'idFacultet',
+                        'cnt',
+                        'study',
+                        'science',
+                        'social',
+                        'culture',
+                        'sport',
+                    ],
+                ]) ?>
+   
 
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+            </div>
+            <div class="col-lg-4">
+                <p><?= Html::button('Редактировать квоты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet), 'style'=>"width: 200px",'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>        
+                <p><?= Html::button('Все анкеты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet), 'style'=>"width: 200px",'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>     
+            </div>    
+        </div>
 
+        <?php
+            Modal::begin([
+                'header'=>'<h3>Редактирование квот</h3>',
+                'id'=>'modal',
+                'size'=>'modal-lg',
+                ]);
+                echo "<div id='modalContent'></div>";
+            Modal::end();
+        ?>
+        
+        <h2><?= Html::encode('Все заявления') ?></h2>
+        <?= GridView::widget([
+                    'dataProvider' => $dataProvider2,       
+                    'pjax' => true,
+                    'export' => false,
+                    'tableOptions' => [
+                        'class' => 'table table-bordered'
+                    ],
+
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+>>>>>>> 6710b079b6990c20bea68b7aeb272f65bfed40a4
+
+                        // 'id',
+
+<<<<<<< HEAD
                     // 'id',
                     'idStudent'=>[
                             'class' => \yii\grid\DataColumn::className(),
@@ -419,4 +481,84 @@ echo Html::a('<i class="glyphicon glyphicon-print"></i>', ['/quotas/mpdf'], [
             ');
             ?>
         </div>
+=======
+                        'idStudent'=>[
+                                'class' => \yii\grid\DataColumn::className(),
+                                'format' => 'html',
+                                'label'=>'ФИО', 
+                                'value' => function ($model, $index, $widget) {
+                                    $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
+                                    return $model->idStudent0->secondName.' '.$model->idStudent0->firstName.'<br>'.EducationLevel::findOne($model->idStudent0->idLevel)['name'].', '.Sgroup::findOne($model->idStudent0->idGroup)['name'].'<br>'.Napravlenie::findOne($s)['shifr'].' '.Napravlenie::findOne($s)['name'];;},
+                        ],
+                        // 'r2',
+
+                        'r1'=>[
+                                'class' => \yii\grid\DataColumn::className(),
+                                'format' => 'html',
+                                'label'=>'Рейтинг',
+                                'value' => function ($model, $index) {
+                                    return $model->r1 ;},
+                        ],
+                        // 'r2',
+                        // 'r3',
+                        // 'status',
+                        'mark'=>[
+                                'class' => \yii\grid\DataColumn::className(),
+                                'format' => 'html',
+                                'label'=>'Доля оценок "отлично"',
+                                'value' => function ($model, $index) {
+                                    return $model->mark ;},
+                        ],
+                        ['class' => ActionColumn::className(),'template'=>'{view}','contentOptions'=>['style'=>'max-width: 25px;']],
+                        // ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]); ?>
+                <?php
+                $this->registerJs('
+                    var gridview_id = ""; // specific gridview
+                    var columns = [2]; // index column that will grouping, start 1
+             
+                    /*
+                    DON\'T EDIT HERE
+             
+            http://www.hafidmukhlasin.com
+             
+                    */
+                    var column_data = [];
+                        column_start = [];
+                        rowspan = [];
+             
+                    for (var i = 0; i < columns.length; i++) {
+                        column = columns[i];
+                        column_data[column] = "";
+                        column_start[column] = null;
+                        rowspan[column] = 1;
+                    }
+             
+                    var row = 1;
+                    $(gridview_id+" table > tbody  > tr").each(function() {
+                        var col = 1;
+                        $(this).find("td").each(function(){
+                            for (var i = 0; i < columns.length; i++) {
+                                if(col==columns[i]){
+                                    if(column_data[columns[i]] == $(this).html()){
+                                        $(this).remove();
+                                        rowspan[columns[i]]++;
+                                        $(column_start[columns[i]]).attr("rowspan",rowspan[columns[i]]);
+                                    }
+                                    else{
+                                        column_data[columns[i]] = $(this).html();
+                                        rowspan[columns[i]] = 1;
+                                        column_start[columns[i]] = $(this);
+                                    }
+                                }
+                            }
+                            col++;
+                        })
+                        row++;
+                    });
+                ');
+                ?>
+    </div>
+>>>>>>> 6710b079b6990c20bea68b7aeb272f65bfed40a4
 </div>
