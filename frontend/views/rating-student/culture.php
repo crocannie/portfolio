@@ -64,7 +64,6 @@ $all = urldecode('index.php?r=site/activities');
       $sd = urldecode('index.php?r=rating-student/sport'); 
   ?>
   <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
-    <h2><?= Html::encode('Направления деятельности') ?></h2>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
       <li><a href=<?=$nid?>>Начуно-исследовательская </a></li>
@@ -244,7 +243,7 @@ $status = Student::getStatus($idStudent, 4);
     
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
     <?php
-     echo $r1 = Value::getCulture($student->idFacultet, $student->idStudent);
+     // echo $r1 = Value::getCulture($student->idFacultet, $student->idStudent);
     ?>
     
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
@@ -254,11 +253,9 @@ $status = Student::getStatus($idStudent, 4);
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'4'])->label(false) ?>
 <?php
 if ($test != 0){ ;?>
-        <div class="alert alert-info" style="width: 300px; text-align: center; height: 50px">
-          <h4>
-            Заявка <?php if($value == 1){ echo "отправлена"; }?>
-          </h4>
-        </div>
+ <?php if($value == 1){ 
+              Yii::$app->session->setFlash('success', 'Заявка отправлена.');
+          }?>
 <?php
 } 
 else {?>

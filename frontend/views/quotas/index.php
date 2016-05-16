@@ -3,7 +3,12 @@
 use yii\helpers\Html;
 // use yii\grid\GridView;
 use kartik\grid\GridView;
-use yii\grid\ActionColumn; 
+use kartik\grid\ActionColumn;
+
+// use \kartik\detail\DetailView;
+// use yii\widgets\DetailView;
+
+// use yii\grid\ActionColumn; 
 use common\models\Students;
 use common\models\Sgroup;
 use common\models\EducationLevel;
@@ -15,11 +20,20 @@ use common\models\Quotas;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\helpers\Json;
+use miloschuman\highcharts\Highcharts;
+use yii\web\JsExpression;
 
+use yii\web\NotFoundHttpException;
+use common\models\User;
+// use common\models\Sotrudnik;
+
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Quotas';
+$this->title = 'Распеределение стипенедиального обеспечения';
 $this->params['breadcrumbs'][] = $this->title;
 
 $id = Yii::$app->user->identity->id;
@@ -31,8 +45,25 @@ $idFacultet = $sotrudnik->idFacultet0->id;
 // $olo = Student::find()->where(['idFacultet'=>1])->limit(5)->all();
 // echo count($olo);
 ?>
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <h2><?= Html::encode($this->title) ?></h2>
+    <div class="col-lg-1 col-lg-offset-11">
+<?php
+echo Html::a('<i class="glyphicon glyphicon-print"></i>', ['/quotas/mpdf'], [
+    'class'=>'btn btn-', 
+    'target'=>'_blank', 
+    'data-toggle'=>'tooltip', 
+    'title'=>'Распечатать итоговый список'
+]);
+// echo "<br>";echo "<br>";
+// echo Html::a('<i class="glyphicon glyphicon glyphicon-save-file"></i> View', ['/quotas/viewpdf&id='.$idFacultet], [
+//     'class'=>'btn btn-success', 
+//     'target'=>'_blank', 
+//     'data-toggle'=>'tooltip', 
+//     'title'=>''
+// ]);
+?>    
+</div>
+    <div class="col-lg-12">  
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'pjax' => true,
@@ -46,21 +77,32 @@ $idFacultet = $sotrudnik->idFacultet0->id;
             [
                 'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'cnt',
-                'header' => 'Всего',
-                        // 'value' => function($model){
-                        //     return $model->name;
-                        // }
+                'header' => 'Всего'
             ],
-            'study',
-            'science',
-            'social',
-            'culture',
-            'sport',
+            // 'study',
+            [
+                'attribute'=>'study',
+                'label'=>'Учебная'
+            ],
+            [
+                'attribute'=>'science',
+                'label'=>'Научно-исследовательская'
+            ],
+            [
+                'attribute'=>'social',
+                'label'=>'Общественная'
+            ],
+            [
+                'attribute'=>'culture',
+                'label'=>'Культурно-творческая'
+            ],
+            [
+                'attribute'=>'sport',
+                'label'=>'Спортивная'
+            ]
             // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
-<p><?= Html::button('Редактировать квоты', ['value'=>Url::to('index.php?r=quotas/update&id='.$idFacultet),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>       
     <?php
         Modal::begin([
             'header'=>'<h3>Редактирование</h3>',
@@ -71,8 +113,177 @@ $idFacultet = $sotrudnik->idFacultet0->id;
         Modal::end();
     ?>
     
-    <h2><?= Html::encode('Все заявления') ?></h2>
+    <h2><?= Html::encode('Учебная деятельность (отобранные)') ?></h2>
     <?= GridView::widget([
+                'dataProvider' => $dataProvider01,       
+                'pjax' => true,
+                'export' => false,
+                'tableOptions' => [
+                    'class' => 'table table-bordered'
+                ],
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute'=>'Fio',
+                        'label'=>'ФИО'
+                    ],
+                    [
+                        'attribute'=>'study',
+                        'label'=>'Группа'
+                    ],
+                    [
+                        'attribute'=>'napravlenie',
+                        'label'=>'Направление подготовки'
+                    ],
+                    [
+                        'attribute'=>'r1',
+                        'label'=>'Рейтинг'
+                    ],
+                    [
+                        'attribute'=>'mark',
+                        'label'=>'Доля оценок "отлично"'
+                    ],
+                ],
+            ]); ?>
+
+    <h2><?= Html::encode('Научно-исследовательская деятельность (отобранные)') ?></h2>
+    <?= GridView::widget([
+                'dataProvider' => $dataProvider02,       
+                'pjax' => true,
+                'export' => false,
+                'tableOptions' => [
+                    'class' => 'table table-bordered'
+                ],
+
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute'=>'Fio',
+                        'label'=>'ФИО'
+                    ],
+                    [
+                        'attribute'=>'study',
+                        'label'=>'Группа'
+                    ],
+                    [
+                        'attribute'=>'napravlenie',
+                        'label'=>'Направление подготовки'
+                    ],
+                    [
+                        'attribute'=>'r1',
+                        'label'=>'Рейтинг'
+                    ],
+                    [
+                        'attribute'=>'mark',
+                        'label'=>'Доля оценок "отлично"'
+                    ],
+                ],
+            ]); ?>
+
+    <h2><?= Html::encode('Общественная деятельность (отобранные)') ?></h2>
+    <?= GridView::widget([
+                'dataProvider' => $dataProvider03,       
+                'pjax' => true,
+                'export' => false,
+                'tableOptions' => [
+                    'class' => 'table table-bordered'
+                ],
+
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute'=>'Fio',
+                        'label'=>'ФИО'
+                    ],
+                    [
+                        'attribute'=>'study',
+                        'label'=>'Группа'
+                    ],
+                    [
+                        'attribute'=>'napravlenie',
+                        'label'=>'Направление подготовки'
+                    ],
+                    [
+                        'attribute'=>'r1',
+                        'label'=>'Рейтинг'
+                    ],
+                    [
+                        'attribute'=>'mark',
+                        'label'=>'Доля оценок "отлично"'
+                    ],
+                ],
+            ]); ?>
+    
+    <h2><?= Html::encode('Культурно-творческая деятельность (отобранные)') ?></h2>
+    <?= GridView::widget([
+                'dataProvider' => $dataProvider04,       
+                'pjax' => true,
+                'export' => false,
+                'tableOptions' => [
+                    'class' => 'table table-bordered'
+                ],
+
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute'=>'Fio',
+                        'label'=>'ФИО'
+                    ],
+                    [
+                        'attribute'=>'study',
+                        'label'=>'Группа'
+                    ],
+                    [
+                        'attribute'=>'napravlenie',
+                        'label'=>'Направление подготовки'
+                    ],
+                    [
+                        'attribute'=>'r1',
+                        'label'=>'Рейтинг'
+                    ],
+                    [
+                        'attribute'=>'mark',
+                        'label'=>'Доля оценок "отлично"'
+                    ],
+                ],
+            ]); ?>
+
+    <h2><?= Html::encode('Спортивная деятельность (отобранные)') ?></h2>
+    <?= GridView::widget([
+                'dataProvider' => $dataProvider05,       
+                'pjax' => true,
+                'export' => false,
+                'tableOptions' => [
+                    'class' => 'table table-bordered'
+                ],
+
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute'=>'Fio',
+                        'label'=>'ФИО'
+                    ],
+                    [
+                        'attribute'=>'study',
+                        'label'=>'Группа'
+                    ],
+                    [
+                        'attribute'=>'napravlenie',
+                        'label'=>'Направление подготовки'
+                    ],
+                    [
+                        'attribute'=>'r1',
+                        'label'=>'Рейтинг'
+                    ],
+                    [
+                        'attribute'=>'mark',
+                        'label'=>'Доля оценок "отлично"'
+                    ],
+                ],
+            ]); ?>
+
+    <h2><?= Html::encode('Все заявления') ?></h2>
+            <?= GridView::widget([
                 'dataProvider' => $dataProvider2,       
                 'pjax' => true,
                 'export' => false,
@@ -90,37 +301,50 @@ $idFacultet = $sotrudnik->idFacultet0->id;
                             'label'=>'ФИО', 
                             'value' => function ($model, $index, $widget) {
                                 $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
-                                return $model->idStudent0->secondName.' '.$model->idStudent0->firstName.'<br>'.EducationLevel::findOne($model->idStudent0->idLevel)['name'].', '.Sgroup::findOne($model->idStudent0->idGroup)['name'].'<br>'.Napravlenie::findOne($s)['shifr'].' '.Napravlenie::findOne($s)['name'];;},
+                                return $model->idStudent0->secondName.' '.$model->idStudent0->firstName;},
                     ],
-                    // 'r2',
-                    'idActivity'=>[
+                    'r2'=>[
                             'class' => \yii\grid\DataColumn::className(),
                             'format' => 'html',
-                            'label'=>'Направление',
+                            'label'=>'Группа', 
                             'value' => function ($model, $index, $widget) {
+                                $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
+                                return EducationLevel::findOne($model->idStudent0->idLevel)['name'].', '.Sgroup::findOne($model->idStudent0->idGroup)['name'];},
+                    ],
+                    [
+                            'attribute'=>'r3',
+                            'label'=>'Направление подготовки', 
+                            'value' => function ($model, $index, $widget) {
+                                $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
+                                return Napravlenie::findOne($s)['shifr'].' '.Napravlenie::findOne($s)['name'];;},
+                    ],
+                    [
+                        'attribute'=>'idActivity',
+                        'label'=>'Направление деятельности',
+                        'value' => function ($model, $index, $widget) {
                                 return $model->idActivity0->name ;},
                     ],
-                    'r1'=>[
-                            'class' => \yii\grid\DataColumn::className(),
-                            'format' => 'html',
-                            'label'=>'Рейтинг',
-                            'value' => function ($model, $index) {
-                                return $model->r1 ;},
+                    [
+                        'attribute'=>'mark',
+                        'label'=>'Доля оценок "отлично"'
+                    ],        
+                    [
+                        'attribute'=>'r1',
+                        'label'=>'Рейтинг'
                     ],
-                    // 'r2',
-                    // 'r3',
-                    // 'status',
-                    'mark'=>[
-                            'class' => \yii\grid\DataColumn::className(),
-                            'format' => 'html',
-                            'label'=>'Доля оценок "отлично"',
-                            'value' => function ($model, $index) {
-                                return $model->mark ;},
-                    ],
+                    // [
+                    //         'class' => ActionColumn::className(),
+                    //         'deleteOptions' => [
+                    //             'label' => '<i class="glyphicon glyphicon-remove"></i>'
+                    //         ]
+                    // ],
+        
                     ['class' => ActionColumn::className(),'template'=>'{view}','contentOptions'=>['style'=>'max-width: 25px;']],
-                    // ['class' => 'yii\grid\ActionColumn'],
                 ],
-            ]); ?>
+            ]); 
+
+            ?>
+            
             <?php
             $this->registerJs('
                 var gridview_id = ""; // specific gridview
@@ -165,6 +389,34 @@ $idFacultet = $sotrudnik->idFacultet0->id;
                     })
                     row++;
                 });
+
+
+                (function() {
+                    var elements = document.getElementsByClassName("kv-editable-submit");
+                    if (elements.length === 0) {
+                        return ;
+                    }
+                    var button = elements[0];
+                    var dialog = button;
+                    while (dialog && !dialog.classList.contains("kv-editable-popover")) {
+                        dialog = dialog.parentNode;
+                    }
+                    button.addEventListener("click", function() {
+                        var runs = 0;
+                        var callback = function() {
+                            if (dialog.style.display === "none") {
+                                location.reload();
+                                return ;
+                            }
+                            if (runs < 5) {
+                                ++runs;
+                                setTimeout(callback, 500);    
+                            }
+                        };
+                        setTimeout(callback, 500);
+                    });
+                })();
             ');
             ?>
+        </div>
 </div>

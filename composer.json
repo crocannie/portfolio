@@ -21,7 +21,12 @@
         "2amigos/yii2-date-picker-widget": "~1.0",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-editable": "*",
-        "kartik-v/yii2-grid": "*"
+        "kartik-v/yii2-grid": "*",
+        "kartik-v/yii2-detail-view": "*",
+        "kartik-v/yii2-mpdf": "dev-master",
+        "miloschuman/yii2-highcharts-widget": "*",
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "kartik-v/yii2-field-range": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

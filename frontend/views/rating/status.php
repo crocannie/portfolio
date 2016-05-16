@@ -9,7 +9,16 @@ use common\models\Sgroup;
 use common\models\Sotrudnik;
 use common\models\Students;
 use kartik\grid\GridView;
+use common\models\User;
+use yii\web\NotFoundHttpException;
+use kartik\date\DatePicker;
 
+// use common\models\User;
+// use common\models\Sotrudnik;
+
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 // error_reporting( E_STRICT);
 error_reporting( E_STRICT);
 /* @var $this yii\web\View */
@@ -59,6 +68,23 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         </ul>
     </div>
     <div class="col-lg-6">
+<?php
+echo '<label class="control-label">Сроки подачи заявлений</label>';
+echo DatePicker::widget([
+    'name' => 'from_date',
+    // 'value' => date('d-m-Y'),
+    'value' => date('d-m-Y'),
+    'type' => DatePicker::TYPE_RANGE,
+    'name2' => 'to_date',
+    'value2' => date('d-m-Y'),
+    'separator' => '<i class="glyphicon glyphicon glyphicon-arrow-right"></i>',
+
+    'pluginOptions' => [
+        'autoclose'=>true,
+        'format' => 'dd-mm-yyyy'
+    ]
+]);
+?>
       <h4>Критерий <b>Статус мероприятий</b> применяется при оценивании: </h4>
         <ul class="zebra">
           <li>участия студента в мероприятиях</li>

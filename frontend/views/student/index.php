@@ -11,7 +11,13 @@ use common\models\rating\Rating;
 // use kartik\editable\Editable;
 use yii\widgets\Pjax;
 use common\models\Sotrudnik;
+use yii\web\NotFoundHttpException;
+use common\models\User;
+// use common\models\Sotrudnik;
 
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 

@@ -1,6 +1,13 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\NotFoundHttpException;
+use common\models\User;
+use common\models\Sotrudnik;
+
+if ((Yii::$app->user->isGuest) or (User::isSotrudnik(Yii::$app->user->identity->email))){
+	throw new NotFoundHttpException('Страница не найдена.');
+}
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Articles */

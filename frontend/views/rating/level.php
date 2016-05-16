@@ -8,6 +8,13 @@ use common\models\StatusEvent;
 use common\models\Sgroup;
 use kartik\grid\GridView;
 // error_reporting( E_STRICT);
+use yii\web\NotFoundHttpException;
+use common\models\User;
+// use common\models\Sotrudnik;
+
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 error_reporting( E_STRICT);
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */

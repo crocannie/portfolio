@@ -565,7 +565,7 @@ HTML;
         $this->_popoverOptions['placement'] = $this->placement;
         $this->_popoverOptions['size'] = $this->size;
         if (!isset($this->preHeader)) {
-            $this->preHeader = '<i class="glyphicon glyphicon-edit"></i> ' . Yii::t('kveditable', 'Edit') . ' ';
+            $this->preHeader = '<i class="glyphicon glyphicon-pen"></i> ' . Yii::t('kveditable', 'Edit') . ' ';
         }
         if ($this->header == null) {
             $attribute = $this->attribute;
@@ -604,7 +604,7 @@ HTML;
     {
         $submitOpts = $this->submitButton;
         $resetOpts = $this->resetButton;
-        $submitIcon = ArrayHelper::remove($submitOpts, 'icon', '<i class="glyphicon glyphicon-save"></i>');
+        $submitIcon = ArrayHelper::remove($submitOpts, 'icon', '<i class="glyphicon glyphicon-ok"></i>');
         $resetIcon = ArrayHelper::remove($resetOpts, 'icon', '<i class="glyphicon glyphicon-ban-circle"></i>');
         $submitLabel = ArrayHelper::remove($submitOpts, 'label', Yii::t('kveditable', 'Apply'));
         $resetLabel = ArrayHelper::remove($resetOpts, 'label', Yii::t('kveditable', 'Reset'));

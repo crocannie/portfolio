@@ -11,6 +11,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+// use yii\web\NotFoundHttpException;
+// 
 
 error_reporting(E_ALL ^ E_STRICT);
 error_reporting(E_ERROR);
@@ -180,24 +182,30 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>1])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        if (true){
+            Yii::$app->session->setFlash('error', 'Сроки установлены. Вы не можете вносить изменения.');
+        } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('status', [
             'dataProvider' => $dataProvider,
         ]);
+        //             throw new NotFoundHttpException('The requested page does not exist.');
+
     }
 
     // Виды мероприятияй

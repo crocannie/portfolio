@@ -33,7 +33,7 @@ class Universities extends \yii\db\ActiveRecord
         return [
             [['name', 'idCity'], 'required'],
             [['idCity'], 'integer'],
-            [['name'], 'string', 'max' => 128]
+            [['name', 'dekan'], 'string', 'max' => 128]
         ];
     }
 

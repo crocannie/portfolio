@@ -5,7 +5,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\Sotrudnik;
 use common\models\Students;
+use yii\web\NotFoundHttpException;
+use common\models\User;
+// use common\models\Sotrudnik;
 
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 /* @var $this yii\web\View */
 /* @var $model common\models\Sgroup */
 $id = Yii::$app->user->identity->id;

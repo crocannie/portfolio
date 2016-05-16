@@ -286,7 +286,7 @@
                 data = new Editable(this, $.extend({}, $.fn.editable.defaults, options, $(this).data()));
                 $this.data('editable', data);
             }
-            if (typeof option === 'string') {
+            if (typeof option === 'string') {   
                 data[option].apply(data, args);
             }
         });

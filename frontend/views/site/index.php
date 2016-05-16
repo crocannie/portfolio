@@ -56,11 +56,11 @@ $this->title = 'Портфолио';
             $kr = urldecode('index.php?r=achievements-culture/index&id='.Yii::$app->user->identity->id); 
             $sr = urldecode('index.php?r=achievements-sport/index&id='.Yii::$app->user->identity->id); 
           ?>
-          <p><a href=<?=$all?>><img height="180px" src="/portfolio/frontend/web/images/index/diplom.png"></a></p>
-          <a style="color:#40424F" href="$all"><h3>Достижения</h3></a>
+          <p><a href=<?=$ur?>><img height="180px" src="/portfolio/frontend/web/images/index/diplom.png"></a></p>
+          <a style="color:#40424F" href="$ur"><h3>Достижения</h3></a>
           <p >Добавление достижений, наград и участий в мероприятиях по направлениям деятельности</p>
           <div class="btn-group">
-            <a style="width: 305px" class="btn btn-success" href=<?=$all?>>Достижения</a>
+            <a style="width: 305px" class="btn btn-success" href=<?=$ur?>>Достижения</a>
             <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
             <ul style="width: 330px" class="dropdown-menu">
               <li><a href=<?=$ur?>><i class="fa fa-graduation-cap"></i> Учебная деятельность</a></li>
@@ -128,7 +128,7 @@ $this->title = 'Портфолио';
 
         <div align="center" class="col-md-4">
           <?php
-            $anket = urldecode('index.php?r=rating-student/index&id='.$idFacultet); 
+            $anket = urldecode('index.php?r=quotas/index&id='.$idFacultet); 
           ?>
           <p><a href=<?=$anket?>><img height="180px" src="/portfolio/frontend/web/images/index/calendar2.png"></a></p>
           <a style="color: #40424F" href=<?=$anket?>><h3>Стипендиальное обеспечение</h3></a>

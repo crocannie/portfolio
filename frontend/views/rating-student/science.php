@@ -18,6 +18,7 @@ use common\models\rating\Student;
 use common\models\rating\Value;
 use common\models\User;
 use common\models\Sotrudnik;
+
 // error_reporting(E_ALL ^ E_STRICT);
 // error_reporting(E_ERROR);
 // error_reporting(E_ALL);
@@ -54,7 +55,6 @@ $all = urldecode('index.php?r=site/activities');
       $sd = urldecode('index.php?r=rating-student/sport'); 
 	?>
   <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
-    <h2><?= Html::encode('Направления деятельности') ?></h2>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
       <li class="active"><a href=<?=$nid?>>Начуно-исследовательская </a></li>
@@ -95,7 +95,7 @@ $all = urldecode('index.php?r=site/activities');
       foreach ($status as $row){
       }
   }?>
-    <table  width="1000" border="1">
+    <table  width="1143" border="1">
        <col width="30" valign="top">
        <col width="300" valign="top">
       <tr>
@@ -273,11 +273,9 @@ $all = urldecode('index.php?r=site/activities');
 
         <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'2'])->label(false) ?>
         <?php if ($test != 0){ ;?>
-            <div class="alert alert-info" style="width: 300px; text-align: center; height: 50px">
-              <h4>
-                Заявка <?php if($value == 1){ echo "отправлена"; }?>
-              </h4>
-            </div>
+                <?php if($value == 1){
+                  Yii::$app->session->setFlash('success', 'Заявка отправлена.');
+              }?>
         <?php } else {?>
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

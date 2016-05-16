@@ -61,14 +61,8 @@ class RatingStudentController extends Controller
      */
     public function actionView($id)
     {
-        // return $this->render('view', [
-        //     'model' => $this->findModel($id),
-        // ]);
         $model = Student::findOne($id);
 
-        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
-        //     return $this->redirect(['study', 'id' => $model->idStudent]);
-        // } else {
         if ($model->idActivity == 1){
             return $this->render('study', [
                 'model' => $model,

@@ -15,6 +15,13 @@ use common\models\Activity;
 use common\models\EventLevel;
 /* @var $this yii\web\View */
 /* @var $model common\models\rating\Rating */
+use yii\web\NotFoundHttpException;
+use common\models\User;
+// use common\models\Sotrudnik;
+
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;

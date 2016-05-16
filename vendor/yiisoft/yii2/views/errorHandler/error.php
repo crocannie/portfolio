@@ -17,6 +17,7 @@ if ($code) {
 if ($exception instanceof \yii\base\UserException) {
     $message = $exception->getMessage();
 } else {
+    // $message = 'An internal server error occurred.';
     $message = 'An internal server error occurred.';
 }
 

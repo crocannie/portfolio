@@ -6,7 +6,13 @@ use common\models\rating\Rating;
 use common\models\Sotrudnik;
 use common\models\StatusEvent;
 use common\models\Sgroup;
+use yii\web\NotFoundHttpException;
+use common\models\User;
+// use common\models\Sotrudnik;
 
+  if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
+    throw new NotFoundHttpException('Страница не найдена.');
+}
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 

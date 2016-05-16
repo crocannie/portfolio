@@ -312,6 +312,7 @@ HTML;
      *     column. Defaults to 'kartik\grid\DataColumn'.
      */
     public $dataColumnClass = 'kartik\grid\DataColumn';
+    public $actionColumnClass = 'kartik\grid\ActionColumn';
 
     /**
      * @var array the HTML attributes for the grid footer row
@@ -386,7 +387,7 @@ HTML;
      * @var boolean whether the grid table will have a `striped` style. Applicable only if `bootstrap` is `true`.
      *     Defaults to `true`.
      */
-    public $striped = true;
+    public $striped = false;
 
     /**
      * @var boolean whether the grid table will have a `condensed` style. Applicable only if `bootstrap` is `true`.
