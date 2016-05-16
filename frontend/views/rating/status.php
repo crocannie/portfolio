@@ -73,15 +73,15 @@ echo '<label class="control-label">Сроки подачи заявлений</l
 echo DatePicker::widget([
     'name' => 'from_date',
     // 'value' => date('d-m-Y'),
-    'value' => date('d-m-Y'),
+    'value' => date('Y-m-d'),
     'type' => DatePicker::TYPE_RANGE,
     'name2' => 'to_date',
-    'value2' => date('d-m-Y'),
+    'value2' => date('Y-m-d'),
     'separator' => '<i class="glyphicon glyphicon glyphicon-arrow-right"></i>',
 
     'pluginOptions' => [
         'autoclose'=>true,
-        'format' => 'dd-mm-yyyy'
+        'format' => 'yyyy-mm-dd'
     ]
 ]);
 ?>
