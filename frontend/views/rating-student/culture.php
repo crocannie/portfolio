@@ -168,7 +168,7 @@ $status = Student::getStatus($idStudent, 4);
             $typeDocument = $ret[$i]['nameDoc'];
             $year = $ret[$i]['year'];
               echo "$name, $typeDocument, $year"; 
-              echo "<br><a href={$ret[$i]['location']}>Просмотр</a><br>";
+              echo "<br><a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
             } 
           ?>
         </td>
@@ -209,7 +209,7 @@ $status = Student::getStatus($idStudent, 4);
             $year = $ret[$i]['year'];
             $typeDocument = $ret[$i]['documentType'];
             echo "$name, $typeDocument, $year";
-            echo "<br><a href={$ret[$i]['location']}>Просмотр</a><br>";
+            echo "<br><a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
             }
           ?>
         </td>
@@ -229,7 +229,7 @@ $status = Student::getStatus($idStudent, 4);
                 $description = $row['description'];
                 $count = $row['count'];
                 echo "Количество мероприятий: $count, $description <br>";
-                echo "<br><a href={$row[$i]['location']}>Просмотр</a><br>";
+                echo "<br><a href={$row[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
               }         
           ?>
         </td>     

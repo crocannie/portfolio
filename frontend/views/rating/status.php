@@ -68,23 +68,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         </ul>
     </div>
     <div class="col-lg-6">
-<?php
-echo '<label class="control-label">Сроки подачи заявлений</label>';
-echo DatePicker::widget([
-    'name' => 'from_date',
-    // 'value' => date('d-m-Y'),
-    'value' => date('Y-m-d'),
-    'type' => DatePicker::TYPE_RANGE,
-    'name2' => 'to_date',
-    'value2' => date('Y-m-d'),
-    'separator' => '<i class="glyphicon glyphicon glyphicon-arrow-right"></i>',
 
-    'pluginOptions' => [
-        'autoclose'=>true,
-        'format' => 'yyyy-mm-dd'
-    ]
-]);
-?>
       <h4>Критерий <b>Статус мероприятий</b> применяется при оценивании: </h4>
         <ul class="zebra">
           <li>участия студента в мероприятиях</li>

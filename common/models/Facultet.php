@@ -35,6 +35,7 @@ class Facultet extends \yii\db\ActiveRecord
         return [
             [['name', 'idUniversity'], 'required'],
             [['idUniversity'], 'integer'],
+            [['dekan'], 'string'],
             [['name'], 'string', 'max' => 128]
         ];
     }

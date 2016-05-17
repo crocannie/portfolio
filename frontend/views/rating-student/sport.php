@@ -159,7 +159,7 @@ td {
             $typeDocument = $ret[$i]['typeDocument'];
             $year = $ret[$i]['year'];
               echo "$name, $typeDocument, $year"; 
-              echo "<br><a href={$ret[$i]['location']}>Просмотр</a><br>";
+              echo "<br><a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
             } 
           ?>
         </td>
@@ -179,7 +179,7 @@ td {
                 $description = $row['description'];
                 $count = $row['count'];
                 echo "Количество мероприятий: $count, $description <br>";
-                echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
               }         
           ?>
         </td>     

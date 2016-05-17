@@ -40,8 +40,8 @@ class Date extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'from' => 'From',
-            'to' => 'To',
+            'from' => 'Начало',
+            'to' => 'Окончание',
         ];
     }
 }

@@ -19,7 +19,7 @@ use common\models\Sotrudnik;
     <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'idFacultet')->hiddenInput(['value'=>$idFacultet])->label(false) ?>
 
- <?= $form->field($model, 'to')->widget(
+ <?= $form->field($model, 'from')->widget(
     	DatePicker::className(), [
         // 'name' => 'dp_2',
         'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -30,7 +30,7 @@ use common\models\Sotrudnik;
         ]
     ]);
 ?>
- <?= $form->field($model, 'from')->widget(
+ <?= $form->field($model, 'to')->widget(
     	DatePicker::className(), [
         // 'name' => 'dp_2',
         'type' => DatePicker::TYPE_COMPONENT_PREPEND,
@@ -43,7 +43,7 @@ use common\models\Sotrudnik;
 ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

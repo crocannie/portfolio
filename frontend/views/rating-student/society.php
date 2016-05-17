@@ -129,7 +129,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 1){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}"; 
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                 }
               }
           ?>
@@ -143,7 +143,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 2){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                 }
               }
           ?>
@@ -157,7 +157,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 3){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                 }
               }
           ?>
@@ -171,7 +171,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 4){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                 }
               }
           ?>
@@ -185,7 +185,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 5){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
 
                 }
               }
@@ -200,7 +200,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 6){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                 }
               }
           ?>  
@@ -214,7 +214,7 @@ $all = urldecode('index.php?r=site/activities');
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 7){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}";  
-                  echo "<br><a href={$row['location']}>Просмотр</a><br>";
+                  echo "<br><a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
 
                 }
               }

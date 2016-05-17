@@ -38,12 +38,9 @@ class QuotasController extends Controller
      */
     public function actionIndex($id)
     {
-<<<<<<< HEAD
 
         $count = Quotas::find()->where(['idFacultet'=>$id])->all();
-=======
         $count = Quotas::find()->where(['idFacultet'=>1])->all();
->>>>>>> 6710b079b6990c20bea68b7aeb272f65bfed40a4
         foreach ($count as $row) {
             $cnt = $row['cnt'];
         }
@@ -104,7 +101,6 @@ class QuotasController extends Controller
             return;
         }
         
-<<<<<<< HEAD
         $dataProvider01 = new SqlDataProvider([
             'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id ORDER BY r1 DESC limit '.$studyCnt,
             'params' => [':idFacultet' => $id, ':idActivity' => 1,],
@@ -145,8 +141,6 @@ class QuotasController extends Controller
             ],
         ]);
         
-=======
->>>>>>> 6710b079b6990c20bea68b7aeb272f65bfed40a4
         $model = Quotas::find()->where(['idFacultet'=>$id])->one();
 
         return $this->render('index', array(

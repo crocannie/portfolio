@@ -131,11 +131,11 @@ AppAsset::register($this);
         } else {
             echo Nav::widget([
                 'items' => [
-                    [
-                        'label' => '<span class="glyphicon glyphicon-user"></span> Профиль',
-                        'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
-                        'title'=>'Профиль'
-                    ],
+                    // [
+                    //     'label' => '<span class="glyphicon glyphicon-user"></span> Профиль',
+                    //     'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
+                    //     'title'=>'Профиль'
+                    // ],
                     [
                         'label' => '<span class="glyphicon glyphicon-log-out"></span> Выход',
                         'url'   => ['site/logout'],

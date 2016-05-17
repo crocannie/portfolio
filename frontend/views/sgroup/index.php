@@ -40,6 +40,7 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
                 <li class="active"><a href=<?=$group?>></i>Группы </a></li>
                 <li><a href=<?=$student?>></i>Студенты</a></li>
             </ul>
+            <p><?= Html::button('Добавить группу', ['value'=>Url::to('index.php?r=sgroup/create'),'class' => 'btn btn-success', 'id'=>'modalButton']) ?></p>       
         </div>
 
         <div class="col-lg-6">

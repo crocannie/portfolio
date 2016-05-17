@@ -132,7 +132,7 @@ td {
           <?php
             $name = $ret[$i]['name'];
               echo "$name".'<br>';  
-              echo "<a href={$ret[$i]['location']}>Просмотр</a><br>";
+              echo "<a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
           ?>
         </td>
       </tr>

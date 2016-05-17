@@ -149,7 +149,7 @@ $all = urldecode('index.php?r=site/activities');
                 <td>
                   <?php 
                     echo $row->nameProject.", ".$row->dateBegin.'<br>';
-                    echo "<a href={$row->location}>Просмотр</a><br>";
+                    echo "<a href={$row->location}><i class='glyphicon glyphicon-file'></i></a><br>";
                   ?>
 
                 </td>
@@ -165,7 +165,7 @@ $all = urldecode('index.php?r=site/activities');
                 <td>
                   <?php 
                     echo $row->name.", ".$row->dateApp.'<br>';
-                    echo "<a href={$row->location}>Просмотр</a><br>";
+                    echo "<a href={$row->location}><i class='glyphicon glyphicon-file'></i></a><br>";
                   ?>
                 </td>
             </tr>
@@ -184,7 +184,7 @@ $all = urldecode('index.php?r=site/activities');
                   $articles = Articles::getType($idStudent);
                   foreach ($articles as $row) {      
                      echo "{$row['typeArticleName']}: {$row['count']}<br>";
-                    echo "<a href={$row['location']}>{$row['name']}</a><br>";
+                    echo "<a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                   }
               ?>
             </td>
@@ -232,7 +232,7 @@ $all = urldecode('index.php?r=site/activities');
           <?php
             $name = $ret[$i]['name'];
               echo "$name".'<br>';   
-              echo "<a href={$ret[$i]['location']}>Просмотр</a><br>";
+              echo "<a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
           ?>
         </td>
       </tr>
