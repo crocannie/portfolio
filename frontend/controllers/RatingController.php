@@ -226,21 +226,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'eventType.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>2])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            // $sgroup = Rating::find()->where(['idItem'=>$sgroupId])->andwhere(['idTable'=>2])->andwhere(['idFacultet'=>$id])->all();
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+        } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                // $sgroup = Rating::find()->where(['idItem'=>$sgroupId])->andwhere(['idTable'=>2])->andwhere(['idFacultet'=>$id])->all();
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('contest', [
             'dataProvider' => $dataProvider,
@@ -261,21 +269,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeDocument.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>3])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+        } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('document', [
             'dataProvider' => $dataProvider,
@@ -292,21 +308,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeArticle.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>4])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('article', [
             'dataProvider' => $dataProvider,
@@ -323,21 +347,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'scienceDirection.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>5])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('science', [
             'dataProvider' => $dataProvider,
@@ -353,21 +385,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typePatent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>6])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('patent', [
             'dataProvider' => $dataProvider,
@@ -383,21 +423,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeContest.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>7])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('typecontest', [
             'dataProvider' => $dataProvider,
@@ -408,26 +456,34 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('educationLevel.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('educationf.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('educationLevel, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'educationLevel.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>8])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('education', [
             'dataProvider' => $dataProvider,
@@ -443,21 +499,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'authorship.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>9])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('authorship', [
             'dataProvider' => $dataProvider,
@@ -473,21 +537,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusPatent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>10])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+     $today = date('Y-m-d');
+     $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+     $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+     if ($today > $from && $today < $to){
+         Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+         } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('statuspatent', [
             'dataProvider' => $dataProvider,
@@ -503,21 +575,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'activity.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>11])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('activity', [
             'dataProvider' => $dataProvider,
@@ -533,21 +613,30 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'level.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>12])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+
+    // $today = date('Y-m-d');
+    // $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+    // $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+    if ($today > $from && $today < $to){
+        Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+        } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('level', [
             'dataProvider' => $dataProvider,
@@ -563,21 +652,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'grantType.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>13])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+        } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('grant', [
             'dataProvider' => $dataProvider,
@@ -593,21 +690,29 @@ class RatingController extends Controller
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'typeParticipant.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>14])
         ]);
-        if(Yii::$app->request->post('hasEditable')){
-            $sgroupId = Yii::$app->request->post('editableKey');
-            $sgroup = Rating::findOne($sgroupId);
-            $out = Json::encode(['output'=>'', 'message'=>'']);
-            $post = [];
-            $posted = current($_POST['Rating']);
-            $post['Rating'] = $posted;
-            if ($sgroup->load($post)){
-                $sgroup->save();    
-                // print_r($sgroup->getErrors());
-                $output = '';
-                $out = Json::encode(['output' => $output]);
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+
+        if ($today > $from && $today < $to){
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            } else {
+            if(Yii::$app->request->post('hasEditable')){
+                $sgroupId = Yii::$app->request->post('editableKey');
+                $sgroup = Rating::findOne($sgroupId);
+                $out = Json::encode(['output'=>'', 'message'=>'']);
+                $post = [];
+                $posted = current($_POST['Rating']);
+                $post['Rating'] = $posted;
+                if ($sgroup->load($post)){
+                    $sgroup->save();    
+                    // print_r($sgroup->getErrors());
+                    $output = '';
+                    $out = Json::encode(['output' => $output]);
+                }
+                echo $out;
+                return;
             }
-            echo $out;
-            return;
         }
         return $this->render('typeparticipant', [
             'dataProvider' => $dataProvider,

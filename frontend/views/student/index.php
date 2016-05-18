@@ -13,6 +13,9 @@ use yii\widgets\Pjax;
 use common\models\Sotrudnik;
 use yii\web\NotFoundHttpException;
 use common\models\User;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
+
 // use common\models\Sotrudnik;
 
   if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
@@ -42,6 +45,16 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
                 <li><a href=<?=$group?>></i>Группы </a></li>
                 <li class="active"><a href=<?=$student?>></i>Студенты</a></li>
             </ul>
+            <p><?= Html::button('Установить сроки', ['value'=>Url::to('index.php?r=date/update&id='.$idFacultet),'class' => 'btn btn-primary', 'id'=>'modalButton', 'style'=>"width: 200px; background: white; color: #337AB7; border: white; text-align: left; margin-left: 5px"]) ?></p>       
+            <?php
+                Modal::begin([
+                        'header'=>'<h3>Установить сроки</h3>',
+                        'id'=>'modal',
+                        'size'=>'modal-sm',
+                    ]);
+                echo "<div id='modalContent'></div>";
+                Modal::end();
+            ?>
         </div>
 
         <div class="col-lg-6">

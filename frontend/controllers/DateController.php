@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Url;
 
 /**
  * DateController implements the CRUD actions for Date model.
@@ -81,10 +82,10 @@ class DateController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = Date::find()->where(['idFacultet'=>$id])->one();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+return $this->redirect(Yii::$app->request->referrer);
         } else {
             return $this->renderAjax('update', [
                 'model' => $model,
