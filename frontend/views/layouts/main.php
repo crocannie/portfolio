@@ -16,9 +16,20 @@ use yii\helpers\Url;
 use yii\helpers\BaseUrl;
 use common\models\User;
 use common\models\Sotrudnik;
+use common\models\Students;
 
 AppAsset::register($this);
 
+if (!Yii::$app->user->isGuest) {
+    $id = Yii::$app->user->identity->id;
+    if (User::isStudent(Yii::$app->user->identity->email)){
+        $st = Students::findOne($id);
+    }elseif (User::isSotrudnik(Yii::$app->user->identity->email)){
+        $st = Sotrudnik::findOne($id);
+    }
+    $idFacultet = $st->idFacultet0->id;
+    // $idFacultet = 1;
+}
 
 ?>
 <?php $this->beginPage() ?>
@@ -115,6 +126,10 @@ AppAsset::register($this);
                     [
                         'label' => 'Заявления <span class="glyphicon glyphicon-file"></span>',
                         'url'   => urldecode('index.php?r=rating-student/study')
+                    ],
+                    [
+                        'label' => 'Рейтинги <span class="glyphicon glyphicon-stats"></span>',
+                        'url'   => urldecode('index.php?r=quotas/index&id='.$idFacultet)
                     ],
                     [
                         'label' => 'Выход <span class="glyphicon glyphicon-log-out"></span>',

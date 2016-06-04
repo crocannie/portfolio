@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\User;
+
 /* @var $this yii\web\View */
 /* @var $model common\models\AchievementsSocial */
 $all = urldecode('index.php?r=site/activities'); 
@@ -15,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
+        <?php   if (User::isStudent(Yii::$app->user->identity->email)){?>
         <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'title'=>'Редактировать']) ?>
         <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger','title'=>'Удалить', 
@@ -23,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php } ?>
     </p>
 
     <?= DetailView::widget([
@@ -33,12 +37,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label'=>'Тип участия',
                     'value' => $model->idSocialParticipationType0->name,
             ],
+            'idStatus'=>[                    
+                    'label'=>'Статус мероприятия',
+                    'value' => $model->idStatus0->name,
+            ],
+            'idLevel'=>[                    
+                    'label'=>'Уровень мероприятия',
+                    'value' => $model->idLevel0->name,
+            ],
+            'idTypeParticipant'=>[                    
+                    'label'=>'Тип участника',
+                    'value' => $model->idTypeParticipant0->name,
+            ],
+            //idTypeParticipant
             'description',
             'count',
             'date',
             // 'idDocument',
             // 'idStudent',
-            'location',
+            // 'location',
         ],
     ]) ?>
     <label>Файл: </label>

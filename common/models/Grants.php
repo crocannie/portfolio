@@ -106,4 +106,19 @@ class Grants extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
     }
+
+    public function getIdTypegrant0()
+    {
+        return $this->hasOne(GrantType::className(), ['id' => 'typeGrant']);
+    }
+
+    public function getIdStatus0()
+    {
+        return $this->hasOne(StatusEvent::className(), ['id' => 'idStatus']);
+    }
+
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EventLevel::className(), ['id' => 'idLevel']);
+    }
 }

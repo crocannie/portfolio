@@ -243,7 +243,7 @@ $status = Student::getStatus($idStudent, 4);
     
     <?= $form->field($model, 'status')->hiddenInput(['value'=>'1'])->label(false) ?>
     <?php
-     // echo $r1 = Value::getCulture($student->idFacultet, $student->idStudent);
+     $r1 = Value::getCulture($student->idFacultet, $student->idStudent);
     ?>
     
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
@@ -266,5 +266,6 @@ else {?>
 }
 ?>
     <?php ActiveForm::end(); ?>
-
+<?php
+?>
 </div>

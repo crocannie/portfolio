@@ -284,3 +284,69 @@ $all = urldecode('index.php?r=site/activities');
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+<?php
+// echo $r1.'<br>';
+// echo $r2.'<br>';
+// echo $r3.'<br>';
+// echo $r.'<br>';
+// echo "<br>";
+//        $status = Yii::$app->db->createCommand('
+//                             select a.nameProject, r.value, a.dateBegin, a.nameProject, a.idStatus, r.idItem
+//                             from valuesRating r, grants a
+//                             where r.idFacultet = :idFacultet
+//                             and r.idTable = 1
+//                             and r.idItem = a.idStatus
+//                             and a.idStudent = :idStudent
+//                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+//                             ->bindValue(':idFacultet', $idFacultet)
+//                             ->bindValue(':idStudent', $idStudent)
+//                             ->queryAll();
+
+//         $level = Yii::$app->db->createCommand('
+//                             select  a.nameProject, r.value, a.dateBegin, a.nameProject, a.idLevel, r.idItem
+//                             from valuesRating r, grants a
+//                             where r.idFacultet = :idFacultet
+//                             and r.idTable = 12
+//                             and r.idItem = a.idLevel
+//                             and a.idStudent = :idStudent
+//                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+//                             ->bindValue(':idFacultet', $idFacultet)
+//                             ->bindValue(':idStudent', $idStudent)
+//                             ->queryAll();
+        
+//         $type = Yii::$app->db->createCommand('
+//                             select  a.nameProject, r.value, a.dateBegin, a.nameProject, a.idTypeContest, r.idItem
+//                             from valuesRating r, grants a
+//                             where r.idFacultet = :idFacultet
+//                             and r.idTable = 7
+//                             and r.idItem = a.idTypeContest
+//                             and a.idStudent = :idStudent
+//                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+//                             ->bindValue(':idFacultet', $idFacultet)
+//                             ->bindValue(':idStudent', $idStudent)
+//                             ->queryAll();
+        
+//         $grantType = Yii::$app->db->createCommand('
+//                             select  a.nameProject, r.value, a.dateBegin, a.nameProject, a.typeGrant, r.idItem
+//                             from valuesRating r, grants a
+//                             where r.idFacultet = :idFacultet
+//                             and r.idTable = 13
+//                             and r.idItem = a.typeGrant
+//                             and a.idStudent = :idStudent
+//                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+//                             ->bindValue(':idFacultet', $idFacultet)
+//                             ->bindValue(':idStudent', $idStudent)
+//                             ->queryAll();
+//         for ($i = 0; $i < count($status); $i++){
+//           echo $i.' '.'Status: '.$status[$i]['nameProject'].': '.$status[$i]['value'].'<br>';
+//           echo $i.' '.'Type: '.$type[$i]['nameProject'].': '.$type[$i]['value'].'<br>';
+//           echo $i.' '.'grantType: '.$grantType[$i]['nameProject'].': '.$grantType[$i]['value'].'<br>';
+//           echo $i.' '.'Level: '.$level[$i]['nameProject'].': '.$level[$i]['value'].'<br>';
+//           echo "<br>";
+//         }
+//         $R1 = null;
+//         for ($i = 0; $i < count($type); $i++){
+//           echo   $R1 += ($type[$i]['value'] * $grantType[$i]['value'] * $status[$i]['value'] * $level[$i]['value']);
+//           echo "<br>";
+//         }
+?>

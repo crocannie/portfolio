@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use common\models\AchievementsStudy;
 
 /**
  * StudentController implements the CRUD actions for Students model.
@@ -50,8 +51,22 @@ class StudentController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        // $model = AchievementsStudy::findOne($id);
+
+        // // return $this->render('view', [
+        // //     'model' => $this->findModel($id),
+        // // ]);
+        //     return $this->render('/achievements-study/index', [
+        //         'model' => $model,
+        //     ]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => AchievementsStudy::find()
+                ->where(['idStudent'=>$id])
+        ]);
+
+        return $this->render('/achievements-study/index', [
+            'dataProvider' => $dataProvider,
+            'id' =>$id,
         ]);
     }
 

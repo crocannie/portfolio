@@ -81,6 +81,21 @@ class ParticipationSport extends \yii\db\ActiveRecord
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
     }
 
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EventLevel::className(), ['id' => 'idLevel']);
+    }
+    
+    public function getIdStatus0()
+    {
+        return $this->hasOne(StatusEvent::className(), ['id' => 'idStatus']);
+    }
+
+    public function getIdTypeParticipant0()
+    {
+        return $this->hasOne(TypeParticipant::className(), ['id' => 'idTypeParticipant']);
+    }
+
     public function getAll($id){
         $sql = 'SELECT * as count FROM `sportParticipation` WHERE idStudent = :id AND sportParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';
         $ret = Yii::$app->db->createCommand($sql)

@@ -15,6 +15,7 @@ use yii\web\NotFoundHttpException;
 use common\models\User;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+// use kartik\grid\ActionColumn;
 
 // use common\models\Sotrudnik;
 
@@ -57,7 +58,7 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
             ?>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-9">
             <h1><?= Html::encode($this->title) ?></h1>
 
             <?= GridView::widget([
@@ -77,9 +78,15 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
                         'value' => function ($model, $index, $widget) {
                         return $model->idNapravlenie0->shifr.' '.$model->idNapravlenie0->name ;},
                     ],
-                    'idGroup'=>[
-                        'class' => \yii\grid\DataColumn::className(),
-                        'format' => 'html',
+                    // 'idGroup'=>[
+                    //     'class' => \yii\grid\DataColumn::className(),
+                    //     'format' => 'html',
+                    //     'label'=>'Группа',
+                    //     'value' => function ($model, $index, $widget) {
+                    //     return $model->idGroup0->name;},
+                    // ],
+                    [
+                        'attribute'=>'idGroup',
                         'label'=>'Группа',
                         'value' => function ($model, $index, $widget) {
                         return $model->idGroup0->name;},
@@ -89,7 +96,7 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
                     // 'registrationCode',
                     // 'login',
                     // 'status',
-
+                    ['class' => 'yii\grid\ActionColumn','template'=>'{view}','contentOptions'=>['style'=>'max-width: 30px;']],
                     // ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]); ?>

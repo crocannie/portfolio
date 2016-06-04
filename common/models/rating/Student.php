@@ -58,7 +58,7 @@ class Student extends \yii\db\ActiveRecord
             'id' => 'ID',
             'idStudent' => 'Id Student',
             'idActivity' => 'Id Activity',
-            'r1' => 'R1',
+            'r1' => 'Рейтинг',
             'r2' => 'R2',
             'r3' => 'R3',
             'status' => 'Status',

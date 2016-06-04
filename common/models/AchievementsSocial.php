@@ -79,6 +79,22 @@ class AchievementsSocial extends \yii\db\ActiveRecord
         return $this->hasOne(TypeSocialParticipation::className(), ['id' => 'idSocialParticipationType']);
     }
 
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EventLevel::className(), ['id' => 'idLevel']);
+    }
+
+    public function getIdStatus0()
+    {
+        return $this->hasOne(StatusEvent::className(), ['id' => 'idStatus']);
+    }
+
+    public function getIdTypeParticipant0()
+    {
+        return $this->hasOne(TypeParticipant::className(), ['id' => 'idTypeParticipant']);
+    }
+    //idTypeParticipant
+
     public function getValue($id){
         $ret = Yii::$app->db->createCommand('select s.count as count, t.value as value from socialParticipation s, typeSocialParticipation t where idStudent = :id  and s.idSocialParticipationType = t.id and s.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':id', $id)

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\AchievementsCulture */
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
+        <?php   if (User::isStudent(Yii::$app->user->identity->email)){?>
         <?= Html::a('<i class="glyphicon glyphicon-pencil"></i>', ['update', 'id' => $model->id], ['class' => 'btn btn-primary', 'title'=>'Редактировать']) ?>
         <?= Html::a('<i class="glyphicon glyphicon-trash"></i>', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger','title'=>'Удалить', 
@@ -26,6 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php } ?>
+
     </p>
 
     <?= DetailView::widget([
@@ -36,6 +40,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'idStatus'=>[                    
                     'label'=>'Статус мероприятия',
                     'value' => $model->idStatus0->name,
+            ],
+            'idStatus'=>[                    
+                    'label'=>'Статус мероприятия',
+                    'value' => $model->idStatus0->name,
+            ],
+            'idLevel'=>[                    
+                    'label'=>'Уровень мепроприятия',
+                    'value' => $model->idLevel0->name,
             ],
             'idTypeContest'=>[                    
                     'label'=>'Вид мероприятия',

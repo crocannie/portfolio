@@ -101,7 +101,10 @@ class AchievementsCulture extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Documents::className(), ['id' => 'idDocument']);
     }
-
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EventLevel::className(), ['id' => 'idLevel']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

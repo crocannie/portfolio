@@ -43,7 +43,7 @@ class AchievementsStudy extends \yii\db\ActiveRecord
         return [
             [['name', 'dateEvent', 'idEventType', 'idStatus', 'eventTitle', 'idDocumentType', 'idStudent', 'idLevel'], 'required'],
             [['dateEvent'], 'safe'],
-            [['idEventType', 'idStatus', 'idDocumentType', 'idStudent', 'idLevel'], 'integer'],
+            [['idEventType', 'idStatus', 'idDocumentType', 'idStudent', 'idLevel', 'status'], 'integer'],
             [['name'], 'string', 'max' => 128],
             [['eventTitle'], 'string', 'max' => 512],
             [['file'], 'file'],
@@ -67,7 +67,8 @@ class AchievementsStudy extends \yii\db\ActiveRecord
             // 'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
             'file'=>'Документ',
-            'idLevel' => 'Уровень мероприятия'
+            'idLevel' => 'Уровень мероприятия',
+            'status' => 'Статус'
         ];
     }
 
@@ -101,6 +102,11 @@ class AchievementsStudy extends \yii\db\ActiveRecord
     public function getIdDocumentType0()
     {
         return $this->hasOne(TypeDocument::className(), ['id' => 'idDocumentType']);
+    }
+
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EventLevel::className(), ['id' => 'idLevel']);
     }
 
     /**

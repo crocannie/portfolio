@@ -456,7 +456,7 @@ class RatingController extends Controller
     {
      $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('educationf.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('educationLevel.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, educationLevel.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('educationLevel, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'educationLevel.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>8])

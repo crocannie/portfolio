@@ -81,7 +81,7 @@ class QuotasController extends Controller
         ]);
         
         $dataProvider2 = new ActiveDataProvider([
-            'query' => Student::find()->where(['idFacultet'=>$id]),
+            'query' => Student::find()->where(['idFacultet'=>$id])->orderBy('idStudent ASC')
         ]);
 
         if(Yii::$app->request->post('hasEditable')){
@@ -100,9 +100,18 @@ class QuotasController extends Controller
             echo $out;
             return;
         }
+    
+    $sql = 'SELECT tt.* FROM studentrating tt INNER JOIN (SELECT idStudent, MAX(r1) AS maxr FROM studentrating where idFacultet=:id GROUP BY idStudent) groupedtt ON tt.idStudent = groupedtt.idStudent AND tt.r1 = groupedtt.maxr';
+        $st = Yii::$app->db->createCommand($sql)
+                                ->bindValue(':id', $id)
+                                ->queryAll();
+        foreach ($st as $row) {
+            $a[] = $row['id'];
+        }
+        $comma_separated = implode(",", $a);
         
         $dataProvider01 = new SqlDataProvider([
-            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id ORDER BY r1 DESC limit '.$studyCnt,
+            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id and r.id in('.$comma_separated.')ORDER BY r1 DESC limit '.$studyCnt,
             'params' => [':idFacultet' => $id, ':idActivity' => 1,],
             'pagination' => [
                 'pageSize' => false,
@@ -110,7 +119,7 @@ class QuotasController extends Controller
         ]);
 
         $dataProvider02 = new SqlDataProvider([
-            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id ORDER BY r1 DESC limit '.$scienceCnt,
+            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id and r.id in('.$comma_separated.') ORDER BY r1 DESC limit '.$scienceCnt,
             'params' => [':idFacultet' => $id, ':idActivity' => 2,],
             'pagination' => [
                 'pageSize' => false,
@@ -118,7 +127,7 @@ class QuotasController extends Controller
         ]);
 
         $dataProvider03 = new SqlDataProvider([
-            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id ORDER BY r1 DESC limit '.$socialCnt,
+            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id and r.id in('.$comma_separated.') ORDER BY r1 DESC limit '.$socialCnt,
             'params' => [':idFacultet' => $id, ':idActivity' => 3,],
             'pagination' => [
                 'pageSize' => false,
@@ -126,7 +135,7 @@ class QuotasController extends Controller
         ]);
 
         $dataProvider04 = new SqlDataProvider([
-            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id ORDER BY r1 DESC limit '.$cultureCnt,
+            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id and r.id in('.$comma_separated.') ORDER BY r1 DESC limit '.$cultureCnt,
             'params' => [':idFacultet' => $id, ':idActivity' => 4,],
             'pagination' => [
                 'pageSize' => false,
@@ -134,7 +143,7 @@ class QuotasController extends Controller
         ]);
 
         $dataProvider05 = new SqlDataProvider([
-            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id ORDER BY r1 DESC limit '.$sportCnt,
+            'sql' => 'SELECT r.*, concat(s.secondName, " ", s.firstName) as Fio, concat(e.name, ", ", g.name) as study, concat(n.shifr, " ", n.name) as napravlenie FROM studentRating r, students s, sgroup g, educationLevel e, napravlenie n  WHERE r.idFacultet = :idFacultet and r.idActivity = :idActivity and r.idStudent = s.idStudent and s.idGroup = g.id and s.idLevel = e.id and s.idNapravlenie = n.id and r.id in('.$comma_separated.') ORDER BY r1 DESC limit '.$sportCnt,
             'params' => [':idFacultet' => $id, ':idActivity' => 5,],
             'pagination' => [
                 'pageSize' => false,
@@ -145,8 +154,9 @@ class QuotasController extends Controller
 
         return $this->render('index', array(
             'model'=>$model,
+            'model'=>$model2,
             'dataProvider'=>$dataProvider,
-            'model'=>$model,
+            'st'=>$st,
             'dataProvider2'=>$dataProvider2,
             'dataProvider01'=>$dataProvider01,
             'dataProvider02'=>$dataProvider02,

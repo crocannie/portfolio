@@ -218,5 +218,120 @@ else {
 }
 ?>
     <?php ActiveForm::end(); ?>
+<?php
+echo $r1.'<br>';
 
+       $status = Yii::$app->db->createCommand('
+                            select a.name, r.value, a.year, a.name, a.idStatus, r.idItem
+                            from valuesRating r, achievementsSport a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 1
+                            and r.idItem = a.idStatus
+                            and a.idStudent = :idStudent
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+        $type = Yii::$app->db->createCommand('
+                           select a.name, r.value, a.year, a.name, a.idStatus, r.idItem
+                            from valuesRating r, achievementsSport a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 2
+                            and r.idItem = a.idTypeContest
+                            and a.idStudent = :idStudent
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        $doc = Yii::$app->db->createCommand('
+                            select a.name, r.value, a.year, a.name, a.idStatus, r.idItem
+                            from valuesRating r, achievementsSport a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 3
+                            and r.idItem = a.idDocumentType
+                            and a.idStudent = :idStudent
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        $level = Yii::$app->db->createCommand('
+                            select a.name, r.value, a.year, a.name, a.idLevel, r.idItem
+                            from valuesRating r, achievementsSport a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 12
+                            and r.idItem = a.idLevel
+                            and a.idStudent = :idStudent
+                            and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+        for ($i = 0; $i < count($status); $i++){
+          echo $i.' '.'Status: '.$status[$i]['name'].': '.$status[$i]['value'].'<br>';
+          echo $i.' '.'Type: '.$type[$i]['name'].': '.$type[$i]['value'].'<br>';
+          echo $i.' '.'Doc: '.$doc[$i]['name'].': '.$doc[$i]['value'].'<br>';
+          echo $i.' '.'Level: '.$level[$i]['name'].': '.$level[$i]['value'].'<br>';
+          echo "<br>";
+        }
+
+        $R1 = null;
+            for ($i = 0; $i < count($status); $i++){
+               echo $R1 += ($status[$i]['value'] * $type[$i]['value'] * $doc[$i]['value'] * $level[$i]['value']);
+               echo "<br>";
+            }
+
+        $status1 = Yii::$app->db->createCommand('
+                            select a.description, r.value, a.date, a.description, a.idStatus, r.idItem
+                            from valuesRating r, sportParticipation a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 1
+                            and r.idItem = a.idStatus
+                            and a.idStudent = :idStudent
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+        $type1 = Yii::$app->db->createCommand('
+                            select a.description, r.value, a.date, a.description, a.idTypeParticipant, r.idItem
+                            from valuesRating r, sportParticipation a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 14
+                            and r.idItem = a.idTypeParticipant
+                            and a.idStudent = :idStudent
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+
+        $level1 = Yii::$app->db->createCommand('
+                            select a.description, r.value, a.date, a.description, a.idLevel, r.idItem
+                            from valuesRating r, sportParticipation a
+                            where r.idFacultet = :idFacultet
+                            and r.idTable = 12
+                            and r.idItem = a.idLevel
+                            and a.idStudent = :idStudent
+                            and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
+                            ->bindValue(':idFacultet', $idFacultet)
+                            ->bindValue(':idStudent', $idStudent)
+                            ->queryAll();
+
+for ($i = 0; $i < count($status1); $i++){
+          echo $i.' '.'Status: '.$status1[$i]['description'].': '.$status1[$i]['value'].'<br>';
+          echo $i.' '.'Type: '.$type1[$i]['description'].': '.$type1[$i]['value'].'<br>';
+          // echo $i.' '.'Doc: '.$doc[$i]['name'].': '.$doc[$i]['value'].'<br>';
+          echo $i.' '.'Level: '.$level1[$i]['description'].': '.$level1[$i]['value'].'<br>';
+          echo "<br>";
+        }
+        $R2 = null;                    
+        // foreach ($cnt as $row){
+        //     $R2 += $row['count']*0.5;
+        // }
+        for ($i = 0; $i < count($status1); $i++){
+            echo $R2 += ($status1[$i]['value'] * $type1[$i]['value']  * $level1[$i]['value']);
+        }
+
+?>
 </div>

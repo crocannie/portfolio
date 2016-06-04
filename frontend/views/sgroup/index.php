@@ -80,9 +80,9 @@ $student = urldecode('index.php?r=student/index&id='.$idFacultet);
                         //     return $model->name;
                         // }
                      ],
-                    'id',
+                    // 'id',
                     // 'name',
-                    'idNapravlenie',
+                    // 'idNapravlenie',
                     'idNapravlenie'=>[
                             'class' => \yii\grid\DataColumn::className(),
                             'format' => 'html',

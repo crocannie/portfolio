@@ -9,11 +9,13 @@ use common\models\Quotas;
 use common\models\Facultet;
 use common\models\rating\Value;
 use common\models\rating\Student;
-
+use common\models\Articles;
 use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
 use yii\web\NotFoundHttpException;
 use common\models\User;
+
+
 // use common\models\Sotrudnik;
 
   if ((Yii::$app->user->isGuest) or (User::isStudent(Yii::$app->user->identity->email))){
@@ -28,15 +30,23 @@ $this->params['breadcrumbs'][] = $this->title;
 $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
+$idUniversity = $sotrudnik->idUniversity0->id;
 
+$university = Facultet::find()->where(['idUniversity'=>$idUniversity])->all();
+foreach ($university as $row) {
+            $a[] = "'".$row['name']."'";
+        }
+// echo $comma_separated = implode(", ", $a);
+Quotas::find()->where(['idFacultet'=>$id]);
+$q = (Quotas::find()->where(['idFacultet'=>$idFacultet])->all());
+foreach ($q as $row) {
+    $study = $row['study'];
+    $science = $row['science'];
+    $social = $row['social'];
+    $culture = $row['culture'];
+    $sport = $row['sport'];
+}
 
-// for ($i = 1; $i < 6; $i++){
-// 	$model1 = Student::find()->where(['idFacultet'=>$idFacultet, 'idActivity'=>$i])->all();
-// 	for ($j = 0; $j < count($model1); $j++){
-// 	 	echo $model1[$j]['idStudent'].' ';
-// 	}
-// 	echo '<br>';
-// }
 echo Highcharts::widget([
     'scripts' => [
         // 'modules/exporting',
@@ -44,7 +54,7 @@ echo Highcharts::widget([
     ],
     'options' => [
         'title' => [
-            'text' => '',
+            'text' => 'Распеределений заявлений по факультету',
         ],
         'xAxis' => [
             'categories' => ['Apples', 'Oranges'],
@@ -52,7 +62,7 @@ echo Highcharts::widget([
         'labels' => [
             'items' => [
                 [
-                    // 'html' => 'Total fruit consumption',
+                    // 'html' => 'Распеределений заявлений по направлениям',
                     'style' => [
                         'left' => '50px',
                         'top' => '18px',
@@ -103,6 +113,140 @@ echo Highcharts::widget([
         ],
     ]
 ]);
+
+echo Highcharts::widget([
+    'scripts' => [
+        'modules/exporting',
+        'themes/grid-light',
+    ],
+    'options' => [
+        'title' => [
+            'text' => 'Соотношение подданых заявлений и доступных мест',
+        ],
+        'xAxis' => [
+            'categories' => ['Учебная', 'Научная', 'Общественная', 'Творческая', 'Спортивная'],
+        ],
+        'labels' => [
+            'items' => [
+                [
+                    // 'html' => 'Total fruit consumption',
+                    'style' => [
+                        'left' => '50px',
+                        'top' => '18px',
+                        'color' => new JsExpression('(Highcharts.theme && Highcharts.theme.textColor) || "black"'),
+                    ],
+                ],
+            ],
+        ],
+        'series' => [
+            [
+                'type' => 'bar',
+                'name' => 'Подано',
+                'data' => [count(Student::find()->where(['idFacultet'=>$idFacultet, 'idActivity'=>1])->all()), count(Student::find()->where(['idFacultet'=>$idFacultet, 'idActivity'=>2])->all()), count(Student::find()->where(['idFacultet'=>$idFacultet, 'idActivity'=>3])->all()), count(Student::find()->where(['idFacultet'=>$idFacultet, 'idActivity'=>4])->all()), count(Student::find()->where(['idFacultet'=>$idFacultet, 'idActivity'=>5])->all())],
+                'color' => 'IndianRed', // Jane's color
+
+            ],
+            [
+                'type' => 'bar',
+                'name' => 'Квота',
+                'data' => [$study, $science, $social, $culture, $spot],
+                'color' => 'MediumSeaGreen', // Jane's color
+            ],
+        
+        ],
+    ]
+]);
+echo "<br>";
+
+// echo Highcharts::widget([
+//     'scripts' => [
+//         'modules/exporting',
+//         'themes/grid-light',
+//     ],
+//     'options' => [
+//         'title' => [
+//             'text' => 'Публикации',
+//         ],
+//         'xAxis' => [
+//             'categories' => [$sotrudnik->idFacultet0->name],
+//         ],
+//         'labels' => [
+//             'items' => [
+//                 [
+//                     // 'html' => 'Total fruit consumption',
+//                     'style' => [
+//                         'left' => '50px',
+//                         'top' => '18px',
+//                         'color' => new JsExpression('(Highcharts.theme && Highcharts.theme.textColor) || "black"'),
+//                     ],
+//                 ],
+//             ],
+//         ],
+//         'series' => [
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Международные журналы (Scopus, Web ofScience и др.)',
+//                 // 'data' => [count(Articles::find()->where(['idStudent'=>89]))],
+//                 'data' => [4],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Журналы ВАК',
+//                 'data' => [2],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Журналы РИНЦ',
+//                 'data' => [3],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Иные журналы',
+//                 'data' => [1],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Международные конференции (Scopus, Web of Science и др.)',
+//                 'data' => [7],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Конференции РИНЦ',
+//                 'data' => [4],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Иные материалы конференций',
+//                 'data' => [9],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Тезисы докладов',
+//                 'data' => [1],
+//             ],
+//             [
+//                 'type' => 'column',
+//                 'name' => 'Иные публикации',
+//                 'data' => [4],
+//             ],
+//         ],
+//     ]
+// ]);
+
+
+// $zip = new ZipArchive();
+// $filename = "./test112.zip";
+
+// if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+//     exit("Невозможно открыть <$filename>\n");
+// }
+
+// $zip->addFromString("testfilephp.txt" . time(), "#1 Это тестовая строка, добавленная как testfilephp.txt.\n");
+// $zip->addFromString("testfilephp2.txt" . time(), "#2 Это тестовая строка, добавленная как testfilephp2.txt.\n");
+// $zip->addFile($thisdir . "/too.php","/testfromfile.php");
+// // echo "numfiles: " . $zip->numFiles . "\n";
+// // echo "status:" . $zip->status . "\n";
+// $zip->close();
 ?>
 
 <div class="group-index">

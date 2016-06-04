@@ -73,7 +73,10 @@ class ParticipationCulture extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Documents::className(), ['id' => 'idDocument']);
     }
-
+    public function getIdStatus0()
+    {
+        return $this->hasOne(StatusEvent::className(), ['id' => 'idStatus']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -81,7 +84,14 @@ class ParticipationCulture extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Students::className(), ['id' => 'idStudent']);
     }
-
+    public function getIdLevel0()
+    {
+        return $this->hasOne(EventLevel::className(), ['id' => 'idLevel']);
+    }
+    public function getIdTypeParticipant0()
+    {
+        return $this->hasOne(TypeParticipant::className(), ['id' => 'idTypeParticipant']);
+    }
     public function getAll($id){
         $sql = 'SELECT * FROM ktdParticipation WHERE idStudent = :id AND ktdParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';        
         $ret = Yii::$app->db->createCommand($sql)

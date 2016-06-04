@@ -92,11 +92,11 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'idFacultet',
-            'idTable',
+            // 'id',
+            // 'idFacultet',
+            // 'idTable',
             'name',
-            'idItem',
+            // 'idItem',
             // 'value',
             [
                 'class' => 'kartik\grid\EditableColumn',
