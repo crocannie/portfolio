@@ -147,6 +147,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -159,6 +160,7 @@ class Value {
                             and r.idTable = 2
                             and r.idItem = a.idEventType
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -171,6 +173,7 @@ class Value {
                             and r.idTable = 3
                             and r.idItem = a.idDocumentType
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -183,6 +186,7 @@ class Value {
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -205,6 +209,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -216,6 +221,7 @@ class Value {
                             and r.idTable = 2
                             and r.idItem = a.idTypeContest
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -228,6 +234,7 @@ class Value {
                             and r.idTable = 3
                             and r.idItem = a.idDocumentType
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -240,6 +247,7 @@ class Value {
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -256,6 +264,7 @@ class Value {
                             select a.*
                             from sportParticipation  a
                             where a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -267,6 +276,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -277,6 +287,7 @@ class Value {
                             where r.idFacultet = :idFacultet
                             and r.idTable = 14
                             and r.idItem = a.idTypeParticipant
+                            and a.status = 0
                             and a.idStudent = :idStudent
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
@@ -290,6 +301,7 @@ class Value {
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
+                            and a.status = 0
                             and a.idStudent = :idStudent
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
@@ -312,6 +324,7 @@ class Value {
                             select a.*
                             from socialParticipation  a
                             where a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())  order by a.id')
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -322,6 +335,7 @@ class Value {
                             where r.idFacultet = :idFacultet
                             and r.idTable = 1
                             and r.idItem = a.idStatus
+                            and a.status = 0
                             and a.idStudent = :idStudent
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
@@ -335,6 +349,7 @@ class Value {
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -347,6 +362,7 @@ class Value {
                             and r.idTable = 14
                             and r.idItem = a.idTypeParticipant
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -371,6 +387,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -382,6 +399,7 @@ class Value {
                             and r.idTable = 2
                             and r.idItem = a.idTypeContest
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -394,6 +412,7 @@ class Value {
                             and r.idTable = 3
                             and r.idItem = a.idDocumentType
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -406,6 +425,7 @@ class Value {
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -422,6 +442,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -445,6 +466,7 @@ class Value {
                             and r.idTable = 3
                             and r.idItem = a.idDocumentType
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -457,6 +479,7 @@ class Value {
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.year BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -471,6 +494,7 @@ class Value {
                             select a.*
                             from ktdParticipation  a
                             where a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idStudent', $idStudent)
                             ->queryAll();
@@ -482,6 +506,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -492,6 +517,7 @@ class Value {
                             where r.idFacultet = :idFacultet
                             and r.idTable = 14
                             and r.idItem = a.idTypeParticipant
+                            and a.status = 0
                             and a.idStudent = :idStudent
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
@@ -516,6 +542,7 @@ class Value {
                             where r.idFacultet = :idFacultet
                             and r.idTable = 12
                             and r.idItem = a.idLevel
+                            and a.status = 0
                             and a.idStudent = :idStudent
                             and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
@@ -536,6 +563,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -548,6 +576,7 @@ class Value {
                             and r.idTable = 12
                             and r.idItem = a.idLevel
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -560,6 +589,7 @@ class Value {
                             and r.idTable = 7
                             and r.idItem = a.idTypeContest
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -572,6 +602,7 @@ class Value {
                             and r.idTable = 13
                             and r.idItem = a.typeGrant
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             and a.dateBegin BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -588,6 +619,7 @@ class Value {
                             and r.idTable = 6
                             and r.idItem = a.idTypePatent
                             and a.idStudent = :idStudent
+                            and a.istatus = 0
                             and a.dateApp BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -600,6 +632,7 @@ class Value {
                             and r.idTable = 10
                             and r.idItem = a.status
                             and a.idStudent = :idStudent
+                            and a.istatus = 0
                             and a.dateApp BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -620,6 +653,7 @@ class Value {
                             and r.idTable = 1
                             and r.idItem = a.idStatus
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             AND a.year BETWEEN (YEAR( CURDATE( ) ) -2) AND (YEAR( CURDATE( ) )) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -632,6 +666,7 @@ class Value {
                             and r.idTable = 4
                             and r.idItem = a.idType
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             AND a.year BETWEEN (YEAR( CURDATE( ) ) -2) AND (YEAR( CURDATE( ) )) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)
@@ -644,6 +679,7 @@ class Value {
                             and r.idTable = 9
                             and r.idItem = a.idAuthorship
                             and a.idStudent = :idStudent
+                            and a.status = 0
                             AND a.year BETWEEN (YEAR( CURDATE( ) ) -2) AND (YEAR( CURDATE( ) )) order by a.id')
                             ->bindValue(':idFacultet', $idFacultet)
                             ->bindValue(':idStudent', $idStudent)

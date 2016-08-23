@@ -17,6 +17,9 @@ use common\models\AchievementsStudy;
 use common\models\rating\Science;
 use common\models\rating\Student;
 use common\models\rating\Value;
+use app\models\Date;
+use common\models\StatusEvent;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
   $all = urldecode('index.php?r=site/activities'); 
@@ -39,11 +42,10 @@ use common\models\rating\Value;
   }
   $student = Students::findOne($idStudent);
 
-
   $status = Student::getStatus($idStudent, 1);
   $count = Student::getCount($idStudent, 1);
   foreach ($status as $row) {
-    $value = $row['status'];
+     $value = $row['status'];
   }
   foreach ($count as $row) {
     $test = $row['countS'];
@@ -59,10 +61,11 @@ use common\models\rating\Value;
       $sd = urldecode('index.php?r=rating-student/sport'); 
   ?>
 
+
   <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
     <ul class="nav nav-tabs">
       <li class="active"><a href=<?=$ud?>>Учебная </a></li>
-      <li><a href=<?=$nid?>>Начуно-исследовательская </a></li>
+      <li><a href=<?=$nid?>>Научно-исследовательская </a></li>
       <li><a href=<?=$od?>>Общественная </a></li>
       <li><a href=<?=$ktd?>>Культурно-творческая </a></li>
       <li><a href=<?=$sd?>>Спортивная </a></li>
@@ -83,6 +86,19 @@ td {
   padding: 3px;
 }
 </style>
+<?php
+        $today = date('Y-m-d');
+        // echo "<br>";
+        $from = Date::find()->where(['idFacultet'=>$idFacultet])->one()->from;
+        // echo "<br>";
+        $to = Date::find()->where(['idFacultet'=>$idFacultet])->one()->to;
+//$today > $from && $today < $to
+                // echo "<br>";
+        // echo $today.' > '.$from.' && '.$today.' < '.$to;
+        $as = AchievementsStudy::find()->where(['status'=>0])->andwhere(['idStudent'=>$idStudent])->all();
+        // if (count($a) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+?>
+
 <div class="study-create">
     <table  width="1000"  border="1">
        <col width="30"    valign="top">
@@ -106,31 +122,47 @@ td {
         <td>4</td>
         <td>Доля оценок «отлично» от общего количества оценок</td>
         <td>    
-          <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
+          <?php 
+            $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); 
+          ?>
           <?php if ($test != 0){ 
               $a = Student::find()->where(['idStudent'=>$idStudent])->andwhere(['idActivity'=>1])->all();
               foreach($a as $row){echo $row['mark'];}
-          } else {;?>
+          } else { 
+              if (count($as) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+                else{
+                  if ($today < $from && $today > $to){}else {
+            ?>
              <?= $form->field($model, 'mark')->textInput(['style'=>'width:500px'])->label(false)  ?>
-            <?php }?>
+            <?php }}}?>
+          </td>
       </tr>
-      
+    
       <tr>
         <?php
-          $ret = AchievementsStudy::getAll($idStudent);
+          // $ret = AchievementsStudy::find()->where(['status'=>0])->andwhere(['idStudent'=>$idStudent])->all();
+          $date = strtotime('-2 years');
+          $ret = AchievementsStudy::find()
+                            ->where(['idStudent'=>Yii::$app->user->identity->id,'status'=>0])
+                            ->andWhere(['between', 'dateEvent',  date('Y-m-d', $date), date('Y-m-d')])
+                            ->all();
           $rowspan = 4 + (3*count($ret));
           echo "<td rowspan={$rowspan}>5</td>";
         ?>
         <td colspan="2"><b>Признание претендента победителем или призером международной, всероссийской олимпиады, конкурса, соревнования, состязания, иного мероприятия, направленного на выявление  учебных  достижений  претендента (в  течение  2  лет,  предшествующих назначению повышенной стипендии):</td>
       </tr>
       <?php
+          $array = [];
           for ($i = 0; $i < count($ret); $i++){
+            // echo $ret[$i]['id']."  ";
+            // $array = [$ret[$i]['id']];
+            array_push($array, $ret[$i]['id']);
       ?>
       <tr>
         <td><i>вид мероприятия</i> (конференция, семинар, соревнования)</td>
         <td>
           <?php
-            $name = $ret[$i]['name'];
+              $name = $ret[$i]['name'];
               echo "$name".'<br>';  
               echo "<a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
           ?>
@@ -140,9 +172,9 @@ td {
         <td>статус мероприятия (международное, всероссийское, региональное, ведомственное)</td>
         <td>
           <?php
-            $statusEvent = $ret[$i]['status'];
-              echo "$statusEvent";    
-            
+            $idStatus = $ret[$i]['idStatus'];
+            $s = StatusEvent::find()->where(['id'=>$idStatus])->one();
+            echo $s->name;            
           ?>
         </td>
       </tr>
@@ -183,85 +215,37 @@ td {
 
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'1'])->label(false) ?>
 
-  <?php
-  if ($test != 0){ ;?>
-                <?php if($value == 1){ 
-                // echo "отправлена"; 
-              Yii::$app->session->setFlash('success', 'Заявка отправлена.');
-          }?>
-  <?php
-  } 
-  else {?>
-      <div class="form-group">
-          <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-      </div>
-    <?php 
-  }
-  ?>
+<?php
+    if ($test != 0){
+      if($value == 1){ 
+        Yii::$app->session->setFlash('success', 'Заявка отправлена.');
+      }?>
+<?php
+    } else {
+        if ($today < $from && $today < $to) {
+          Yii::$app->session->setFlash('error', 'Сроки подачи заявлений c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете отправлять заявления.');
+        }elseif(empty($from) || empty($to)){ Yii::$app->session->setFlash('error', 'Сроки подачи заявлений не установлены. Вы не можете отправлять заявления.');
+        } elseif (count($as) === 0) {
+            Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');
+          }
+            // if(count($a) === 0){}
+            else{ ?>
+              <div class="form-group">
+                  <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+              </div>
+<?php       }  
+          // }
+      }
+?>
     <?php ActiveForm::end(); ?>
 
 </div>
 </div>
 
 <?php
-        // $status = Yii::$app->db->createCommand('
-        //                     select a.id, r.value, a.dateEvent, a.name, a.idStatus, r.idItem
-        //                     from valuesRating r, achievements a
-        //                     where r.idFacultet = :idFacultet
-        //                     and r.idTable = 1
-        //                     and r.idItem = a.idStatus
-        //                     and a.idStudent = :idStudent
-        //                     and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate()) order by a.id')
-        //                     ->bindValue(':idFacultet', 1)
-        //                     ->bindValue(':idStudent', 52)
-        //                     ->queryAll();
-                            
-        // $type = Yii::$app->db->createCommand('
-        //                     select a.id, r.value, a.dateEvent, a.name, a.idEventType, r.idItem
-        //                     from valuesRating r, achievements a
-        //                     where r.idFacultet = :idFacultet
-        //                     and r.idTable = 2
-        //                     and r.idItem = a.idEventType
-        //                     and a.idStudent = :idStudent
-        //                     and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-        //                     ->bindValue(':idFacultet', 1)
-        //                     ->bindValue(':idStudent', 52)
-        //                     ->queryAll();
-
-        // $doc = Yii::$app->db->createCommand('
-        //                     select a.id, r.value, a.dateEvent, a.name, a.idDocumentType, r.idItem
-        //                     from valuesRating r, achievements a
-        //                     where r.idFacultet = :idFacultet
-        //                     and r.idTable = 3
-        //                     and r.idItem = a.idDocumentType
-        //                     and a.idStudent = :idStudent
-        //                     and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-        //                     ->bindValue(':idFacultet', 1)
-        //                     ->bindValue(':idStudent', 52)
-        //                     ->queryAll();
-
-        // $level = Yii::$app->db->createCommand('
-        //                     select a.id, r.value, a.dateEvent, a.name, a.idLevel, r.idItem
-        //                     from valuesRating r, achievements a
-        //                     where r.idFacultet = :idFacultet
-        //                     and r.idTable = 12
-        //                     and r.idItem = a.idLevel
-        //                     and a.idStudent = :idStudent
-        //                     and a.dateEvent BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())')
-        //                     ->bindValue(':idFacultet', 1)
-        //                     ->bindValue(':idStudent', 52)
-        //                     ->queryAll();
-        // for ($i = 0; $i < count($status); $i++){
-        //   echo $i.' '.'Status: '.$status[$i]['name'].': '.$status[$i]['value'].'<br>';
-        //   echo $i.' '.'Type: '.$type[$i]['name'].': '.$type[$i]['value'].'<br>';
-        //   echo $i.' '.'Doc: '.$doc[$i]['name'].': '.$doc[$i]['value'].'<br>';
-        //   echo $i.' '.'Level: '.$level[$i]['name'].': '.$level[$i]['value'].'<br>';
-        //   echo "<br>";
-        // }
-        // $R1 = null;
-        // for ($i = 0; $i < count($status); $i++){
-        //     echo '<br> f'.$R1 += ($status[$i]['value'] * $type[$i]['value'] * $doc[$i]['value'] * $level[$i]['value']).'<br>';
-        // }
-        // echo '<br>'.'Summa: '.$R1;
+// print_r ($array);
+            // echo "<br>";
+            // echo $comma_separated = implode(",", $array);
+       
 ?>
 </div>

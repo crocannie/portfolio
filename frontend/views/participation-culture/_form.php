@@ -60,6 +60,7 @@ use common\models\TypeParticipant;
                 'format' => 'yyyy-mm-d'
             ],
     ]);?>
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>1])->label(false) ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
     

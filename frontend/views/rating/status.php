@@ -12,6 +12,7 @@ use kartik\grid\GridView;
 use common\models\User;
 use yii\web\NotFoundHttpException;
 use kartik\date\DatePicker;
+use app\models\Date;
 
 // use common\models\User;
 // use common\models\Sotrudnik;
@@ -45,8 +46,9 @@ $id = Yii::$app->user->identity->id;
 $sotrudnik = Sotrudnik::findOne($id);
 $idFacultet = $sotrudnik->idFacultet0->id;
 $this->title = 'Статус мероприятий';
-$this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
-?>
+$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
+
+$this->params['breadcrumbs'][] = 'Критерии внеучебной деятельности';?>
 <div class="rating-index">
   <div class="row">
     <div class="col-lg-3">
@@ -60,7 +62,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
           <li><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
           <li><a href=<?=$grant?>>Виды участия в грантах</a></li>
           <li><a href=<?=$science?>>Направления науки</a></li>
-          <li><a href=<?=$patent?>>Панетенты</a></li>
+          <li><a href=<?=$patent?>>Патенты</a></li>
           <li><a href=<?=$statuspatent?>>Статус патента</a></li>
           <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
           <li><a href=<?=$education?>>Коэффициент студента</a></li>
@@ -91,7 +93,6 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         </button>
         <h4>Значения показателей от 1 до 10 </h4>
       </div>
-      
       <?= GridView::widget([
           'dataProvider' => $dataProvider,
           'pjax' => true,

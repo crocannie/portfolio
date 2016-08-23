@@ -22,7 +22,7 @@ $idFacultet = $sotrudnik->idFacultet0->id;
 
 $this->title = 'Направления деятельности';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
-$this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
+$this->params['breadcrumbs'][] = 'Критерии внеучебной деятельности';
 ?>
 <div class="rating-index">
 <?php  
@@ -55,7 +55,7 @@ $education = urldecode('index.php?r=rating/education&id='.$idFacultet);
         <li><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
         <li><a href=<?=$grant?>>Виды участия в грантах</a></li>
         <li><a href=<?=$science?>>Направления науки</a></li>
-        <li><a href=<?=$patent?>>Панетенты</a></li>
+        <li><a href=<?=$patent?>>Патенты</a></li>
         <li><a href=<?=$statuspatent?>>Статус патента</a></li>
         <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
         <li><a href=<?=$education?>>Коэффициент студента</a></li>

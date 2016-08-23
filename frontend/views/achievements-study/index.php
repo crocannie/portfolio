@@ -45,7 +45,7 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
             </ul>
         </div>  
 
-        <div class="col-lg-6">
+        <div class="col-lg-9">
             <h1><?= Html::encode($this->title) ?></h1>
 <?php   if (User::isStudent(Yii::$app->user->identity->email)){
 ?>
@@ -57,8 +57,13 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
                     ['class' => 'yii\grid\SerialColumn'],
 
                     //'id',
-                    'name',
+                    // 'name',
                     // 'dateEvent',
+                    [
+                        'attribute' => 'name',
+                        'contentOptions'=>['style'=>'max-width: 500px;', 'class' => 'text-left'],
+
+                    ],
                     'dateEvent'=>[
                             'class' => \yii\grid\DataColumn::className(),
                             'format' => 'html',
@@ -67,25 +72,6 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
                                 return $model->dateEvent;},
                             'contentOptions'=>['style'=>'width: 100px;']
                     ],
-                    // 'idEventType'=>[
-                    //         'class' => \yii\grid\DataColumn::className(),
-                    //         'format' => 'html',
-                    //         'label'=>'Вид мероприятия',
-                    //         'value' => function ($model, $index, $widget) {
-                    //             return $model->idEventType0->name ;},
-                    // ],
-                    // 'idStatus'=>[
-                    //         'class' => \yii\grid\DataColumn::className(),
-                    //         'format' => 'html',
-                    //         'label'=>'Статус мероприятия',
-                    //         'value' => function ($model, $index, $widget) {
-                    //             return $model->idStatus0->name ;},
-                    // ],
-                    // 'eventTitle',
-                    // 'idDocumentType',
-                    // 'idDocument',
-                    // 'idStudent',
-                    // 'location',
                     'status'=>[
                         'class' => \yii\grid\DataColumn::className(),
                         'format' => 'html',
@@ -93,20 +79,41 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function($model, $index, $widget){
                             if ($model->status == 1){
-                                return '<span class="label label-primary", title="Отправлено"><span class="glyphicon glyphicon-envelope"></span></span>';
+                                return '<span class="label label-primary", title="Отправлено на проверку"><span class="glyphicon glyphicon-envelope"></span></span>';
                             }
                             if ($model->status == 0){
                                 return '<span class="label label-success", title="Принято"><span class="glyphicon glyphicon-ok"></span></span>';
                             }
-                            if ($model->status == -1){
-                                return '<span class="label label-warning", title="На редактирование"><span class="glyphicon glyphicon-pencil"></span></span>';
-                            }
                             if ($model->status == 2){
-                                return '<span class="label label-danger", title="Использовано"><span class="glyphicon glyphicon-remove"></span></span>';
+                                return '<span class="label label-danger", title="На редактирование: '.$model->message.'"><span class="glyphicon glyphicon-pencil"></span></span>';
+                            }
+                            if ($model->status == 3){
+                                return '<span class="label label-warning", title="Не используется в анкетах"><span class="glyphicon glyphicon-remove"></span></span>';
                             }
                         }
                     ],
-                    ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['style'=>'width: 70px;']],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'visibleButtons' => [
+                            'update' => function ($model, $key, $index) {
+                                if (User::isSotrudnik(Yii::$app->user->identity->email)) {
+                                    return false;
+                                } else {
+                                    if (($model->status == 0) or ($model->status == 3)){
+                                        return false;                                    
+                                    }else return true;
+                                }
+
+                             },
+                            'delete' => function ($model, $key, $index) {
+                                if (User::isSotrudnik(Yii::$app->user->identity->email)){
+                                    return false;                                    
+                                }
+                                else return true;
+                             },
+                        ],
+                        'contentOptions'=>['style'=>'max-width: 100px;', 'class' => 'text-left'],
+                    ]
                 ],
             ]); ?>
         </div>

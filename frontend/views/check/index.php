@@ -4,111 +4,52 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use common\models\User;
 use common\models\Sotrudnik;
+use yii\data\SqlDataProvider;
 
+$this->title = 'Подтверждение достижений';
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+$sotrudnik = Sotrudnik::findOne(Yii::$app->user->identity->id);
+$idFacultet = $sotrudnik->idFacultet0->id;
+$dec = urldecode('index.php?r=student/index&id='.$idFacultet); 
+$this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => $dec];
 
-$all = urldecode('index.php?r=site/activities'); 
-
-$this->title = 'Учебная деятельность';
-
-  if (User::isStudent(Yii::$app->user->identity->email)){
-    $idStudent = Yii::$app->user->identity->id;
-    $this->params['breadcrumbs'][] = ['label' => 'Все направления', 'url' => $all];
-  }
-  if (User::isSotrudnik(Yii::$app->user->identity->email)){
-      if($_GET['id']){
-            $id = $_GET['id'];
-            $idStudent = $id;
-        }
-    $sotrudnik = Sotrudnik::findOne(Yii::$app->user->identity->id);
-    $idFacultet = $sotrudnik->idFacultet0->id;
-    $dec = urldecode('index.php?r=student/index&id='.$idFacultet); 
-    $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => $dec];
-  }
 $this->params['breadcrumbs'][] = $this->title;
-$ur = urldecode('index.php?r=achievements-study/index&id='.$idStudent);
-$nir = urldecode('index.php?r=grants/index&id='.$idStudent); 
-$or = urldecode('index.php?r=achievements-social/index&id='.$idStudent); 
-$kr = urldecode('index.php?r=achievements-culture/index&id='.$idStudent); 
-$sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
+
+
+// $sql = 'SELECT * FROM achievements WHERE idStudent in(SELECT idStudent from students where idFacultet = :idFacultet);';
+//         $status = Yii::$app->db->createCommand($sql)
+//                                 ->bindValue(':idFacultet', 1)
+//                                 ->queryAll();
+// echo 'count: '.count($status);
+// echo $dataProvider->getTotalCount();
+echo $dataProvider->getCount();
+// echo $dataProvider1->getCount();
+
+?>
 <div class="achievements-study-index">
     <div class="row">
         <div class="col-lg-3">
             <ul class="nav nav-pills nav-stacked" style="width: 200px;">
-                <li class="active"><a href=<?=$ur?>>Учебная деятельность</a></li>
-                <li><a href=<?=$nir?>>Научно-исследовательская деятельность</a></li>
-                <li><a href=<?=$or?>>Общественная деятельность</a></li>
-                <li><a href=<?=$kr?>>Культурно-творческая деятельность</a></li>
-                <li><a href=<?=$sr?>>Спортивная деятельность</a></li>
+                <li class="active"><a data-toggle="tab" href="#panel0">Достижения в учебной деятельности <span class="badge pull-right"><?=$dataProvider->getCount()
+?></span></a></li>
+                <li><a data-toggle="tab" href="#panel20">Гранты <span class="badge pull-right"><?=$dataProvider->getCount()
+?></span></a></li>
             </ul>
-        </div>  
-
-        <div class="col-lg-6">
-            <h1><?= Html::encode($this->title) ?></h1>
-<?php   if (User::isStudent(Yii::$app->user->identity->email)){
-?>
-            <p><?= Html::a('Добавить достижение', ['create'], ['class' => 'btn btn-success']) ?></p>
-<?php } ?>
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-
-                    //'id',
-                    'name',
-                    // 'dateEvent',
-                    'dateEvent'=>[
-                            'class' => \yii\grid\DataColumn::className(),
-                            'format' => 'html',
-                            'label'=>'Дата',
-                            'value' => function ($model, $index, $widget) {
-                                return $model->dateEvent;},
-                            'contentOptions'=>['style'=>'width: 100px;']
-                    ],
-                    // 'idEventType'=>[
-                    //         'class' => \yii\grid\DataColumn::className(),
-                    //         'format' => 'html',
-                    //         'label'=>'Вид мероприятия',
-                    //         'value' => function ($model, $index, $widget) {
-                    //             return $model->idEventType0->name ;},
-                    // ],
-                    // 'idStatus'=>[
-                    //         'class' => \yii\grid\DataColumn::className(),
-                    //         'format' => 'html',
-                    //         'label'=>'Статус мероприятия',
-                    //         'value' => function ($model, $index, $widget) {
-                    //             return $model->idStatus0->name ;},
-                    // ],
-                    // 'eventTitle',
-                    // 'idDocumentType',
-                    // 'idDocument',
-                    // 'idStudent',
-                    // 'location',
-                    'status'=>[
-                        'class' => \yii\grid\DataColumn::className(),
-                        'format' => 'html',
-                        'label' => 'Статус',
-                        'contentOptions' => ['class' => 'text-center'],
-                        'value' => function($model, $index, $widget){
-                            if ($model->status == 1){
-                                return '<span class="label label-primary", title="Отправлено"><span class="glyphicon glyphicon-envelope"></span></span>';
-                            }
-                            if ($model->status == 0){
-                                return '<span class="label label-success", title="Принято"><span class="glyphicon glyphicon-ok"></span></span>';
-                            }
-                            if ($model->status == -1){
-                                return '<span class="label label-warning", title="На редактирование"><span class="glyphicon glyphicon-pencil"></span></span>';
-                            }
-                            if ($model->status == 2){
-                                return '<span class="label label-danger", title="Использовано"><span class="glyphicon glyphicon-remove"></span></span>';
-                            }
-                        }
-                    ],
-                    ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['style'=>'width: 70px;']],
-                ],
-            ]); ?>
+        </div>
+        <div class="col-lg-9">
+            <div class="tab-content">
+                <div id="panel0" class="tab-pane fade in active">
+                        <?= GridView::widget([
+                            'dataProvider' => $dataProvider,       
+                            'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+                                // 'name',
+                                'id',
+                                'idStudent',
+                            ],
+                        ]); ?>
+                </div>
+            </div>  
         </div>
     </div>
 </div>

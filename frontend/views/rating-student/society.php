@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 use yii\db\Command;
 use yii\widgets\ActiveForm;
 use yii\widgets\Alert;
+use app\models\Date;
 
 use common\models\Students;
 use common\models\Universities;
@@ -52,6 +53,17 @@ $all = urldecode('index.php?r=site/activities');
   foreach ($count as $row) {
     $test = $row['countS'];
   }
+              $sql = 'SELECT *  FROM socialParticipation  a WHERE idStudent = :id and status = 0 and a.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )  and (curdate())';
+              $ret = Yii::$app->db->createCommand($sql)
+                            ->bindValue(':id', $idStudent)
+                            ->queryAll();
+?>
+<?php
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$idFacultet])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$idFacultet])->one()->to;
+
+        // if (count($a) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
 ?>
 <div class="form-index">
 	<?php 
@@ -64,7 +76,7 @@ $all = urldecode('index.php?r=site/activities');
   <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
-      <li><a href=<?=$nid?>>Начуно-исследовательская </a></li>
+      <li><a href=<?=$nid?>>Научно-исследовательская </a></li>
       <li class="active"><a href=<?=$od?>>Общественная </a></li>
       <li><a href=<?=$ktd?>>Культурно-творческая </a></li>
       <li><a href=<?=$sd?>>Спортивная </a></li>
@@ -108,13 +120,20 @@ $all = urldecode('index.php?r=site/activities');
         <td>4</td>
         <td>Доля оценок «отлично» от общего количества оценок</td>
         <td>    
-          <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
+          <?php 
+            $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); 
+          ?>
           <?php if ($test != 0){ 
               $a = Student::find()->where(['idStudent'=>$idStudent])->andwhere(['idActivity'=>3])->all();
               foreach($a as $row){echo $row['mark'];}
-          } else {;?>
+          } else { 
+              if (count($ret) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+                else{
+                  if ($today < $from && $today > $to){}else {
+            ?>
              <?= $form->field($model, 'mark')->textInput(['style'=>'width:500px'])->label(false)  ?>
-            <?php }?>
+            <?php }}}?>
+          </td>
       </tr>
 
       <tr>
@@ -122,10 +141,7 @@ $all = urldecode('index.php?r=site/activities');
         <td>Систематическое <i>участие</i> студента в проведении (обеспечении проведения) социально ориентированной, культурной (культурно-просветительской, культурно-воспитательной) деятельности в форме шефской помощи, благотворительных акций и иных подобных формах</td>
         <td>
           <?php
-              $sql = 'SELECT *  FROM socialParticipation  WHERE idStudent = :id';
-              $ret = Yii::$app->db->createCommand($sql)
-                            ->bindValue(':id', $idStudent)
-                            ->queryAll();
+
               foreach ($ret as $row) {
                 if ($row['idSocialParticipationType'] == 1){    
                   echo "Количество мероприятий: {$row['count']} <br> {$row['description']}"; 
@@ -230,15 +246,28 @@ $all = urldecode('index.php?r=site/activities');
     <?php $r1 = Value::getSociety($student->idFacultet, $student->idStudent); ?>
     <?= $form->field($model, 'r1')->hiddenInput(['value'=>$r1])->label(false) ?>
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'3'])->label(false) ?>
-    <?php if ($test != 0){ ;?>
-        <?php if($value == 1){ 
-                Yii::$app->session->setFlash('success', 'Заявка отправлена.');
-        }?>
-    <?php } else { ?>
-      <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-      </div>
-    <?php } ?>
+<?php
+    if ($test != 0){
+      if($value == 1){ 
+        Yii::$app->session->setFlash('success', 'Заявка отправлена.');
+      }?>
+<?php
+    } else {
+        if ($today < $from && $today < $to) {
+          Yii::$app->session->setFlash('error', 'Сроки подачи заявлений c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете отправлять заявления.');
+        }elseif(empty($from) || empty($to)){ Yii::$app->session->setFlash('error', 'Сроки подачи заявлений не установлены. Вы не можете отправлять заявления.');
+        } elseif (count($ret) === 0) {
+            Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');
+          }
+            // if(count($a) === 0){}
+            else{ ?>
+              <div class="form-group">
+                  <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+              </div>
+<?php       }  
+          // }
+      }
+?>
     <?php ActiveForm::end(); ?>
   </div>
 </div>

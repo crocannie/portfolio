@@ -46,9 +46,9 @@ class Articles extends \yii\db\ActiveRecord
     {
         return [
             [['idType', 'name', 'year', 'idStatus', 'idAuthorship', 'idStudent', 'volumePublication'], 'required'],
-            [['idType', 'year', 'idStatus', 'idAuthorship', 'idStudent', 'volumePublication'], 'integer'],
+            [['idType', 'year', 'idStatus', 'idAuthorship', 'idStudent', 'volumePublication', 'status'], 'integer'],
             [['file'], 'file'],
-            [['location'], 'string', 'max' => 512],
+            [['location', 'message'], 'string', 'max' => 512],
             [['name'], 'string', 'max' => 128]
         ];
     }
@@ -70,6 +70,8 @@ class Articles extends \yii\db\ActiveRecord
             'file'=>'Документ',
             'statusName'=>'хаха',
             'idType0'=>'dff',
+            'status' => 'Статус',
+            'message' => 'Причина'
         ];
     }
 
@@ -133,21 +135,21 @@ class Articles extends \yii\db\ActiveRecord
 
     public function getType($id){
         // $articles = Yii::$app->db->createCommand('SELECT tA.name as typeArticleName, count(*) as count, tA.value as value FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year = between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
-        $articles = Yii::$app->db->createCommand('SELECT a.name, a.location, tA.name as typeArticleName, count(*) as count FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.year between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
+        $articles = Yii::$app->db->createCommand('SELECT a.name, a.id, a.location, tA.name as typeArticleName, count(*) as count FROM articles a, typeArticle tA WHERE a.idStudent = :id and a.idType = tA.id and a.status = 0 and a.year between (year(curdate())-2) and (year(curdate())) group by typeArticleName')
                                 ->bindValue(':id', $id)
                                 ->queryAll();
         return $articles;
     }
 
     public function getStatus($id){
-        $articles = Yii::$app->db->createCommand('SELECT se.name as statusEvent, count(*) as count FROM articles a, statusEvent se WHERE a.idStudent = :id and a.idStatus = se.id and a.year between (year(curdate())-2) and (year(curdate())) group by statusEvent')
+        $articles = Yii::$app->db->createCommand('SELECT se.name as statusEvent, count(*) as count FROM articles a, statusEvent se WHERE a.idStudent = :id and a.idStatus = se.id and a.status = 0 and a.year between (year(curdate())-2) and (year(curdate())) group by statusEvent')
                                 ->bindValue(':id', $id)
                                 ->queryAll();
         return $articles;
     }
 
     public function getVolume($id){
-        $articles = Yii::$app->db->createCommand('select se.name as statusEvent, round((sum(a.volumePublication)/8)*0.93, 2) as volumePublication from articles a, statusEvent se where idStudent = :id and a.idStatus = se.id and a.year between (year(curdate())-2) and (year(curdate())) group by statusEvent')
+        $articles = Yii::$app->db->createCommand('select se.name as statusEvent, round((sum(a.volumePublication)/8)*0.93, 2) as volumePublication from articles a, statusEvent se where idStudent = :id and a.status = 0 and a.idStatus = se.id and a.year between (year(curdate())-2) and (year(curdate())) group by statusEvent')
                                 ->bindValue(':id', $id)
                                 ->queryAll();        
         return $articles;

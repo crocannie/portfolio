@@ -42,8 +42,7 @@ $idFacultet = $sotrudnik->idFacultet0->id;
 
 $this->title = 'Статус патента';
 $this->params['breadcrumbs'][] = ['label' => 'Деканат', 'url' => urldecode('index.php?r=site/dekanat')];
-$this->params['breadcrumbs'][] = 'Критерии для отбора стипендиатов';
-?>
+$this->params['breadcrumbs'][] = 'Критерии внеучебной деятельности';?>
 <div class="rating-index">
 <div class="row">
   <div class="col-lg-3">
@@ -57,7 +56,7 @@ $this->params['breadcrumbs'][] = 'Критерии для отбора стип�
         <li><a href=<?=$typeParticipant?>>Типы участников в организации мероприятий</a></li>
         <li><a href=<?=$grant?>>Виды участия в грантах</a></li>
         <li><a href=<?=$science?>>Направления науки</a></li>
-        <li><a href=<?=$patent?>>Панетенты</a></li>
+        <li><a href=<?=$patent?>>Патенты</a></li>
         <li class="active"><a href=<?=$statuspatent?>>Статус патента</a></li>
         <li><a href=<?=$typeContest?>>Виды конкурсов</a></li>
         <li><a href=<?=$education?>>Коэффициент студента</a></li>

@@ -17,7 +17,9 @@ use common\models\Articles;
 use common\models\AchievementsStudy;
 use common\models\rating\Student;
 use common\models\rating\Value;
-
+use app\models\Date;
+use yii\web\User;
+use yii\web\Session;
 
 /**
  * RatingStudentController implements the CRUD actions for Student model.

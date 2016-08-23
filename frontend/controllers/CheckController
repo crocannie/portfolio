@@ -1,24 +1,30 @@
-<?php 
+<?php
+
 namespace frontend\controllers;
- 
-// use app\modules\user\models\User;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-use yii\web\Controller;
+
 use Yii;
-use common\models\AchievementsStudy;
+use common\models\Quotas;
+use yii\data\ActiveDataProvider;
+use yii\data\SqlDataProvider;
+use yii\data\Pagination;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use yii\helpers\Json;
+use common\models\rating\Student;
+use common\models\rating\Value;
+use kartik\mpdf\Pdf;
 
-use common\models\Students;
-use common\models\User;
-
- 
-class ProfileController extends Controller
+/**
+ * QuotasController implements the CRUD actions for Quotas model.
+ */
+class CheckController extends Controller
 {
     public function behaviors()
     {
         return [
             'access' => [
-                'class' => VerbFilter::className(),
+                'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
@@ -28,26 +34,29 @@ class ProfileController extends Controller
             ],
         ];
     }
- 
     public function actionIndex($id)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => AchievementsStudy::find()
-                ->where(['idStudent'=>$id])
+    // $dataProvider = new ActiveDataProvider([
+    // 'query' => AchievementsStudy::find()
+    // ->where(['idStudent'=>$id])
+    // ]);
+        $dataProvider = new SqlDataProvider([
+            'sql' => 'SELECT s.firstName, a.id FROM achievements a, students s WHERE a.idStudent in(SELECT idStudent from students where idFacultet = :idFacultet);',
+            'params' => [':idFacultet' => $id],
         ]);
+        $dataProvider1 = new SqlDataProvider([
+            'sql' => 'SELECT * FROM achievements WHERE idStudent in(SELECT idStudent from students where idFacultet = :idFacultet);',
+            'params' => [':idFacultet' => $id],
+            'pagination' => [
+            '   pageSize' => false,
+            ],
+        ]);
+        // $model = Quotas::find()->where(['idFacultet'=>$id])->one();
 
         return $this->render('index', [
+           // 'model'=>$model,
             'dataProvider' => $dataProvider,
+            'dataProvider1' => $dataProvider1,
         ]);
     }
-
-    protected function findModel($id)
-    {
-        if (($model = Students::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
 }
-?>

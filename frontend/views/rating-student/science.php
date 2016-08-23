@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 use yii\db\Command;
 use yii\widgets\ActiveForm;
 use yii\widgets\Alert;
+use app\models\Date;
 
 use common\models\Students;
 use common\models\Universities;
@@ -18,6 +19,7 @@ use common\models\rating\Student;
 use common\models\rating\Value;
 use common\models\User;
 use common\models\Sotrudnik;
+use common\models\StatusEvent;
 
 // error_reporting(E_ALL ^ E_STRICT);
 // error_reporting(E_ERROR);
@@ -44,8 +46,26 @@ $all = urldecode('index.php?r=site/activities');
     $this->params['breadcrumbs'][] = $this->title;
   }
   $student = Students::findOne($idStudent);
-?>
 
+  $articles = Articles::getType($idStudent);
+          $grants = Grants::find()
+                            ->where(['idStudent'=>Yii::$app->user->identity->id,'status'=>0])
+                            ->andWhere(['between', 'dateBegin',  date('Y-m-d', $date), date('Y-m-d')])
+                            ->all();
+          $patents = Patents::find()
+                            ->where(['idStudent'=>Yii::$app->user->identity->id,'istatus'=>0])
+                            ->andWhere(['between', 'dateApp',  date('Y-m-d', $date), date('Y-m-d')])
+                            // ->andWhere(['istatus'=>0])
+                            ->all();
+          $ret = AchievementsStudy::getAll($idStudent);
+
+?>
+<?php
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$idFacultet])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$idFacultet])->one()->to;
+        // if (count($a) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+?>
 <div class="form-index">
 	<?php 
       $ud = urldecode('index.php?r=rating-student/study'); 
@@ -57,7 +77,7 @@ $all = urldecode('index.php?r=site/activities');
   <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
-      <li class="active"><a href=<?=$nid?>>Начуно-исследовательская </a></li>
+      <li class="active"><a href=<?=$nid?>>Научно-исследовательская </a></li>
       <li><a href=<?=$od?>>Общественная </a></li>
       <li><a href=<?=$ktd?>>Культурно-творческая </a></li>
       <li><a href=<?=$sd?>>Спортивная </a></li>
@@ -117,37 +137,39 @@ $all = urldecode('index.php?r=site/activities');
         <td>4</td>
         <td>Доля оценок «отлично» от общего количества оценок</td>
         <td>    
-          <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
+          <?php 
+            $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); 
+          ?>
           <?php if ($test != 0){ 
               $a = Student::find()->where(['idStudent'=>$idStudent])->andwhere(['idActivity'=>2])->all();
               foreach($a as $row){echo $row['mark'];}
-          } else {;?>
+          } else { 
+              if ((count($grants)+count($patents)+count($articles)+count($ret)) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+                else{
+                  if ($today < $from && $today > $to){}else {
+            ?>
              <?= $form->field($model, 'mark')->textInput(['style'=>'width:500px'])->label(false)  ?>
-            <?php }?>
-    	 </td>
+            <?php }}}?>
+          </td>
       </tr>
       <tr>
         <?php 
           $date = strtotime('-2 years');
-          $grants = Grants::find()
-                            ->where(['idStudent'=>Yii::$app->user->identity->id])
-                            ->andWhere(['between', 'dateBegin',  date('Y-m-d', $date), date('Y-m-d')])
-                            ->all();
-          $patents = Patents::find()
-                            ->where(['idStudent'=>Yii::$app->user->identity->id])
-                            ->andWhere(['between', 'dateApp',  date('Y-m-d', $date), date('Y-m-d')])
-                            ->all();
+
           $rowspan = 2 + (count($grants)+count($patents));
           echo "<td rowspan={$rowspan}>5</td>";
         ?>
         <td colspan="2"><b>Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты НИР, наличие гранта, патента, свидетельства</td>
       </tr>
         <?php
+          $array = [];
           foreach ($grants as $row){?> 
             <tr>
               <td><i>наличие награды</i> (приза) за результаты НИР, год получения</td>
                 <td>
                   <?php 
+                    // echo $row->id;
+                    array_push($array, $row->id);
                     echo $row->nameProject.", ".$row->dateBegin.'<br>';
                     echo "<a href={$row->location}><i class='glyphicon glyphicon-file'></i></a><br>";
                   ?>
@@ -164,6 +186,7 @@ $all = urldecode('index.php?r=site/activities');
               <td>наличие гранта, патента, свидетельства, год получения</td>
                 <td>
                   <?php 
+                    array_push($array, $row->id);
                     echo $row->name.", ".$row->dateApp.'<br>';
                     echo "<a href={$row->location}><i class='glyphicon glyphicon-file'></i></a><br>";
                   ?>
@@ -181,8 +204,9 @@ $all = urldecode('index.php?r=site/activities');
             <td><i>Вид публикаций</i> и их количество (статьи, тезисы, прочие публикации)</td>
             <td>
               <?php
-                  $articles = Articles::getType($idStudent);
-                  foreach ($articles as $row) {      
+                  foreach ($articles as $row) {
+                    echo $row['id'];
+                  array_push($array, $row['id']);
                      echo "{$row['typeArticleName']}: {$row['count']}<br>";
                     echo "<a href={$row['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
                   }
@@ -214,7 +238,6 @@ $all = urldecode('index.php?r=site/activities');
       </tr>
       <tr>
         <?php
-          $ret = AchievementsStudy::getAll($idStudent);
           // $ret = Yii::$app->db->createCommand('SELECT asp.*, asp.dateEvent, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievements asp, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and asp.idStatus = se.id and asp.idEventType = tc.id and asp.idDocumentTYpe = td.id')
           //                   ->bindValue(':id', Yii::$app->user->identity->id)
           //                   ->queryAll();
@@ -225,6 +248,7 @@ $all = urldecode('index.php?r=site/activities');
       </tr>
       <?php
           for ($i = 0; $i < count($ret); $i++){
+          array_push($array, $ret[$i]['id']);
       ?>
       <tr>
         <td><i>вид мероприятия</i> (конференция, семинар, соревнования)</td>
@@ -241,7 +265,10 @@ $all = urldecode('index.php?r=site/activities');
         <td>
           <?php
             $statusEvent = $ret[$i]['status'];
-              echo "$statusEvent";    
+              // echo "$statusEvent";    
+            $idStatus = $ret[$i]['idStatus'];
+            $s = StatusEvent::find()->where(['id'=>$idStatus])->one();
+            echo $s->name;     
             
           ?>
         </td>
@@ -272,19 +299,35 @@ $all = urldecode('index.php?r=site/activities');
         <?= $form->field($model, 'idFacultet')->hiddenInput(['value'=>$idFacultet])->label(false) ?>
 
         <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'2'])->label(false) ?>
-        <?php if ($test != 0){ ;?>
-                <?php if($value == 1){
-                  Yii::$app->session->setFlash('success', 'Заявка отправлена.');
-              }?>
-        <?php } else {?>
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-        <?php } ?>
-        <?php ActiveForm::end(); ?>
+<?php
+    if ($test != 0){
+      if($value == 1){ 
+        Yii::$app->session->setFlash('success', 'Заявка отправлена.');
+      }?>
+<?php
+    } else {
+        if ($today < $from && $today < $to) {
+          Yii::$app->session->setFlash('error', 'Сроки подачи заявлений c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете отправлять заявления.');
+        }elseif(empty($from) || empty($to)){ Yii::$app->session->setFlash('error', 'Сроки подачи заявлений не установлены. Вы не можете отправлять заявления.');
+        } elseif ((count($grants)+count($patents)+count($articles)+count($ret)) === 0) {
+            Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');
+          }
+            // if(count($a) === 0){}
+            else{ ?>
+              <div class="form-group">
+                  <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+              </div>
+<?php       }  
+          // }
+      }
+?>
+    <?php ActiveForm::end(); ?>
     </div>
 </div>
 <?php
+// print_r ($array);
+//             echo "<br>";
+//             echo $comma_separated = implode(",", $array);
 // echo $r1.'<br>';
 // echo $r2.'<br>';
 // echo $r3.'<br>';

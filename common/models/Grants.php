@@ -43,9 +43,9 @@ class Grants extends \yii\db\ActiveRecord
     {
         return [
             [['dateBegin', 'dateEnd'], 'safe'],
-            [['idTypeContest', 'idScienceDirection', 'idStudent', 'typeGrant', 'idStatus', 'idLevel'], 'integer'],
+            [['idTypeContest', 'idScienceDirection', 'idStudent', 'typeGrant', 'idStatus', 'idLevel', 'status'], 'integer'],
             [['idStudent', 'idStatus', 'idLevel'], 'required'],
-            [['nameProject', 'nameOrganization', 'location'], 'string', 'max' => 512],
+            [['nameProject', 'nameOrganization', 'location', 'message'], 'string', 'max' => 512],
             [['regNumberCitis', 'regNumber'], 'string', 'max' => 128],
             [['file'], 'file'],
         ];
@@ -72,6 +72,8 @@ class Grants extends \yii\db\ActiveRecord
             'typeGrant' => 'Участник',
              'idStatus' =>'Статус мероприятия', 
              'idLevel' => 'Уровень мероприятия',
+             'status' => 'Статус',
+             'message' => 'Причина'
         ];
     }
 

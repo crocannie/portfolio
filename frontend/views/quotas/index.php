@@ -21,7 +21,8 @@ use miloschuman\highcharts\Highcharts;
 use yii\web\JsExpression;
 use yii\web\NotFoundHttpException;
 use common\models\User;
-
+use common\models\AchievementsStudy;
+use yii\web\Session;
 // use common\models\Sotrudnik;
   if ((Yii::$app->user->isGuest)){
     throw new NotFoundHttpException('Страница не найдена.');
@@ -29,8 +30,6 @@ use common\models\User;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$str = "a\\\b\n";
-echo $str;
 $this->title = 'Распределение стипендиального обеспечения';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -56,8 +55,14 @@ foreach ($q as $row) {
     $sport = $row['sport'];
 }
 $status = urldecode('index.php?r=quotas/index&id='.$idFacultet); 
-
+// echo         $q_update = "UPDATE quotas set `cnt`=0 where idFacultet = ".$idFacultet;
+;
 ?>
+<html>
+<head>
+
+</head>
+</html>
 <div class="quotas-index">
     <div class="row">
         <div class="col-lg-3">
@@ -69,27 +74,39 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
         <div class="col-lg-9">
             <div class="tab-content">
                 <div id="panel0" class="tab-pane fade in active">
-                    <div class="col-lg-1 col-lg-offset-11">
-                        <?php
-                        echo Html::a('<i class="glyphicon glyphicon-print"></i>', ['/quotas/mpdf'], [
-                            'class'=>'btn btn-', 
-                            'target'=>'_blank', 
-                            'data-toggle'=>'tooltip', 
-                            'title'=>'Распечатать итоговый список'
-                        ]);
-                        ?>    
+
+                    <div class="row">
+                        <div class="col-lg-12" align="right"> 
+                            <?php   if (User::isSotrudnik(Yii::$app->user->identity->email)){ ?>
+
+
+                            <?php
+                            echo Html::a('<i class="glyphicon glyphicon-print"></i>', ['/quotas/mpdf'], [
+                                'class'=>'btn btn-success', 
+                                'target'=>'_blank', 
+                                'data-toggle'=>'tooltip', 
+                                'title'=>'Распечатать итоговый список'
+                            ]);
+                            ?>   
+                            
+                            <?= Html::a('<i class="glyphicon glyphicon-check"></i>', ['fix', 'idFacultet' => $idFacultet], ['class' => 'btn btn-warning', 'title'=>'Зафиксировать',
+                                    'data' => [
+                                        'confirm' => 'Зафиксировать стипендиатов и их достижения?',
+                                        'method' => 'post',
+                                    ],
+                            ]) ?>
+ 
+                            <?php }?>
+                        </div>
                     </div>
                     <h2><?= Html::encode($this->title) ?></h2>
+                        
                     <?php   if (User::isSotrudnik(Yii::$app->user->identity->email)){ ?>
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'pjax' => true,
                         'export' => false,
                         'columns' => [
-                            // ['class' => 'yii\grid\SerialColumn'],
-                            // 'id',
-                            // 'idFacultet',
-                            
                             [
                                 'class' => 'kartik\grid\EditableColumn',
                                 'attribute' => 'cnt',
@@ -127,15 +144,10 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                         'pjax' => true,
                         'export' => false,
                         'columns' => [
-                            // ['class' => 'yii\grid\SerialColumn'],
-                            // 'id',
-                            // 'idFacultet',
-                            
                             [
                                 'attribute' => 'cnt',
                                 'header' => 'Всего'
                             ],
-                            // 'study',
                             [
                                 'attribute'=>'study',
                                 'label'=>'Учебная'
@@ -156,7 +168,6 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                                 'attribute'=>'sport',
                                 'label'=>'Спортивная'
                             ]
-                            // ['class' => 'yii\grid\ActionColumn'],
                         ],
                     ]); 
                     }
@@ -240,7 +251,8 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                                     ],
                                 ],
                             ]); ?>
-                        </p>              </div>
+                        </p>              
+                    </div>
                       <div id="panel3" class="tab-pane fade">
                         <h3>Общественная</h3>
                         <p>
@@ -363,7 +375,7 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                                             'width'=>400,
                                             ],
                                     'title' => [
-                                        'text' => 'Соотношение подданых заявлений и доступных мест',
+                                        'text' => 'Соотношение поданных заявлений и доступных мест',
                                     ],
                                     'xAxis' => [
                                         'categories' => ['Учебная', 'Научная', 'Общественная', 'Творческая', 'Спортивная'],
@@ -476,7 +488,8 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                             ?>                        </div>
                     </div>
                  <h2><?= Html::encode('Все заявления-анкеты') ?></h2>
-                            <?= GridView::widget([
+                    <?php   if (User::isStudent(Yii::$app->user->identity->email)){ ?>
+                    <?= GridView::widget([
                                 'dataProvider' => $dataProvider2,       
                                 'pjax' => true,
                                 'export' => false,
@@ -486,6 +499,7 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                                 'columns' => [
                                     ['class' => 'yii\grid\SerialColumn'],
                                     // 'id',
+                                    // 'idStudent',
                                     'idStudent'=>[
                                             'class' => \yii\grid\DataColumn::className(),
                                             'format' => 'html',
@@ -521,17 +535,72 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                                         'label'=>'Рейтинг',
                                         'value' => 'r1'
                                     ],
-                                    // [
-                                    //         'class' => ActionColumn::className(),
-                                    //         'deleteOptions' => [
-                                    //             'label' => '<i class="glyphicon glyphicon-remove"></i>'
-                                    //         ]
-                                    // ],
-                        
-                                    ['class' => ActionColumn::className(),'template'=>'{view}','contentOptions'=>['style'=>'max-width: 25px;']],
+                                    [
+                                        'class' => ActionColumn::className(),
+                                        'template'=>'{view}',
+                                        'contentOptions'=>['style'=>'max-width: 25px;'],
+                                        'visible'=>false,
+                                    ],
                                 ],
                             ]); 
                             ?>
+                            <?php } else {?>
+                    <?= GridView::widget([
+                                'dataProvider' => $dataProvider2,       
+                                'pjax' => true,
+                                'export' => false,
+                                'tableOptions' => [
+                                    'class' => 'table table-bordered'
+                                ],
+                                'columns' => [
+                                    ['class' => 'yii\grid\SerialColumn'],
+                                    // 'id',
+                                    // 'idStudent',
+                                    'idStudent'=>[
+                                            'class' => \yii\grid\DataColumn::className(),
+                                            'format' => 'html',
+                                            'label'=>'ФИО', 
+                                            'value' => function ($model, $index, $widget) {
+                                                $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
+                                                return $model->idStudent0->secondName.' '.$model->idStudent0->firstName;},
+                                    ],
+                                    'r2'=>[
+                                            'class' => \yii\grid\DataColumn::className(),
+                                            'format' => 'html',
+                                            'label'=>'Группа', 
+                                            'value' => function ($model, $index, $widget) {
+                                                $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
+                                                return EducationLevel::findOne($model->idStudent0->idLevel)['name'].', '.Sgroup::findOne($model->idStudent0->idGroup)['name'];},
+                                    ],
+                                    'r3'=>[
+                                            'label'=>'Направление подготовки', 
+                                            'value' => function ($model, $index, $widget) {
+                                                $s = Sgroup::findOne($model->idStudent0->idGroup)['idNapravlenie'];
+                                                return Napravlenie::findOne($s)['shifr'].' '.Napravlenie::findOne($s)['name'];;},
+                                    ],
+                                    'r3'=>[
+                                        'label'=>'Направление деятельности',
+                                        'value' => function ($model, $index, $widget) {
+                                                return $model->idActivity0->name ;},
+                                    ],
+                                    'mark'=>[
+                                        'label'=>'Доля оценок отлично',
+                                        'value' => 'mark'
+                                    ],      
+                                    'r1'=>[
+                                        'label'=>'Рейтинг',
+                                        'value' => 'r1'
+                                    ],
+                                    [
+                                        'class' => ActionColumn::className(),
+                                        'template'=>'{view}',
+                                        'contentOptions'=>['style'=>'max-width: 25px;'],
+                                        'visible'=>true,
+                                    ],
+                                ],
+                            ]); 
+                            ?>
+                            <?php }?>
                 </div>
             </div>
         </div>
@@ -542,12 +611,7 @@ $status = urldecode('index.php?r=quotas/index&id='.$idFacultet);
                 var gridview_id = ""; // specific gridview
                 var columns = [2]; // index column that will grouping, start 1
          
-                /*
-                DON\'T EDIT HERE
-         
-        http://www.hafidmukhlasin.com
-         
-                */
+
                 var column_data = [];
                     column_start = [];
                     rowspan = [];

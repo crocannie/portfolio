@@ -51,6 +51,8 @@ use common\models\Authorship;
     ?>
     <?php echo $form->field($model, 'idAuthorship')
                 ->radioList(ArrayHelper::map(Authorship::find()->all(), 'id', 'name')); ?>
+        
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>1])->label(false) ?>
     
     <?= $form->field($model, 'file')->fileInput() ?>
 

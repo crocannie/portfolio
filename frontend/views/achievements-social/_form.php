@@ -23,14 +23,14 @@ use common\models\TypeParticipant;
                 'style'=>'width:300px',
             ]); 
     ?>
-    <table>
+    <table border="1">
         <?php
             $type = TypeSocialParticipation::find()->all();
             foreach ($type as $row) {
         ?>
         <tr>
-            <td><?= $row['id']?></td>
-            <td style="width:1000px;"><?= $row['name']?></td>
+            <td style="padding: 5px;"><?= $row['id']?></td>
+            <td style="width:1000px; padding: 5px;"><?= $row['name']?></td>
         </tr>
         <?php } ?>
     </table><br>
@@ -72,6 +72,7 @@ use common\models\TypeParticipant;
                 'format' => 'yyyy-mm-d'
             ],
     ]);?>
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>1])->label(false) ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
 

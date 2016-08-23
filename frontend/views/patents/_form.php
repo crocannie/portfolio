@@ -67,6 +67,8 @@ use common\models\StatusPatent;
             ],
     ]);?>
 
+    <?= $form->field($model, 'istatus')->hiddenInput(['value'=>1])->label(false) ?>
+
     <?= $form->field($model, 'regNumber')->textInput(['style'=>'width:500px']) ?>
 
     <?= $form->field($model, 'appNumber')->textInput(['style'=>'width:500px']) ?>

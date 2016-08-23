@@ -43,10 +43,10 @@ class Patents extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idTypePatent', 'status', 'regNumber', 'appNumber', 'idStudent'], 'integer'],
+            [['idTypePatent', 'status', 'regNumber', 'appNumber', 'idStudent', 'istatus'], 'integer'],
             [['dateApp', 'dateReg'], 'safe'],
             [['idStudent'], 'required'],
-            [['name', 'copyrightHolder', 'location'], 'string', 'max' => 512],
+            [['name', 'copyrightHolder', 'location', 'message'], 'string', 'max' => 512],
             [['description'], 'string', 'max' => 1024],
             [['file'], 'file'],
         ];
@@ -71,7 +71,9 @@ class Patents extends \yii\db\ActiveRecord
             'idDocument' => 'Id Document',
             'idStudent' => 'Id Student',
             'location' => 'Location',
-            'file' => 'Документ'
+            'file' => 'Документ',
+             'istatus' => 'Статус',
+             'message' => 'Причина'
         ];
     }
 

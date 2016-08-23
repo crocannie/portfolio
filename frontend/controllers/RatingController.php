@@ -14,7 +14,8 @@ use yii\helpers\Json;
 use app\models\Date;
 // use yii\web\NotFoundHttpException;
 // 
-
+use yii\web\User;
+use yii\web\Session;
 error_reporting(E_ALL ^ E_STRICT);
 error_reporting(E_ERROR);
 /**
@@ -180,7 +181,7 @@ class RatingController extends Controller
         // $dataProvider = new ActiveDataProvider(['query' => Rating::find(),]);
         $dataProvider = new ActiveDataProvider([
             'query' => Rating::find()
-                        ->select('statusEvent.name, statusEvent.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
+                        ->select('statusEvent.name, valuesRating.id, valuesRating.idTable, valuesRating.idItem, statusEvent.name, valuesRating.value, valuesRating.idFacultet')
                         ->from('statusEvent, valuesRating')
                         ->where(array('and', 'valuesRating.idFacultet'=>$id, 'statusEvent.id = valuesRating.idItem'))
                         ->andwhere(['valuesRating.idTable'=>1])
@@ -189,9 +190,10 @@ class RatingController extends Controller
         $today = date('Y-m-d');
         $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+        // echo date("j.m.Y", strtotime($from));
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
         } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -231,7 +233,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
         } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -274,7 +276,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
         } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -313,7 +315,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -352,7 +354,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -390,7 +392,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -428,7 +430,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -466,7 +468,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -504,7 +506,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -542,7 +544,7 @@ class RatingController extends Controller
      $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
      if ($today > $from && $today < $to){
-         Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
          } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -580,7 +582,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -614,12 +616,12 @@ class RatingController extends Controller
                         ->andwhere(['valuesRating.idTable'=>12])
         ]);
 
-    // $today = date('Y-m-d');
-    // $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
-    // $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
+    $today = date('Y-m-d');
+    $from = Date::find()->where(['idFacultet'=>$id])->one()->from;
+    $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
     if ($today > $from && $today < $to){
-        Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
         } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -657,7 +659,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
         } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');
@@ -695,7 +697,7 @@ class RatingController extends Controller
         $to = Date::find()->where(['idFacultet'=>$id])->one()->to;
 
         if ($today > $from && $today < $to){
-            Yii::$app->session->setFlash('error', 'Сроки установлены c '.$from.' по '.$to.'. Вы не можете вносить изменения.');
+            Yii::$app->session->setFlash('error', 'Сроки установлены c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете вносить изменения.');
             } else {
             if(Yii::$app->request->post('hasEditable')){
                 $sgroupId = Yii::$app->request->post('editableKey');

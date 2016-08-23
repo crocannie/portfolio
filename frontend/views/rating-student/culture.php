@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 use yii\db\Command;
 use yii\widgets\ActiveForm;
 use yii\widgets\Alert;
+use app\models\Date;
 
 use common\models\Students;
 use common\models\Universities;
@@ -53,8 +54,19 @@ $all = urldecode('index.php?r=site/activities');
   foreach ($count as $row) {
     $test = $row['countS'];
   }
-?>
+            $ret1 = AchievementsCulture::getAll($idStudent);
+            $ret2 = PerformanceCulture::getAll($idStudent);
+            $ret3 = ParticipationCulture::getAll($idStudent);
 
+?>
+<?php
+        $today = date('Y-m-d');
+        $from = Date::find()->where(['idFacultet'=>$idFacultet])->one()->from;
+        $to = Date::find()->where(['idFacultet'=>$idFacultet])->one()->to;
+
+        // $a = AchievementsStudy::find()->where(['status'=>0])->andwhere(['idStudent'=>$idStudent])->all();
+        // if (count($a) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+?>
 <div class="form-index">
   <?php 
       $ud = urldecode('index.php?r=rating-student/study'); 
@@ -66,7 +78,7 @@ $all = urldecode('index.php?r=site/activities');
   <?php if (User::isStudent(Yii::$app->user->identity->email)){?>
     <ul class="nav nav-tabs">
       <li><a href=<?=$ud?>>Учебная </a></li>
-      <li><a href=<?=$nid?>>Начуно-исследовательская </a></li>
+      <li><a href=<?=$nid?>>Научно-исследовательская </a></li>
       <li><a href=<?=$od?>>Общественная </a></li>
       <li class="active"><a href=<?=$ktd?>>Культурно-творческая </a></li>
       <li><a href=<?=$sd?>>Спортивная </a></li>
@@ -91,7 +103,7 @@ td {
 }
 </style>
 <?php
-$status = Student::getStatus($idStudent, 4);
+  $status = Student::getStatus($idStudent, 4);
   $count = Student::getCount($idStudent, 4);
 
   foreach ($status as $row) {
@@ -124,21 +136,27 @@ $status = Student::getStatus($idStudent, 4);
         <td>4</td>
         <td>Доля оценок «отлично» от общего количества оценок</td>
         <td>    
-          <?php $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); ?>
+          <?php 
+            $form = ActiveForm::begin(['options'=>['enctype' => 'multipart/form-data']]); 
+          ?>
           <?php if ($test != 0){ 
               $a = Student::find()->where(['idStudent'=>$idStudent])->andwhere(['idActivity'=>4])->all();
               foreach($a as $row){echo $row['mark'];}
-          } else {;?>
+          } else { 
+              if ((count($ret1) + count($ret2) +count($ret2)) === 0){Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');}
+                else{
+                  if ($today < $from && $today > $to){}else {
+            ?>
              <?= $form->field($model, 'mark')->textInput(['style'=>'width:500px'])->label(false)  ?>
-            <?php }?>
-       </td>
+            <?php }}}?>
+          </td>
       </tr>
  <tr>
         <?php
           // $ret = $achievementsKTD->getAchievementsKTD($idStudent);
           // $sql = 'SELECT aktd.*, se.name as status, tc.name as typeContest, td.name as typeDocument FROM achievementsKTD aktd, statusEvent se, eventType tc, typeDocument td WHERE idStudent = :id and aktd.idStatus = se.id and aktd.idTypeContest = tc.id and aktd.idDocumentTYpe = td.id';
-          $ret = AchievementsCulture::getAll($idStudent);
-          $rowspan = 1 + (count($ret));
+          // $ret = AchievementsCulture::getAll($idStudent);
+          $rowspan = 1 + (count($ret1));
           echo "<td rowspan={$rowspan}>5</td>";
         ?>
         <td>Наличие <i>награды (приза)</i> за результаты КТД, осуществленной им в рамках деятельности, проводимой учреждением высшего профессионального образования или иной организацией (за 2 последних года) с указанием названия, года, типа награды:</td>
@@ -146,29 +164,29 @@ $status = Student::getStatus($idStudent, 4);
           Количество мероприятий: 
           <?php
             // $ret = $achievementsKTD->getAchievementsKTD($idStudent);
-            echo count($ret);
+            echo count($ret1);
           ?>
         </td>
       </tr>
         <?php
           // $ret = $achievementsKTD->getAchievementsKTD($idStudent);
-            for ($i = 0; $i < count($ret); $i++){
+            for ($i = 0; $i < count($ret1); $i++){
         ?>
       <tr>
         <td>
           <?php
-            $status = $ret[$i]['status'];
-            $typeContest = $ret[$i]['type'];
+            $status = $ret1[$i]['status'];
+            $typeContest = $ret1[$i]['type'];
               echo "Статус: $status <br>Вид мероприятия: $typeContest";   
           ?>
         </td>
         <td>
           <?php
-            $name = $ret[$i]['name'];
-            $typeDocument = $ret[$i]['nameDoc'];
-            $year = $ret[$i]['year'];
+            $name = $ret1[$i]['name'];
+            $typeDocument = $ret1[$i]['nameDoc'];
+            $year = $re1t[$i]['year'];
               echo "$name, $typeDocument, $year"; 
-              echo "<br><a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
+              echo "<br><a href={$ret1[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
             } 
           ?>
         </td>
@@ -180,36 +198,36 @@ $status = Student::getStatus($idStudent, 4);
           // $ret = Yii::$app->db->createCommand($sql)
           //               ->bindValue(':id', Yii::$app->user->identity->id)
           //               ->queryAll();
-          $ret = PerformanceCulture::getAll($idStudent);
-          $rowspan = 1 + (count($ret));
+          // $ret = PerformanceCulture::getAll($idStudent);
+          $rowspan = 1 + (count($ret2));
           echo "<td rowspan={$rowspan}>6</td>";
         ?>
         <td><i>Публичное представление</i> произведения литературы или искусства, созданного студентом (в течение 1 последнего года) с указанием названия произведения, места и года представления:</td>
         <td>Количество мероприятий: 
           <?php
             // $ret = $publicPerformance->getPublicPerformance($idStudent);
-            echo count($ret);
+            echo count($ret2);
           ?>
         </td>
       </tr>
         <?php
           // $ret = $publicPerformance->getPublicPerformance($idStudent);
-            for ($i = 0; $i < count($ret); $i++){
+            for ($i = 0; $i < count($ret2); $i++){
         ?>
       <tr>
         <td>
           <?php
-            $type = $ret[$i]['type'];
+            $type = $ret2[$i]['type'];
             echo "$type";
           ?>
         </td>
         <td>
           <?php
-            $name = $ret[$i]['name'];
-            $year = $ret[$i]['year'];
-            $typeDocument = $ret[$i]['documentType'];
+            $name = $ret2[$i]['name'];
+            $year = $ret2[$i]['year'];
+            $typeDocument = $ret2[$i]['documentType'];
             echo "$name, $typeDocument, $year";
-            echo "<br><a href={$ret[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
+            echo "<br><a href={$ret2[$i]['location']}><i class='glyphicon glyphicon-file'></i></a><br>";
             }
           ?>
         </td>
@@ -224,8 +242,8 @@ $status = Student::getStatus($idStudent, 4);
           // $ret = Yii::$app->db->createCommand($sql)
           //               ->bindValue(':id', Yii::$app->user->identity->id)
           //               ->queryAll();
-          $ret = ParticipationCulture::getAll($idStudent);
-              foreach ($ret as $row) {      
+          // $ret = ParticipationCulture::getAll($idStudent);
+              foreach ($ret3 as $row) {      
                 $description = $row['description'];
                 $count = $row['count'];
                 echo "Количество мероприятий: $count, $description <br>";
@@ -252,18 +270,26 @@ $status = Student::getStatus($idStudent, 4);
 
     <?= $form->field($model, 'idActivity')->hiddenInput(['value'=>'4'])->label(false) ?>
 <?php
-if ($test != 0){ ;?>
- <?php if($value == 1){ 
-              Yii::$app->session->setFlash('success', 'Заявка отправлена.');
-          }?>
+    if ($test != 0){
+      if($value == 1){ 
+        Yii::$app->session->setFlash('success', 'Заявка отправлена.');
+      }?>
 <?php
-} 
-else {?>
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-  <?php 
-}
+    } else {
+        if ($today < $from && $today < $to) {
+          Yii::$app->session->setFlash('error', 'Сроки подачи заявлений c '.date("j.m.Y", strtotime($from)).' по '.date("j.m.Y", strtotime($to)).'. Вы не можете отправлять заявления.');
+        }elseif(empty($from) || empty($to)){ Yii::$app->session->setFlash('error', 'Сроки подачи заявлений не установлены. Вы не можете отправлять заявления.');
+        } elseif ((count($ret1) + count($ret2) +count($ret2)) === 0) {
+            Yii::$app->session->setFlash('warning', 'Отсутствуют подтвержденные и доступные достижения для анкеты.');
+          }
+            // if(count($a) === 0){}
+            else{ ?>
+              <div class="form-group">
+                  <?= Html::submitButton($model->isNewRecord ? 'Отправить заявку' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+              </div>
+<?php       }  
+          // }
+      }
 ?>
     <?php ActiveForm::end(); ?>
 <?php

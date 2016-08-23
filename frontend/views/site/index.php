@@ -21,21 +21,6 @@ $this->title = 'Портфолио';
   </style>
 <div class="site-index">
   <div class="jumbotron">
-    <?php
-// if (!Yii::$app->user->isGuest) {
-//     $id = Yii::$app->user->identity->id;
-//     if (User::isStudent(Yii::$app->user->identity->email)){
-//       // echo $id;
-//         $st = Students::findOne($id);
-//     }elseif (User::isSotrudnik(Yii::$app->user->identity->email)){
-//         $st = Sotrudnik::findOne($id);
-//     // echo $id;
-//     }
-    // echo $id;
-    // $idFacultet = $st->idFacultet0->id;
-    // $idFacultet = 1;
-// }
-    ?>
     <h2 style="color: #40424F">Система учета достижений студентов</h2>
   </div>
 
@@ -135,7 +120,7 @@ $this->title = 'Портфолио';
           ?>
           <p><a href=<?=$criterii?>><img height="180px" src="/portfolio/frontend/web/images/index/calc3.png"></a></p>
           <a style="color: #40424F" href=<?=$criterii?>><h3>Критерии внеучебной деятельности</h3></a>
-          <p>Редактирование критериев для расчет рейтингов студентов</p>
+          <p>Редактирование критериев для оценивания достижений студентов</p>
           <div class="btn-group">
             <a style="width: 305px" class="btn btn-success" href=<?=$criterii?>>Критерии</a>
           </div>

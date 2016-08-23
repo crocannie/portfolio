@@ -71,6 +71,8 @@ use common\models\EventLevel;
             ]); 
     ?>
     
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>1])->label(false) ?>
+
     <?= $form->field($model, 'file')->fileInput()->label('Выбрать новый документ') ?>
 
     <?= $form->field($model, 'idStudent')->hiddenInput(['value'=>Yii::$app->user->identity->id])->label(false) ?>

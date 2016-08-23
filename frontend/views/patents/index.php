@@ -47,7 +47,7 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
             </ul>
         </div>  
 
-        <div class="col-lg-6">  
+        <div class="col-lg-9">  
             <ul class="nav nav-tabs">
               <li><a href=<?=$grants?>>Гранты</a></li>
               <li class="active"><a href=<?=$patents?>>Патенты</a></li>
@@ -68,18 +68,50 @@ $sr = urldecode('index.php?r=achievements-sport/index&id='.$idStudent);?>
                     'name',
                     // 'idTypePatent',
                     'copyrightHolder',
-                    // 'description',
-                    // 'status',
-                    // 'dateApp',
-                    // 'dateReg',
-                    // 'regNumber',
-                    // 'appNumber',
-                    // 'idDocument',
-                    // 'idStudent',
-                    // 'location',
+                    'status'=>[
+                        'class' => \yii\grid\DataColumn::className(),
+                        'format' => 'html',
+                        'label' => 'Статус',
+                        'headerOptions' => ['class' => 'text-center'],
+                        'contentOptions' => ['class' => 'text-center'],
+                        'value' => function($model, $index, $widget){
+                            if ($model->istatus == 1){
+                                return '<span class="label label-primary", title="Отправлено на проверку"><span class="glyphicon glyphicon-envelope"></span></span>';
+                            }
+                            if ($model->istatus == 0){
+                                return '<span class="label label-success", title="Принято"><span class="glyphicon glyphicon-ok"></span></span>';
+                            }
+                            if ($model->istatus == 2){
+                                return '<span class="label label-danger", title="На редактирование: '.$model->message.'"><span class="glyphicon glyphicon-pencil"></span></span>';
+                            }
+                            if ($model->istatus == 3){
+                                return '<span class="label label-warning", title="Не используется в анкетах"><span class="glyphicon glyphicon-remove"></span></span>';
+                            }
+                        }
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'visibleButtons' => [
+                            'update' => function ($model, $key, $index) {
+                                if (User::isSotrudnik(Yii::$app->user->identity->email)) {
+                                    return false;
+                                } else {
+                                    if (($model->status == 0) or ($model->status == 3)){
+                                        return false;                                    
+                                    }else return true;
+                                }
 
-                    ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['style'=>'width: 70px;']],
-                ],
+                             },
+                            'delete' => function ($model, $key, $index) {
+                                if (User::isSotrudnik(Yii::$app->user->identity->email)){
+                                    return false;                                    
+                                }
+                                else return true;
+                             },
+                        ],
+                        'contentOptions'=>['style'=>'max-width: 100px;', 'class' => 'text-left'],
+                    ]
+                ]
             ]); ?>
         </div>
     </div>

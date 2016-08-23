@@ -45,7 +45,8 @@ class Student extends \yii\db\ActiveRecord
         return [
             // [['idStudent', 'idActivity', 'status', 'mark'], 'required'],
             [['idStudent', 'idActivity', 'status', 'mark', 'cnt', 'idFacultet'], 'integer'],
-            [['r1', 'r2', 'r3'], 'number']
+            [['r1', 'r2', 'r3'], 'number'],
+            [['achievments'], 'string', 'max' => 256],
         ];
     }
 

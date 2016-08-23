@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'password_hash')->passwordInput() ?>
 
                 <div style="color:#999;margin:1em 0">
-                    Если забыли пароль, можно <?= Html::a('восстановить', ['site/request-password-reset']) ?>.
                 </div>
 
                 <div class="form-group">

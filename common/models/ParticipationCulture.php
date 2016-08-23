@@ -37,10 +37,10 @@ class ParticipationCulture extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['count', 'idStudent', 'idStatus', 'idLevel', 'idTypeParticipant'], 'integer'],
+            [['count', 'idStudent', 'idStatus', 'idLevel', 'idTypeParticipant', 'status'], 'integer'],
             [['date', 'idStudent', 'count', 'idStatus', 'idLevel', 'idTypeParticipant'], 'required'],
             [['date'], 'safe'],
-            [['description'], 'string', 'max' => 1024],
+            [['description' , 'message'], 'string', 'max' => 1024],
             [['location'], 'string', 'max' => 512],
             [['file'], 'file']
         ];
@@ -62,6 +62,8 @@ class ParticipationCulture extends \yii\db\ActiveRecord
             'file' => 'Документ',
             'idStatus'=>'Статус мероприятия', 
             'idLevel'=> 'Уровень мероприятия', 
+                        'status' => 'Статус',
+            'message' => 'Причина',
             'idTypeParticipant' => 'Участник'
         ];
     }
@@ -93,7 +95,7 @@ class ParticipationCulture extends \yii\db\ActiveRecord
         return $this->hasOne(TypeParticipant::className(), ['id' => 'idTypeParticipant']);
     }
     public function getAll($id){
-        $sql = 'SELECT * FROM ktdParticipation WHERE idStudent = :id AND ktdParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';        
+        $sql = 'SELECT * FROM ktdParticipation WHERE idStudent = :id  and ktdParticipation.status = 0 AND ktdParticipation.date BETWEEN DATE_SUB( NOW( ) , INTERVAL 2 YEAR )AND (curdate( ))';        
         $ret = Yii::$app->db->createCommand($sql)
                             ->bindValue(':id', $id)
                             ->queryAll();

@@ -26,6 +26,9 @@ if (!Yii::$app->user->isGuest) {
         $st = Students::findOne($id);
     }elseif (User::isSotrudnik(Yii::$app->user->identity->email)){
         $st = Sotrudnik::findOne($id);
+        $id = Yii::$app->user->identity->id;
+        $sotrudnik = Sotrudnik::findOne($id);
+        $idFacultet = $sotrudnik->idFacultet0->id;
     }
     $idFacultet = $st->idFacultet0->id;
     // $idFacultet = 1;
@@ -38,6 +41,8 @@ if (!Yii::$app->user->isGuest) {
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/yiisoft/yii2/to/font-awesome/css/font-awesome.min.css">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -121,7 +126,7 @@ if (!Yii::$app->user->isGuest) {
                     ],
                     [
                         'label' => 'Достижения <span class="glyphicon glyphicon-briefcase"></span>',
-                        'url'   => urldecode('index.php?r=site/activities')
+                        'url'   => urldecode('index.php?r=achievements-study/index&id='.Yii::$app->user->identity->id)
                     ],
                     [
                         'label' => 'Заявления <span class="glyphicon glyphicon-file"></span>',
@@ -146,11 +151,26 @@ if (!Yii::$app->user->isGuest) {
         } else {
             echo Nav::widget([
                 'items' => [
-                    // [
-                    //     'label' => '<span class="glyphicon glyphicon-user"></span> Профиль',
-                    //     'url'   => urldecode('index.php?r=profile/view&id='.Yii::$app->user->identity->id),
-                    //     'title'=>'Профиль'
-                    // ],
+                    [
+                        'label' => '<i class="fa fa-university"></i> Деканат',
+                        'url'   => urldecode('index.php?r=napravlenie/index&id='.$idFacultet),
+                        'title'=>'Деканат'
+                    ],
+                    [
+                        'label' => '<i class="fa fa-cogs"></i> Критерии оценивания',
+                        'url'   => urldecode('index.php?r=rating/status&id='.$idFacultet),
+                        'title'=>'Деканат'
+                    ],
+                    [
+                        'label' => '<i class="fa fa-check"></i> Проверка достижений',
+                        'url'   => urldecode('index.php?r=quotas/check&id='.$idFacultet),
+                        'title'=>'Деканат'
+                    ],
+                    [
+                        'label' => '<i class="fa fa-rub"></i> Стипендиальное обеспечение',
+                        'url'   => urldecode('index.php?r=quotas/index&id='.$idFacultet),
+                        'title'=>'Деканат'
+                    ],
                     [
                         'label' => '<span class="glyphicon glyphicon-log-out"></span> Выход',
                         'url'   => ['site/logout'],

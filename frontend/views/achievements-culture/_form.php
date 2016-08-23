@@ -69,6 +69,7 @@ use common\models\EventLevel;
             ]); 
     ?>
 
+    <?= $form->field($model, 'status')->hiddenInput(['value'=>1])->label(false) ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>
 
